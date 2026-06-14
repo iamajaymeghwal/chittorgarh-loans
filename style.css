@@ -1,26 +1,16 @@
-:root{
---blue:#0A2540;
---green:#1F7A3F;
---gold:#C9A227;
---light:#F8FAFC;
---white:#FFFFFF;
-}
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
-}
-
-html{
 scroll-behavior:smooth;
 }
 
 body{
-background:#fff;
-color:#333;
+font-family:Arial,Helvetica,sans-serif;
+background:#ffffff;
+color:#222;
 line-height:1.7;
+overflow-x:hidden;
 }
 
 .container{
@@ -29,66 +19,105 @@ max-width:1200px;
 margin:auto;
 }
 
-header{
-background:var(--blue);
-padding:15px 0;
+a{
+text-decoration:none;
+}
+
+img{
+max-width:100%;
+display:block;
+}
+
+/* HEADER */
+
+.header{
+background:#0A2540;
 position:sticky;
 top:0;
 z-index:999;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+box-shadow:0 2px 10px rgba(0,0,0,0.15);
 }
 
-header .container{
+.nav-container{
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:15px 0;
 }
 
-.logo img{
+.brand{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo{
+width:70px;
 height:70px;
+object-fit:contain;
+background:#fff;
+border-radius:50%;
+padding:6px;
+}
+
+.brand-text h2{
+color:#fff;
+font-size:24px;
+margin-bottom:3px;
+}
+
+.brand-text p{
+color:#C9A227;
+font-size:13px;
+}
+
+nav{
+display:flex;
+gap:25px;
 }
 
 nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
+color:#fff;
 font-weight:600;
-transition:.3s;
+transition:0.3s;
 }
 
-nav a:hover{
-color:var(--gold);
-}
+nav a:hover
+
+/* HERO */
 
 .hero{
 background:linear-gradient(
 135deg,
 #0A2540,
-#123d69
+#123B63
 );
+color:white;
 padding:100px 0;
 text-align:center;
-color:white;
 }
 
-.badge{
+.hero-badge{
 display:inline-block;
-background:rgba(255,255,255,.15);
-padding:8px 16px;
+background:#C9A227;
+color:#0A2540;
+padding:10px 20px;
 border-radius:30px;
-margin-bottom:20px;
+font-weight:bold;
+margin-bottom:25px;
 }
 
 .hero h1{
 font-size:52px;
-margin-bottom:20px;
+line-height:1.2;
+margin-bottom:25px;
 }
 
 .hero p{
 font-size:20px;
-max-width:800px;
+max-width:850px;
 margin:auto;
-margin-bottom:30px;
+margin-bottom:35px;
 }
 
 .hero-buttons{
@@ -99,77 +128,153 @@ flex-wrap:wrap;
 }
 
 .btn{
-display:inline-block;
-padding:14px 30px;
-background:var(--green);
+background:#1F7A3F;
 color:white;
-text-decoration:none;
+padding:14px 30px;
 border-radius:8px;
 font-weight:bold;
+display:inline-block;
 transition:.3s;
-border:none;
-cursor:pointer;
 }
 
 .btn:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
 }
 
 .btn-secondary{
-background:var(--gold);
-color:#111;
+background:#C9A227;
+color:#0A2540;
 }
+
+/* STATS */
+
+.stats{
+padding:60px 0;
+background:#f7f7f7;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.stat-card{
+background:white;
+padding:30px;
+text-align:center;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.stat-card h3{
+font-size:28px;
+color:#1F7A3F;
+margin-bottom:10px;
+}
+
+.stat-card p{
+font-size:15px;
+}
+
+/* SECTION */
 
 section{
 padding:80px 0;
 }
 
-section h2{
+.section-title{
 text-align:center;
-margin-bottom:40px;
-color:var(--blue);
-font-size:36px;
+font-size:40px;
+margin-bottom:50px;
+color:#0A2540;
 }
 
-.service-grid{
+/* SERVICES */
+
+.services-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(4,1fr);
 gap:25px;
 }
 
 .service-card{
 background:white;
-padding:25px;
+padding:30px;
 border-radius:12px;
 box-shadow:0 5px 20px rgba(0,0,0,.08);
 transition:.3s;
 }
 
 .service-card:hover{
-transform:translateY(-5px);
+transform:translateY(-8px);
 }
 
 .service-card h3{
-color:var(--blue);
-margin-bottom:12px;
+color:#0A2540;
+margin-bottom:15px;
+font-size:22px;
 }
+
+.service-card p{
+font-size:15px;
+}
+
+/* BENEFITS */
 
 .benefits-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
 }
 
 .benefit-card{
-background:var(--light);
+background:white;
 padding:25px;
-border-left:5px solid var(--green);
-border-radius:8px;
+border-left:5px solid #1F7A3F;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
+
+.benefit-card h3{
+margin-bottom:10px;
+color:#0A2540;
+}
+/* BANKS */
+
+.banks-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+}
+
+.bank-card{
+background:white;
+padding:20px;
+text-align:center;
+border-radius:10px;
+font-weight:bold;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.bank-card:hover{
+background:#0A2540;
+color:white;
+}
+
+.disclaimer{
+margin-top:25px;
+text-align:center;
+font-size:14px;
+color:#666;
+}
+
+/* PROCESS */
 
 .process-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+grid-template-columns:repeat(6,1fr);
 gap:20px;
 }
 
@@ -178,55 +283,79 @@ background:white;
 padding:25px;
 text-align:center;
 border-radius:12px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
+box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .process-step h3{
 font-size:32px;
-color:var(--green);
+color:#1F7A3F;
 margin-bottom:10px;
 }
 
-.about-text{
+/* ABOUT */
+
+.about-content{
 max-width:1000px;
 margin:auto;
 text-align:center;
+font-size:17px;
 }
 
+/* SEO CONTENT */
+
+#seo-content{
+background:#f8f8f8;
+}
+
+#seo-content p{
+max-width:1000px;
+margin:auto;
+margin-bottom:20px;
+text-align:center;
+}
+
+/* FAQ */
+
 .faq-item{
-background:var(--light);
-padding:20px;
-margin-bottom:15px;
+background:white;
+padding:25px;
+margin-bottom:20px;
 border-radius:10px;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .faq-item h3{
+color:#0A2540;
 margin-bottom:10px;
-color:var(--blue);
 }
 
-#lead-form{
-background:#f5f7fb;
-}
+/* FORM */
 
-form{
-max-width:600px;
+.loan-form{
+max-width:700px;
 margin:auto;
 display:flex;
 flex-direction:column;
 gap:15px;
 }
 
-input,
-select{
-padding:14px;
+.loan-form input,
+.loan-form select{
+padding:15px;
 border:1px solid #ddd;
 border-radius:8px;
 font-size:16px;
 }
 
+.loan-form button{
+border:none;
+cursor:pointer;
+}
+
+/* CONTACT */
+
 #contact{
-background:var(--blue);
+background:#0A2540;
 color:white;
 text-align:center;
 }
@@ -236,15 +365,24 @@ color:white;
 }
 
 #contact p{
+margin-bottom:15px;
+font-size:17px;
+}
+
+/* FOOTER */
+
+footer{
+background:#061728;
+color:white;
+text-align:center;
+padding:30px 15px;
+}
+
+footer p{
 margin-bottom:10px;
 }
 
-footer{
-background:#061626;
-color:white;
-text-align:center;
-padding:20px;
-}
+/* FLOATING WHATSAPP */
 
 .floating-whatsapp{
 position:fixed;
@@ -252,47 +390,124 @@ right:20px;
 bottom:20px;
 width:60px;
 height:60px;
-display:flex;
-justify-content:center;
-align-items:center;
 background:#25D366;
 color:white;
-text-decoration:none;
 border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
 font-size:28px;
-box-shadow:0 5px 15px rgba(0,0,0,.2);
+box-shadow:0 5px 20px rgba(0,0,0,.25);
+z-index:9999;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:992px){
+
+.hero h1{
+font-size:38px;
+}
+
+.services-grid,
+.benefits-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.stats-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.banks-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+.process-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
 }
 
 @media(max-width:768px){
 
-header .container{
+.nav-container{
 flex-direction:column;
+gap:15px;
 }
 
 nav{
-margin-top:10px;
-text-align:center;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
 }
 
-nav a{
-display:block;
-margin:10px 0;
+.logo{
+width:60px;
+height:60px;
+}
+
+.brand-text h2{
+font-size:20px;
+}
+
+.hero{
+padding:70px 0;
 }
 
 .hero h1{
-font-size:34px;
+font-size:32px;
 }
 
 .hero p{
-font-size:16px;
+font-size:17px;
 }
 
-section{
-padding:60px 0;
+.section-title{
+font-size:30px;
 }
 
-section h2{
+.services-grid,
+.benefits-grid,
+.stats-grid,
+.banks-grid,
+.process-grid{
+grid-template-columns:1fr;
+}
+
+.btn{
+width:100%;
+max-width:300px;
+text-align:center;
+}
+
+.hero-buttons{
+flex-direction:column;
+align-items:center;
+}
+
+.loan-form{
+width:100%;
+}
+
+}
+
+@media(max-width:480px){
+
+.hero h1{
 font-size:28px;
+}
+
+.hero p{
+font-size:15px;
+}
+
+.section-title{
+font-size:26px;
+}
+
+.brand{
+flex-direction:column;
+text-align:center;
 }
 
 }
