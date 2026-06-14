@@ -13,26 +13,34 @@
 <meta name="keywords" content="Home Loan Chittorgarh, Personal Loan Chittorgarh, Business Loan Chittorgarh, Loan Against Property Chittorgarh, Loan Consultant Chittorgarh">
 
 <meta name="author" content="Chittorgarh Loans">
+<link rel="canonical" href="https://chittorgarh-loans.pages.dev/">
 
+<link rel="icon" type="image/png" href="logo.png">
+  
 <link rel="stylesheet" href="style.css">
 
 <meta property="og:title" content="Chittorgarh Loans">
-<meta property="og:description" content="Trusted Loan Consultant in Chittorgarh">
+<meta property="og:description" content="Trusted Loan Consultant in Chittorgarh. Home Loan, Personal Loan, Business Loan & LAP Consultation.">
+<meta property="og:image" content="https://chittorgarh-loans.pages.dev/logo.png">
+<meta property="og:url" content="https://chittorgarh-loans.pages.dev/">
 <meta property="og:type" content="website">
-
+  
 <script type="application/ld+json">
 {
 "@context":"https://schema.org",
 "@type":"FinancialService",
 "name":"Chittorgarh Loans",
-"telephone":"+91 6376007997",
+"url":"https://chittorgarh-loans.pages.dev/",
+"telephone":"+916376007997",
 "email":"indianfinance.consult@gmail.com",
+"areaServed":"Chittorgarh",
 "address":{
 "@type":"PostalAddress",
 "addressLocality":"Chittorgarh",
 "addressRegion":"Rajasthan",
-"addressCountry":"India"
-}
+"addressCountry":"IN"
+},
+"openingHours":"Mo-Sa 09:00-19:00"
 }
 </script>
 
@@ -334,8 +342,7 @@ Simple Loan Process
 <p>Approval Process</p>
 </div>
 
-<div class="process
--step">
+<div class="process-step">
 
 <h3>6</h3>
 <p>Loan Disbursement</p>
@@ -464,8 +471,13 @@ Apply For Loan
 
 <input type="text" id="name" placeholder="Full Name" required>
 
-<input type="tel" id="mobile" placeholder="Mobile Number" required>
-
+<input
+type="tel"
+id="mobile"
+placeholder="Mobile Number"
+pattern="[0-9]{10}"
+maxlength="10"
+required>
 <select id="loanType">
 
 <option>Home Loan</option>
@@ -533,42 +545,35 @@ Home Loan | Personal Loan | Business Loan | Loan Against Property | Chittorgarh
 
 <a href="https://wa.me/916376007997"
 class="floating-whatsapp"
-target="_blank">
-
+target="_blank"
+aria-label="Chat on WhatsApp">
 💬
-
 </a>
 
 <script>
+function sendWhatsApp() {
 
-function sendWhatsApp(){
+let name = document.getElementById("name").value;
+let mobile = document.getElementById("mobile").value;
+let loanType = document.getElementById("loanType").value;
+let amount = document.getElementById("amount").value;
 
-var name =
-document.getElementById("name").value;
+let message =
+`Hello Chittorgarh Loans,
 
-var mobile =
-document.getElementById("mobile").value;
+Loan Enquiry
 
-var loanType =
-document.getElementById("loanType").value;
-
-var amount =
-document.getElementById("amount").value;
-
-var message =
-"Loan Enquiry%0A%0A" +
-"Name: " + name + "%0A" +
-"Mobile: " + mobile + "%0A" +
-"Loan Type: " + loanType + "%0A" +
-"Loan Amount: " + amount;
+Name: ${name}
+Mobile: ${mobile}
+Loan Type: ${loanType}
+Loan Amount: ${amount}`;
 
 window.open(
-"https://wa.me/916376007997?text=" + message,
+`https://wa.me/916376007997?text=${encodeURIComponent(message)}`,
 "_blank"
 );
 
 }
-
 </script>
 
 </body>
