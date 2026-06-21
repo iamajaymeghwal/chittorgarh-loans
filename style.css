@@ -71,18 +71,23 @@ color:#C9A227;
 font-size:13px;
 }
 
-nav{
+.main-nav{
 display:flex;
-gap:25px;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+align-items:center;
 }
 
-nav a{
+.main-nav a{
 color:#fff;
 font-weight:600;
 transition:0.3s;
+padding:8px 12px;
+border-radius:6px;
 }
 
-nav a:hover{
+.main-nav a:hover{
 color:#C9A227;
 }
 
