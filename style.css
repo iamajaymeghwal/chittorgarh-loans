@@ -132,7 +132,7 @@ line-height:1.2;
 
 .hero p{
 font-size:clamp(1rem,2vw,1.25rem);
-}}
+}
 
 .hero-buttons{
 display:flex;
@@ -514,31 +514,22 @@ border-radius:8px;
 background:rgba(255,255,255,0.08);
 }
 
-}
-
-.logo{
-width:60px;
-height:60px;
-}
-
-.brand-text h2{
-font-size:20px;
-}
-
 .hero{
-padding:70px 0;
+padding:50px 0;
 }
 
 .hero h1{
-font-size:32px;
+font-size:28px;
+line-height:1.3;
 }
 
 .hero p{
-font-size:17px;
+font-size:15px;
 }
 
 .section-title{
-font-size:30px;
+font-size:28px;
+margin-bottom:30px;
 }
 
 .services-grid,
@@ -562,6 +553,17 @@ align-items:center;
 
 .loan-form{
 width:100%;
+}
+
+.trust-strip{
+flex-direction:column;
+gap:10px;
+}
+
+.trust-strip span{
+width:100%;
+max-width:300px;
+text-align:center;
 }
 
 }
