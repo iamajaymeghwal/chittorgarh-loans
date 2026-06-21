@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chittorgarh-loans.pages.dev/sitemap.xml
