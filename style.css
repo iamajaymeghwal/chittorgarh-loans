@@ -447,34 +447,73 @@ grid-template-columns:repeat(3,1fr);
 
 @media(max-width:768px){
 
+.header{
+position:sticky;
+top:0;
+}
+
 .nav-container{
-flex-direction:column;
-gap:15px;
+flex-direction:row;
+justify-content:space-between;
+align-items:center;
+padding:12px 0;
+}
+
+.logo{
+width:45px;
+height:45px;
+}
+
+.brand{
+gap:10px;
+}
+
+.brand-text h2{
+font-size:18px;
+margin:0;
+}
+
+.brand-text p{
+font-size:11px;
 }
 
 .menu-toggle{
 display:block;
-width:100%;
-max-width:220px;
-margin:auto;
+background:#C9A227;
+color:#0A2540;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+font-weight:700;
+cursor:pointer;
 }
 
 .main-nav{
 display:none;
-flex-direction:column;
+position:absolute;
+top:75px;
+left:0;
 width:100%;
-margin-top:15px;
+background:#0A2540;
+padding:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+z-index:999;
 }
 
 .main-nav.show{
 display:flex;
+flex-direction:column;
+gap:10px;
 }
 
 .main-nav a{
-text-align:center;
+display:block;
 padding:12px;
-background:rgba(255,255,255,0.08);
+text-align:center;
 border-radius:8px;
+background:rgba(255,255,255,0.08);
+}
+
 }
 
 .logo{
