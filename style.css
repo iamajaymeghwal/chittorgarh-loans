@@ -491,13 +491,13 @@ cursor:pointer;
 .main-nav{
 display:none;
 position:absolute;
-top:75px;
+top:100%;
 left:0;
 width:100%;
 background:#0A2540;
 padding:15px;
 box-shadow:0 10px 25px rgba(0,0,0,.2);
-z-index:999;
+z-index:9999;
 }
 
 .main-nav.show{
@@ -584,8 +584,8 @@ font-size:26px;
 
 .brand{
 flex-direction:row;
-text-align:left;
 align-items:center;
+text-align:left;
 }
 
 }
