@@ -517,3 +517,21 @@ text-align:center;
 }
 
 }
+.trust-strip{
+margin-top:30px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+font-size:15px;
+font-weight:600;
+color:white;
+}
+
+.trust-strip span{
+background:rgba(255,255,255,0.15);
+padding:10px 15px;
+border-radius:30px;
+backdrop-filter:blur(5px);
+}
