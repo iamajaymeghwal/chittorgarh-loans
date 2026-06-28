@@ -484,8 +484,9 @@ section {
 .disclaimer {
   margin-top: 24px;
   text-align: center;
-  font-size: .8rem;
-  color: var(--text-light);
+  font-size: .9rem;
+  color: #D3DCE5;
+  line-height: 1.6;
 }
 
 /* ============================================================
@@ -773,10 +774,11 @@ section {
 }
 
 .form-note {
-  font-size: .8rem;
-  color: var(--text-light);
+  font-size: .9rem;
+  color: #D3DCE5;
   text-align: center;
   margin-top: -4px;
+  line-height: 1.6;
 }
 
 /* ============================================================
