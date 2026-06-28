@@ -484,7 +484,7 @@ section {
 .disclaimer {
   margin-top: 24px;
   text-align: center;
-  font-size: .9rem;
+  font-size: 1rem;
   color: #D3DCE5;
   line-height: 1.6;
 }
@@ -775,7 +775,7 @@ section {
 
 .form-note {
   font-size: .9rem;
-  color: #D3DCE5;
+  color: #6B7C8D;
   text-align: center;
   margin-top: -4px;
   line-height: 1.6;
