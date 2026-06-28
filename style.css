@@ -17,7 +17,7 @@
   --surface:    #EEF2F7;
   --text:       #1A2B3C;
   --text-mid:   #445566;
-  --text-light: #6B7C8D;
+  --text-light: #A8B3BF;
   --border:     #D8E2EE;
   --radius-sm:  6px;
   --radius-md:  10px;
@@ -904,12 +904,12 @@ section {
 
 .footer-copy {
   font-size: .8rem;
-  color: rgba(255,255,255,.4);
+  color: rgba(255,255,255,.75);
 }
 
 .footer-disclaimer {
   font-size: .75rem;
-  color: rgba(255,255,255,.3);
+  color: rgba(255,255,255,.65);
   max-width: 640px;
 }
 
