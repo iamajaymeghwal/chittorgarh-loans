@@ -838,5 +838,181 @@ loading="lazy">
 
 <script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
 
+<script>
+  (function () {
+  "use strict";
+
+  var carousel = document.getElementById("clCarousel");
+  if (!carousel) return;
+
+  var viewport = document.getElementById("clViewport");
+  var track = document.getElementById("clTrack");
+  var dotsWrap = document.getElementById("clDots");
+  var prevBtn = carousel.querySelector(".cl-carousel__arrow--prev");
+  var nextBtn = carousel.querySelector(".cl-carousel__arrow--next");
+  var slides = Array.prototype.slice.call(track.children);
+  var total = slides.length;
+
+  var perView = 3;
+  var index = 0;
+  var autoplayId = null;
+  var autoplayDelay = 6000;
+
+  function getPerView() {
+    var w = window.innerWidth;
+    if (w <= 680) return 1;
+    if (w <= 1024) return 2;
+    return 3;
+  }
+
+  function maxIndex() {
+    return Math.max(0, total - perView);
+  }
+
+  function buildDots() {
+    dotsWrap.innerHTML = "";
+    var count = maxIndex() + 1;
+    /* On desktop/tablet with few pages, still show one dot per page step */
+    for (var i = 0; i < count; i++) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "cl-dot";
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", "Go to review " + (i + 1));
+      dot.setAttribute("aria-selected", i === index ? "true" : "false");
+      (function (i) {
+        dot.addEventListener("click", function () {
+          goTo(i);
+          restartAutoplay();
+        });
+      })(i);
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function updateDots() {
+    var dots = dotsWrap.querySelectorAll(".cl-dot");
+    dots.forEach(function (d, i) {
+      d.setAttribute("aria-selected", i === index ? "true" : "false");
+    });
+  }
+
+  function update() {
+    perView = getPerView();
+    var slotWidth = slides[0].getBoundingClientRect().width;
+    var gap = parseFloat(getComputedStyle(track).gap) || 0;
+    var offset = index * (slotWidth + gap);
+    track.style.transform = "translateX(-" + offset + "px)";
+  }
+
+  function clampIndex() {
+    var m = maxIndex();
+    if (index > m) index = m;
+    if (index < 0) index = 0;
+  }
+
+  function goTo(i) {
+    var m = maxIndex();
+    if (i < 0) i = m;
+    if (i > m) i = 0;
+    index = i;
+    update();
+    updateDots();
+  }
+
+  function next() {
+    goTo(index + 1);
+  }
+
+  function prev() {
+    goTo(index - 1);
+  }
+
+  function restartAutoplay() {
+    if (autoplayId) clearInterval(autoplayId);
+    autoplayId = setInterval(next, autoplayDelay);
+  }
+
+  function stopAutoplay() {
+    if (autoplayId) clearInterval(autoplayId);
+  }
+
+  nextBtn.addEventListener("click", function () {
+    next();
+    restartAutoplay();
+  });
+
+  prevBtn.addEventListener("click", function () {
+    prev();
+    restartAutoplay();
+  });
+
+  /* Touch swipe */
+  var touchStartX = 0;
+  var touchDeltaX = 0;
+  var isTouching = false;
+
+  viewport.addEventListener("touchstart", function (e) {
+    isTouching = true;
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+    stopAutoplay();
+  }, { passive: true });
+
+  viewport.addEventListener("touchmove", function (e) {
+    if (!isTouching) return;
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  viewport.addEventListener("touchend", function () {
+    if (!isTouching) return;
+    isTouching = false;
+    var threshold = 40;
+    if (touchDeltaX > threshold) {
+      prev();
+    } else if (touchDeltaX < -threshold) {
+      next();
+    }
+    restartAutoplay();
+  });
+
+  /* Keyboard navigation */
+  carousel.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") {
+      next();
+      restartAutoplay();
+    } else if (e.key === "ArrowLeft") {
+      prev();
+      restartAutoplay();
+    }
+  });
+
+  /* Pause on hover (desktop) */
+  carousel.addEventListener("mouseenter", stopAutoplay);
+  carousel.addEventListener("mouseleave", restartAutoplay);
+
+  /* Resize handling */
+  var resizeTimer = null;
+  window.addEventListener("resize", function () {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      var prevPerView = perView;
+      perView = getPerView();
+      clampIndex();
+      if (prevPerView !== perView) {
+        buildDots();
+      }
+      update();
+      updateDots();
+    }, 150);
+  });
+
+  /* Init */
+  perView = getPerView();
+  buildDots();
+  update();
+  restartAutoplay();
+})();
+  </script>
 </body>
 </html>
