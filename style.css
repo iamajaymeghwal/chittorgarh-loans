@@ -22,13 +22,6 @@
     gap:8px;
 }
 
-.rating-score{
-    font-size:3rem;
-    font-weight:800;
-    color:var(--navy);
-    line-height:1;
-}
-
 .rating-stars{
     color:#F5B301;
     font-size:1.4rem;
