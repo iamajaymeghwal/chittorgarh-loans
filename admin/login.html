@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Login | Chittorgarh Loans CRM</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{background:var(--off-white);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .login-wrap{width:100%;max-width:420px}
+  .login-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:40px 32px;border:1px solid var(--border)}
+  .login-logo{width:64px;height:64px;object-fit:contain;background:var(--white);border-radius:50%;padding:6px;display:block;margin:0 auto 16px;box-shadow:var(--shadow-sm)}
+  .login-title{text-align:center;font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+  .login-sub{text-align:center;font-size:.9rem;color:var(--text-mid);margin-bottom:28px}
+  .login-form{display:flex;flex-direction:column;gap:16px}
+  .login-error{background:#FDECEC;border:1.5px solid #F5B5B5;color:#B42318;font-size:.85rem;padding:10px 14px;border-radius:var(--radius-sm);display:none}
+  .login-error.show{display:block}
+  .login-btn{margin-top:4px}
+  .login-loading{display:none;text-align:center;font-size:.85rem;color:var(--text-mid);margin-top:8px}
+  .login-loading.show{display:block}
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <img src="../Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans" class="login-logo">
+    <h1 class="login-title">CRM Admin Login</h1>
+    <p class="login-sub">Chittorgarh Loans — Authorized Access Only</p>
+
+    <div class="login-error" id="loginError"></div>
+
+    <form class="login-form" id="loginForm">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required autocomplete="username">
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-full login-btn" id="loginBtn">Login</button>
+      <p class="login-loading" id="loginLoading">Checking credentials...</p>
+    </form>
+  </div>
+</div>
+
+<script>
+  var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    var errorBox = document.getElementById('loginError');
+    var loadingBox = document.getElementById('loginLoading');
+    var btn = document.getElementById('loginBtn');
+
+    errorBox.classList.remove('show');
+    loadingBox.classList.add('show');
+    btn.disabled = true;
+
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'login', email: email, password: password })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      loadingBox.classList.remove('show');
+      btn.disabled = false;
+
+      if (data.success) {
+        localStorage.setItem('crm_token', data.token);
+        localStorage.setItem('crm_name', data.name);
+        localStorage.setItem('crm_role', data.role);
+        window.location.href = 'dashboard.html';
+      } else {
+        errorBox.textContent = data.error || 'Login failed. Please try again.';
+        errorBox.classList.add('show');
+      }
+    })
+    .catch(function(){
+      loadingBox.classList.remove('show');
+      btn.disabled = false;
+      errorBox.textContent = 'Network error. Please check your connection and try again.';
+      errorBox.classList.add('show');
+    });
+  });
+</script>
+
+</body>
+</html>
