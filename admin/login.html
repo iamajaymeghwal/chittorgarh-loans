@@ -75,6 +75,7 @@
         localStorage.setItem('crm_token', data.token);
         localStorage.setItem('crm_name', data.name);
         localStorage.setItem('crm_role', data.role);
+        localStorage.setItem('crm_expires', data.expiresAt);
         window.location.href = 'dashboard.html';
       } else {
         errorBox.textContent = data.error || 'Login failed. Please try again.';
