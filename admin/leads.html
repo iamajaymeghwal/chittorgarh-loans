@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Leads | Chittorgarh Loans CRM</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{background:var(--off-white);min-height:100vh}
+  .dash-header{background:var(--navy);padding:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .dash-header-inner{display:flex;justify-content:space-between;align-items:center}
+  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem;text-decoration:none}
+  .dash-brand img{width:40px;height:40px;border-radius:50%;background:var(--white);padding:4px}
+  .dash-user{display:flex;align-items:center;gap:16px}
+  .dash-user span{color:rgba(255,255,255,.85);font-size:.9rem;font-weight:600}
+  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer}
+  .dash-logout:hover{background:rgba(255,255,255,.1)}
+
+  .leads-main{padding:32px 0 60px}
+  .leads-title{color:var(--navy);font-size:1.5rem;font-weight:800;margin-bottom:20px}
+
+  .leads-toolbar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;background:var(--white);padding:16px;border-radius:var(--radius-md);border:1px solid var(--border)}
+  .leads-toolbar input, .leads-toolbar select{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;font-family:inherit;color:var(--text-dark)}
+  .leads-toolbar input{flex:1;min-width:200px}
+
+  .leads-table-wrap{background:var(--white);border-radius:var(--radius-md);border:1px solid var(--border);overflow-x:auto}
+  table.leads-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:900px}
+  table.leads-table th{background:var(--off-white);color:var(--navy);text-align:left;padding:12px 14px;font-weight:700;border-bottom:2px solid var(--border);position:sticky;top:0}
+  table.leads-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text-dark)}
+  table.leads-table tr:hover td{background:#FAFBFD}
+
+  .status-badge{display:inline-block;padding:5px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
+  .status-new{background:#E3EEFB;color:#1D4ED8}
+  .status-process{background:#FDF3DC;color:#92660A}
+  .status-good{background:#E2F5E9;color:#166534}
+  .status-rejected{background:#FDECEC;color:#B42318}
+
+  .status-select{padding:6px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.78rem;font-family:inherit}
+
+  .leads-empty, .leads-loading{text-align:center;padding:60px 20px;color:var(--text-mid)}
+  .leads-count{font-size:.85rem;color:var(--text-mid);margin-bottom:12px}
+  .back-link{display:inline-block;margin-bottom:16px;color:var(--green);font-weight:600;font-size:.9rem;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div id="checkingScreen" class="leads-loading">Checking session...</div>
+
+<div id="pageContent" style="display:none">
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <a href="dashboard.html" class="dash-brand">
+        <img src="../Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans">
+        Chittorgarh Loans CRM
+      </a>
+      <div class="dash-user">
+        <span id="welcomeName">Welcome</span>
+        <button class="dash-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="leads-main">
+    <div class="container">
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+      <h1 class="leads-title">Lead Management</h1>
+
+      <div class="leads-toolbar">
+        <input type="text" id="searchInput" placeholder="Search by name, mobile, or Lead ID...">
+        <select id="statusFilter"><option value="">All Statuses</option></select>
+        <select id="loanTypeFilter">
+          <option value="">All Loan Types</option>
+          <option value="Home Loan">Home Loan</option>
+          <option value="Personal Loan">Personal Loan</option>
+          <option value="Business Loan">Business Loan</option>
+          <option value="Loan Against Property">Loan Against Property</option>
+        </select>
+      </div>
+
+      <p class="leads-count" id="leadsCount"></p>
+
+      <div id="tableWrap" class="leads-table-wrap" style="display:none">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Lead ID</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Loan Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody"></tbody>
+        </table>
+      </div>
+
+      <div id="emptyState" class="leads-empty" style="display:none">No leads found.</div>
+      <div id="loadingState" class="leads-loading">Loading leads...</div>
+    </div>
+  </main>
+</div>
+
+<script>
+  var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
+
+  var token = localStorage.getItem('crm_token');
+  var name = localStorage.getItem('crm_name');
+  var expiresAt = parseInt(localStorage.getItem('crm_expires'), 10);
+  var now = Date.now();
+  var allLeads = [];
+
+  if (!token || !expiresAt || now > expiresAt) {
+    localStorage.removeItem('crm_token');
+    localStorage.removeItem('crm_name');
+    localStorage.removeItem('crm_role');
+    localStorage.removeItem('crm_expires');
+    window.location.href = 'login.html';
+  } else {
+    document.getElementById('welcomeName').textContent = 'Welcome, ' + (name || 'Admin');
+    document.getElementById('checkingScreen').style.display = 'none';
+    document.getElementById('pageContent').style.display = 'block';
+    loadLeads();
+  }
+
+  function statusClass(status) {
+    if (status === 'New') return 'status-new';
+    if (status === 'Rejected') return 'status-rejected';
+    if (status === 'Closed' || status === 'Commission Received' || status === 'Disbursement') return 'status-good';
+    return 'status-process';
+  }
+
+  function loadLeads() {
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'getLeads', token: token })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      document.getElementById('loadingState').style.display = 'none';
+
+      if (!data.success) {
+        if (data.error && data.error.indexOf('Session') !== -1) {
+          window.location.href = 'login.html';
+          return;
+        }
+        document.getElementById('emptyState').textContent = data.error || 'Failed to load leads.';
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+
+      allLeads = data.leads;
+
+      var statusFilter = document.getElementById('statusFilter');
+      data.statuses.forEach(function(s){
+        var opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        statusFilter.appendChild(opt);
+      });
+
+      renderLeads();
+    })
+    .catch(function(){
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('emptyState').textContent = 'Network error loading leads.';
+      document.getElementById('emptyState').style.display = 'block';
+    });
+  }
+
+  function renderLeads() {
+    var search = document.getElementById('searchInput').value.trim().toLowerCase();
+    var statusVal = document.getElementById('statusFilter').value;
+    var loanTypeVal = document.getElementById('loanTypeFilter').value;
+
+    var filtered = allLeads.filter(function(lead){
+      var matchesSearch = !search ||
+        lead.name.toLowerCase().indexOf(search) !== -1 ||
+        lead.mobile.toString().indexOf(search) !== -1 ||
+        lead.leadId.toLowerCase().indexOf(search) !== -1;
+      var matchesStatus = !statusVal || lead.status === statusVal;
+      var matchesLoanType = !loanTypeVal || lead.loanType === loanTypeVal;
+      return matchesSearch && matchesStatus && matchesLoanType;
+    });
+
+    var tbody = document.getElementById('leadsTableBody');
+    tbody.innerHTML = '';
+
+    document.getElementById('leadsCount').textContent = filtered.length + ' lead(s) found';
+
+    if (filtered.length === 0) {
+      document.getElementById('tableWrap').style.display = 'none';
+      document.getElementById('emptyState').textContent = 'No leads match your search/filters.';
+      document.getElementById('emptyState').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('tableWrap').style.display = 'block';
+
+    filtered.forEach(function(lead){
+      var tr = document.createElement('tr');
+
+      var statusOptions = '';
+      // statuses list comes from the badge class mapping via allStatuses stored on statusFilter
+      Array.from(document.getElementById('statusFilter').options).forEach(function(opt){
+        if (!opt.value) return;
+        statusOptions += '<option value="' + opt.value + '"' + (opt.value === lead.status ? ' selected' : '') + '>' + opt.value + '</option>';
+      });
+
+      tr.innerHTML =
+        '<td>' + lead.leadId + '</td>' +
+        '<td>' + lead.date + '</td>' +
+        '<td>' + lead.name + '</td>' +
+        '<td>' + lead.mobile + '</td>' +
+        '<td>' + lead.loanType + '</td>' +
+        '<td>' + lead.amount + '</td>' +
+        '<td>' +
+          '<select class="status-select ' + statusClass(lead.status) + '" data-row="' + lead.rowNumber + '">' +
+            statusOptions +
+          '</select>' +
+        '</td>';
+
+      tbody.appendChild(tr);
+    });
+
+    document.querySelectorAll('.status-select').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        var rowNumber = this.getAttribute('data-row');
+        var newStatus = this.value;
+        this.disabled = true;
+
+        fetch(CRM_API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'updateLeadStatus', token: token, rowNumber: rowNumber, status: newStatus })
+        })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          sel.disabled = false;
+          if (data.success) {
+            sel.className = 'status-select ' + statusClass(newStatus);
+            var leadObj = allLeads.find(function(l){ return l.rowNumber == rowNumber; });
+            if (leadObj) leadObj.status = newStatus;
+          } else {
+            alert(data.error || 'Failed to update status.');
+          }
+        })
+        .catch(function(){
+          sel.disabled = false;
+          alert('Network error updating status.');
+        });
+      });
+    });
+  }
+
+  document.getElementById('searchInput').addEventListener('input', renderLeads);
+  document.getElementById('statusFilter').addEventListener('change', renderLeads);
+  document.getElementById('loanTypeFilter').addEventListener('change', renderLeads);
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'logout', token: token })
+    }).finally(function(){
+      localStorage.removeItem('crm_token');
+      localStorage.removeItem('crm_name');
+      localStorage.removeItem('crm_role');
+      localStorage.removeItem('crm_expires');
+      window.location.href = 'login.html';
+    });
+  });
+</script>
+
+</body>
+</html>
