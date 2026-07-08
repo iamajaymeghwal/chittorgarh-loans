@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard | Chittorgarh Loans CRM</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{background:var(--off-white);min-height:100vh}
+  .dash-header{background:var(--navy);padding:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .dash-header-inner{display:flex;justify-content:space-between;align-items:center}
+  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem}
+  .dash-brand img{width:40px;height:40px;border-radius:50%;background:var(--white);padding:4px}
+  .dash-user{display:flex;align-items:center;gap:16px}
+  .dash-user span{color:rgba(255,255,255,.85);font-size:.9rem;font-weight:600}
+  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;transition:background .25s ease}
+  .dash-logout:hover{background:rgba(255,255,255,.1)}
+  .dash-main{padding:60px 0;text-align:center}
+  .dash-card{background:var(--white);max-width:520px;margin:0 auto;padding:48px 36px;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+  .dash-card h1{color:var(--navy);font-size:1.5rem;margin-bottom:10px}
+  .dash-card p{color:var(--text-mid);font-size:.95rem}
+  .dash-checking{padding:100px 0;text-align:center;color:var(--text-mid)}
+</style>
+</head>
+<body>
+
+<div id="checkingScreen" class="dash-checking">Checking session...</div>
+
+<div id="dashboardContent" style="display:none">
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <div class="dash-brand">
+        <img src="../Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans">
+        Chittorgarh Loans CRM
+      </div>
+      <div class="dash-user">
+        <span id="welcomeName">Welcome</span>
+        <button class="dash-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-main">
+    <div class="container">
+      <div class="dash-card">
+        <h1>✅ Login Successful</h1>
+        <p>This is a placeholder dashboard. Lead Management, statistics, and reports will be added here in the next modules.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
+
+  var token = localStorage.getItem('crm_token');
+  var name = localStorage.getItem('crm_name');
+
+  if (!token) {
+    window.location.href = 'login.html';
+  } else {
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'validateSession', token: token })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      if (data.success) {
+        document.getElementById('welcomeName').textContent = 'Welcome, ' + (name || 'Admin');
+        document.getElementById('checkingScreen').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+      } else {
+        localStorage.removeItem('crm_token');
+        localStorage.removeItem('crm_name');
+        localStorage.removeItem('crm_role');
+        window.location.href = 'login.html';
+      }
+    })
+    .catch(function(){
+      window.location.href = 'login.html';
+    });
+  }
+
+  document.getElementById('logoutBtn') && document.getElementById('logoutBtn').addEventListener('click', function(){
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'logout', token: token })
+    }).finally(function(){
+      localStorage.removeItem('crm_token');
+      localStorage.removeItem('crm_name');
+      localStorage.removeItem('crm_role');
+      window.location.href = 'login.html';
+    });
+  });
+</script>
+
+</body>
+</html>
