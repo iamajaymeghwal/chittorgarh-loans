@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Follow-ups | Chittorgarh Loans CRM</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{background:var(--off-white);min-height:100vh}
+  .dash-header{background:var(--navy);padding:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .dash-header-inner{display:flex;justify-content:space-between;align-items:center}
+  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem;text-decoration:none}
+  .dash-brand img{width:40px;height:40px;border-radius:50%;background:var(--white);padding:4px}
+  .dash-user{display:flex;align-items:center;gap:16px}
+  .dash-user span{color:rgba(255,255,255,.85);font-size:.9rem;font-weight:600}
+  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer}
+  .dash-logout:hover{background:rgba(255,255,255,.1)}
+
+  .fu-main{padding:32px 0 60px}
+  .fu-title{color:var(--navy);font-size:1.5rem;font-weight:800;margin-bottom:20px}
+  .back-link{display:inline-block;margin-bottom:16px;color:var(--green);font-weight:600;font-size:.9rem;text-decoration:none}
+
+  .fu-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+  .fu-tab{background:var(--white);border:1.5px solid var(--border);padding:10px 18px;border-radius:20px;font-size:.85rem;font-weight:700;color:var(--text-dark);cursor:pointer}
+  .fu-tab.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+  .fu-tab .count{opacity:.7;margin-left:4px}
+
+  .fu-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .fu-card-left{flex:1;min-width:220px}
+  .fu-name{font-weight:700;color:var(--navy);font-size:1rem}
+  .fu-meta{color:var(--text-mid);font-size:.82rem;margin-top:4px}
+  .fu-notes{color:var(--text-dark);font-size:.85rem;margin-top:8px;background:var(--off-white);padding:8px 12px;border-radius:var(--radius-sm)}
+
+  .fu-priority{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;margin-left:8px}
+  .priority-high{background:#FDECEC;color:#B42318}
+  .priority-medium{background:#FDF3DC;color:#92660A}
+  .priority-low{background:#E2F5E9;color:#166534}
+
+  .fu-datebadge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.78rem;font-weight:700}
+  .badge-overdue{background:#FDECEC;color:#B42318}
+  .badge-today{background:#FDF3DC;color:#92660A}
+  .badge-upcoming{background:#E3EEFB;color:#1D4ED8}
+  .badge-completed{background:#E2F5E9;color:#166534}
+
+  .fu-actions{display:flex;gap:8px}
+  .fu-action-btn{padding:7px 14px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:700;border:none;cursor:pointer}
+  .btn-complete{background:var(--green);color:var(--white)}
+  .btn-missed{background:transparent;border:1.5px solid var(--border);color:var(--text-mid)}
+
+  .fu-empty, .fu-loading{text-align:center;padding:50px 20px;color:var(--text-mid)}
+</style>
+</head>
+<body>
+
+<div id="checkingScreen" class="fu-loading">Checking session...</div>
+
+<div id="pageContent" style="display:none">
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <a href="dashboard.html" class="dash-brand">
+        <img src="../Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans">
+        Chittorgarh Loans CRM
+      </a>
+      <div class="dash-user">
+        <span id="welcomeName">Welcome</span>
+        <button class="dash-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="fu-main">
+    <div class="container">
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+      <h1 class="fu-title">Follow-ups</h1>
+
+      <div class="fu-tabs" id="fuTabs">
+        <div class="fu-tab active" data-tab="overdue">Overdue <span class="count" id="countOverdue"></span></div>
+        <div class="fu-tab" data-tab="today">Today <span class="count" id="countToday"></span></div>
+        <div class="fu-tab" data-tab="upcoming">Upcoming <span class="count" id="countUpcoming"></span></div>
+        <div class="fu-tab" data-tab="completed">Completed <span class="count" id="countCompleted"></span></div>
+      </div>
+
+      <div id="listWrap"></div>
+      <div id="loadingState" class="fu-loading">Loading follow-ups...</div>
+      <div id="emptyState" class="fu-empty" style="display:none">No follow-ups in this category.</div>
+    </div>
+  </main>
+</div>
+
+<script>
+  var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
+
+  var token = localStorage.getItem('crm_token');
+  var name = localStorage.getItem('crm_name');
+  var expiresAt = parseInt(localStorage.getItem('crm_expires'), 10);
+  var now = Date.now();
+  var allFollowUps = [];
+  var activeTab = 'overdue';
+
+  if (!token || !expiresAt || now > expiresAt) {
+    localStorage.removeItem('crm_token');
+    localStorage.removeItem('crm_name');
+    localStorage.removeItem('crm_role');
+    localStorage.removeItem('crm_expires');
+    window.location.href = 'login.html';
+  } else {
+    document.getElementById('welcomeName').textContent = 'Welcome, ' + (name || 'Admin');
+    document.getElementById('checkingScreen').style.display = 'none';
+    document.getElementById('pageContent').style.display = 'block';
+    loadFollowUps();
+  }
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function categorize(fu) {
+    if (fu.status === 'Completed') return 'completed';
+    if (fu.status === 'Missed') return 'overdue';
+    var today = todayStr();
+    if (fu.reminderDate < today) return 'overdue';
+    if (fu.reminderDate === today) return 'today';
+    return 'upcoming';
+  }
+
+  function loadFollowUps() {
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'getFollowUps', token: token })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      document.getElementById('loadingState').style.display = 'none';
+      if (!data.success) {
+        if (data.error && data.error.indexOf('Session') !== -1) {
+          window.location.href = 'login.html';
+          return;
+        }
+        document.getElementById('emptyState').textContent = data.error || 'Failed to load follow-ups.';
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+      allFollowUps = data.followUps;
+      render();
+    })
+    .catch(function(){
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('emptyState').textContent = 'Network error loading follow-ups.';
+      document.getElementById('emptyState').style.display = 'block';
+    });
+  }
+
+  function render() {
+    var groups = { overdue: [], today: [], upcoming: [], completed: [] };
+    allFollowUps.forEach(function(fu){
+      groups[categorize(fu)].push(fu);
+    });
+
+    document.getElementById('countOverdue').textContent = groups.overdue.length;
+    document.getElementById('countToday').textContent = groups.today.length;
+    document.getElementById('countUpcoming').textContent = groups.upcoming.length;
+    document.getElementById('countCompleted').textContent = groups.completed.length;
+
+    var list = groups[activeTab];
+    var wrap = document.getElementById('listWrap');
+    wrap.innerHTML = '';
+
+    if (list.length === 0) {
+      document.getElementById('emptyState').style.display = 'block';
+      return;
+    }
+    document.getElementById('emptyState').style.display = 'none';
+
+    list.forEach(function(fu){
+      var card = document.createElement('div');
+      card.className = 'fu-card';
+
+      var badgeClass = activeTab === 'overdue' ? 'badge-overdue' : activeTab === 'today' ? 'badge-today' : activeTab === 'upcoming' ? 'badge-upcoming' : 'badge-completed';
+      var priorityClass = 'priority-' + fu.priority.toLowerCase();
+
+      var actionsHtml = '';
+      if (fu.status === 'Pending') {
+        actionsHtml =
+          '<div class="fu-actions">' +
+            '<button class="fu-action-btn btn-complete" data-row="' + fu.rowNumber + '" data-status="Completed">Mark Done</button>' +
+            '<button class="fu-action-btn btn-missed" data-row="' + fu.rowNumber + '" data-status="Missed">Missed</button>' +
+          '</div>';
+      }
+
+      card.innerHTML =
+        '<div class="fu-card-left">' +
+          '<div class="fu-name">' + fu.customerName + ' <span class="fu-priority ' + priorityClass + '">' + fu.priority + '</span></div>' +
+          '<div class="fu-meta">' +
+            '<span class="fu-datebadge ' + badgeClass + '">' + fu.reminderDate + ' at ' + fu.reminderTime + '</span> · ' +
+            fu.type + ' · ' + fu.mobile +
+          '</div>' +
+          (fu.notes ? '<div class="fu-notes">' + fu.notes + '</div>' : '') +
+        '</div>' +
+        actionsHtml;
+
+      wrap.appendChild(card);
+    });
+
+    document.querySelectorAll('.fu-action-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var rowNumber = this.getAttribute('data-row');
+        var newStatus = this.getAttribute('data-status');
+        this.disabled = true;
+
+        fetch(CRM_API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'updateFollowUpStatus', token: token, rowNumber: rowNumber, status: newStatus })
+        })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if (data.success) {
+            var fuObj = allFollowUps.find(function(f){ return f.rowNumber == rowNumber; });
+            if (fuObj) fuObj.status = newStatus;
+            render();
+          } else {
+            alert(data.error || 'Failed to update.');
+          }
+        })
+        .catch(function(){
+          alert('Network error updating follow-up.');
+        });
+      });
+    });
+  }
+
+  document.querySelectorAll('.fu-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.fu-tab').forEach(function(t){ t.classList.remove('active'); });
+      this.classList.add('active');
+      activeTab = this.getAttribute('data-tab');
+      render();
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'logout', token: token })
+    }).finally(function(){
+      localStorage.removeItem('crm_token');
+      localStorage.removeItem('crm_name');
+      localStorage.removeItem('crm_role');
+      localStorage.removeItem('crm_expires');
+      window.location.href = 'login.html';
+    });
+  });
+</script>
+
+</body>
+</html>
