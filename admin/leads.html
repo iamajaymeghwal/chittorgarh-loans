@@ -40,7 +40,19 @@
 
   .leads-empty, .leads-loading{text-align:center;padding:60px 20px;color:var(--text-mid)}
   .leads-count{font-size:.85rem;color:var(--text-mid);margin-bottom:12px}
-  .back-link{display:inline-block;margin-bottom:16px;color:var(--green);font-weight:600;font-size:.9rem;text-decoration:none}
+ .back-link{display:inline-block;margin-bottom:16px;color:var(--green);font-weight:600;font-size:.9rem;text-decoration:none}
+
+  .fu-btn{background:var(--green);color:var(--white);border:none;padding:6px 12px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:700;cursor:pointer}
+  .fu-btn:hover{opacity:.9}
+
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,37,64,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-box{background:var(--white);border-radius:var(--radius-lg);padding:32px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto}
+  .modal-title{color:var(--navy);font-size:1.2rem;font-weight:800;margin-bottom:4px}
+  .modal-sub{color:var(--text-mid);font-size:.85rem;margin-bottom:20px}
+  .modal-error{background:#FDECEC;border:1.5px solid #F5B5B5;color:#B42318;font-size:.8rem;padding:8px 12px;border-radius:var(--radius-sm);display:none;margin-bottom:14px}
+  .modal-error.show{display:block}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+  .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-dark)}
 </style>
 </head>
 <body>
@@ -90,17 +102,62 @@
               <th>Mobile</th>
               <th>Loan Type</th>
               <th>Amount</th>
-              <th>Status</th>
+             <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="leadsTableBody"></tbody>
         </table>
       </div>
 
-      <div id="emptyState" class="leads-empty" style="display:none">No leads found.</div>
+     <div id="emptyState" class="leads-empty" style="display:none">No leads found.</div>
       <div id="loadingState" class="leads-loading">Loading leads...</div>
     </div>
   </main>
+</div>
+
+<div id="followUpModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h2 class="modal-title">Schedule Follow-up</h2>
+    <p class="modal-sub" id="modalCustomerInfo"></p>
+
+    <div class="modal-error" id="modalError"></div>
+
+    <div class="form-field">
+      <label for="fuDate">Reminder Date</label>
+      <input type="date" id="fuDate" required>
+    </div>
+    <div class="form-field">
+      <label for="fuTime">Reminder Time</label>
+      <input type="time" id="fuTime" required>
+    </div>
+    <div class="form-field">
+      <label for="fuType">Type</label>
+      <select id="fuType">
+        <option value="Call">Call</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Visit">Visit</option>
+        <option value="Document Collection">Document Collection</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="fuPriority">Priority</label>
+      <select id="fuPriority">
+        <option value="High">High</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="Low">Low</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="fuNotes">Notes</label>
+      <textarea id="fuNotes" rows="3" placeholder="What to discuss..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="modalCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" id="modalSaveBtn" type="button">Save Follow-up</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -210,7 +267,7 @@
         statusOptions += '<option value="' + opt.value + '"' + (opt.value === lead.status ? ' selected' : '') + '>' + opt.value + '</option>';
       });
 
-      tr.innerHTML =
+     tr.innerHTML =
         '<td>' + lead.leadId + '</td>' +
         '<td>' + lead.date + '</td>' +
         '<td>' + lead.name + '</td>' +
@@ -221,7 +278,8 @@
           '<select class="status-select ' + statusClass(lead.status) + '" data-row="' + lead.rowNumber + '">' +
             statusOptions +
           '</select>' +
-        '</td>';
+        '</td>' +
+        '<td><button class="fu-btn" data-lead-id="' + lead.leadId + '" data-name="' + lead.name + '" data-mobile="' + lead.mobile + '">+ Follow-up</button></td>';
 
       tbody.appendChild(tr);
     });
@@ -259,6 +317,77 @@
   document.getElementById('statusFilter').addEventListener('change', renderLeads);
   document.getElementById('loanTypeFilter').addEventListener('change', renderLeads);
 
+var currentFollowUpLead = null;
+
+  document.addEventListener('click', function(e){
+    if (e.target.classList.contains('fu-btn')) {
+      currentFollowUpLead = {
+        leadId: e.target.getAttribute('data-lead-id'),
+        name: e.target.getAttribute('data-name'),
+        mobile: e.target.getAttribute('data-mobile')
+      };
+      document.getElementById('modalCustomerInfo').textContent = currentFollowUpLead.name + ' — ' + currentFollowUpLead.mobile;
+      document.getElementById('fuDate').value = '';
+      document.getElementById('fuTime').value = '';
+      document.getElementById('fuNotes').value = '';
+      document.getElementById('modalError').classList.remove('show');
+      document.getElementById('followUpModal').style.display = 'flex';
+    }
+  });
+
+  document.getElementById('modalCancelBtn').addEventListener('click', function(){
+    document.getElementById('followUpModal').style.display = 'none';
+  });
+
+  document.getElementById('modalSaveBtn').addEventListener('click', function(){
+    var date = document.getElementById('fuDate').value;
+    var time = document.getElementById('fuTime').value;
+    var errorBox = document.getElementById('modalError');
+
+    if (!date || !time) {
+      errorBox.textContent = 'Please select both date and time.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    var saveBtn = document.getElementById('modalSaveBtn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'createFollowUp',
+        token: token,
+        leadId: currentFollowUpLead.leadId,
+        customerName: currentFollowUpLead.name,
+        mobile: currentFollowUpLead.mobile,
+        reminderDate: date,
+        reminderTime: time,
+        type: document.getElementById('fuType').value,
+        priority: document.getElementById('fuPriority').value,
+        notes: document.getElementById('fuNotes').value
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Follow-up';
+      if (data.success) {
+        document.getElementById('followUpModal').style.display = 'none';
+      } else {
+        errorBox.textContent = data.error || 'Failed to save follow-up.';
+        errorBox.classList.add('show');
+      }
+    })
+    .catch(function(){
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Follow-up';
+      errorBox.textContent = 'Network error. Please try again.';
+      errorBox.classList.add('show');
+    });
+  });
+  
   document.getElementById('logoutBtn').addEventListener('click', function(){
     fetch(CRM_API_URL, {
       method: 'POST',
