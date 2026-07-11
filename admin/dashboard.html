@@ -143,6 +143,14 @@
     loadDashboard();
   }
 
+  function formatActivityDate(dateStr, timeStr) {
+    // Defensive: handle both correct plain text and any leftover broken ISO values
+    if (typeof dateStr === 'string' && dateStr.indexOf('T') === -1 && dateStr.indexOf('-') !== -1) {
+      return dateStr + ' ' + timeStr;
+    }
+    return 'Recently';
+  }
+
   function renderBarChart(containerId, dataObj) {
     var container = document.getElementById(containerId);
     var entries = Object.keys(dataObj).map(function(key){ return { label: key, count: dataObj[key] }; });
@@ -205,7 +213,7 @@
             '<div class="activity-item">' +
               '<div>' +
                 '<div class="activity-name">' + item.name + '</div>' +
-                '<div class="activity-meta">' + item.loanType + ' · ' + item.date + ' ' + item.time + '</div>' +
+                '<div class="activity-meta">' + item.loanType + ' · ' + formatActivityDate(item.date, item.time) + '</div>' +
               '</div>' +
               '<span class="activity-badge">' + item.status + '</span>' +
             '</div>';
