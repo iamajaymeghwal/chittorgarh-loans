@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Customer Profile | Chittorgarh Loans CRM</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body{background:var(--off-white);min-height:100vh}
+  .dash-header{background:var(--navy);padding:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .dash-header-inner{display:flex;justify-content:space-between;align-items:center}
+  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem;text-decoration:none}
+  .dash-brand img{width:40px;height:40px;border-radius:50%;background:var(--white);padding:4px}
+  .dash-user{display:flex;align-items:center;gap:16px}
+  .dash-user span{color:rgba(255,255,255,.85);font-size:.9rem;font-weight:600}
+  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer}
+  .dash-logout:hover{background:rgba(255,255,255,.1)}
+
+  .profile-main{padding:32px 0 60px}
+  .back-link{display:inline-block;margin-bottom:16px;color:var(--green);font-weight:600;font-size:.9rem;text-decoration:none}
+
+  .profile-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+  .profile-name{font-size:1.6rem;font-weight:800;color:var(--navy)}
+  .profile-leadid{color:var(--text-mid);font-size:.85rem;margin-top:2px}
+  .status-badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:700}
+  .status-new{background:#E3EEFB;color:#1D4ED8}
+  .status-process{background:#FDF3DC;color:#92660A}
+  .status-good{background:#E2F5E9;color:#166534}
+  .status-rejected{background:#FDECEC;color:#B42318}
+
+  .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  @media(max-width:800px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+  .info-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px}
+  .info-label{font-size:.75rem;color:var(--text-mid);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+  .info-value{font-size:1rem;color:var(--navy);font-weight:700;margin-top:4px}
+
+  .profile-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+  @media(max-width:900px){.profile-grid{grid-template-columns:1fr}}
+
+  .dash-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-bottom:24px}
+  .dash-section h2{color:var(--navy);font-size:1.05rem;font-weight:800;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+
+  .timeline-item{display:flex;gap:12px;padding-bottom:18px;position:relative}
+  .timeline-item:not(:last-child)::before{content:'';position:absolute;left:5px;top:16px;bottom:0;width:2px;background:var(--border)}
+  .timeline-dot{width:12px;height:12px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:4px}
+  .timeline-text{font-size:.87rem;color:var(--text-dark)}
+  .timeline-meta{font-size:.76rem;color:var(--text-mid);margin-top:2px}
+
+  .fu-history-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+  .fu-history-item:last-child{border-bottom:none}
+  .fu-history-status{float:right;font-size:.72rem;padding:3px 9px;border-radius:12px;background:var(--off-white);color:var(--text-mid);font-weight:700}
+
+  textarea.remarks-box{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:.9rem;resize:vertical;min-height:90px}
+  .remarks-save-btn{margin-top:10px}
+
+  .fu-btn{background:var(--green);color:var(--white);border:none;padding:8px 16px;border-radius:var(--radius-sm);font-size:.8rem;font-weight:700;cursor:pointer}
+
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,37,64,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-box{background:var(--white);border-radius:var(--radius-lg);padding:32px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto}
+  .modal-title{color:var(--navy);font-size:1.2rem;font-weight:800;margin-bottom:20px}
+  .modal-error{background:#FDECEC;border:1.5px solid #F5B5B5;color:#B42318;font-size:.8rem;padding:8px 12px;border-radius:var(--radius-sm);display:none;margin-bottom:14px}
+  .modal-error.show{display:block}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+  .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-dark)}
+
+  .loading-note, .empty-note{color:var(--text-mid);font-size:.85rem;text-align:center;padding:20px 0}
+</style>
+</head>
+<body>
+
+<div id="checkingScreen" class="loading-note" style="padding:100px 0">Checking session...</div>
+
+<div id="pageContent" style="display:none">
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <a href="dashboard.html" class="dash-brand">
+        <img src="../Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans">
+        Chittorgarh Loans CRM
+      </a>
+      <div class="dash-user">
+        <span id="welcomeName">Welcome</span>
+        <button class="dash-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-main">
+    <div class="container">
+      <a href="leads.html" class="back-link">← Back to Leads</a>
+
+      <div id="loadingProfile" class="loading-note">Loading customer profile...</div>
+
+      <div id="profileWrap" style="display:none">
+        <div class="profile-header">
+          <div>
+            <div class="profile-name" id="pName"></div>
+            <div class="profile-leadid" id="pLeadId"></div>
+          </div>
+          <div>
+            <span class="status-badge" id="pStatusBadge"></span>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card"><div class="info-label">Mobile</div><div class="info-value" id="pMobile"></div></div>
+          <div class="info-card"><div class="info-label">Loan Type</div><div class="info-value" id="pLoanType"></div></div>
+          <div class="info-card"><div class="info-label">Amount</div><div class="info-value" id="pAmount"></div></div>
+          <div class="info-card"><div class="info-label">Submitted</div><div class="info-value" id="pDate"></div></div>
+        </div>
+
+        <div class="profile-grid">
+          <div>
+            <div class="dash-section">
+              <h2>Status Timeline</h2>
+              <div id="timelineList"></div>
+            </div>
+
+            <div class="dash-section">
+              <h2>Remarks / Notes</h2>
+              <textarea class="remarks-box" id="remarksBox" placeholder="Add notes about this customer..."></textarea>
+              <button class="btn btn-primary remarks-save-btn" id="saveRemarksBtn">Save Remarks</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="dash-section">
+              <h2>Follow-up History <button class="fu-btn" id="scheduleFuBtn">+ Schedule</button></h2>
+              <div id="fuHistoryList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="followUpModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h2 class="modal-title">Schedule Follow-up</h2>
+    <div class="modal-error" id="modalError"></div>
+    <div class="form-field"><label for="fuDate">Reminder Date</label><input type="date" id="fuDate" required></div>
+    <div class="form-field"><label for="fuTime">Reminder Time</label><input type="time" id="fuTime" required></div>
+    <div class="form-field"><label for="fuType">Type</label>
+      <select id="fuType"><option>Call</option><option>WhatsApp</option><option>Visit</option><option>Document Collection</option></select>
+    </div>
+    <div class="form-field"><label for="fuPriority">Priority</label>
+      <select id="fuPriority"><option value="High">High</option><option value="Medium" selected>Medium</option><option value="Low">Low</option></select>
+    </div>
+    <div class="form-field"><label for="fuNotes">Notes</label><textarea id="fuNotes" rows="3"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="modalCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" id="modalSaveBtn" type="button">Save Follow-up</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
+
+  var token = localStorage.getItem('crm_token');
+  var name = localStorage.getItem('crm_name');
+  var expiresAt = parseInt(localStorage.getItem('crm_expires'), 10);
+  var now = Date.now();
+  var leadRowNumber = null;
+
+  var urlParams = new URLSearchParams(window.location.search);
+  var leadId = urlParams.get('id');
+
+  if (!token || !expiresAt || now > expiresAt) {
+    localStorage.removeItem('crm_token');
+    localStorage.removeItem('crm_name');
+    localStorage.removeItem('crm_role');
+    localStorage.removeItem('crm_expires');
+    window.location.href = 'login.html';
+  } else if (!leadId) {
+    window.location.href = 'leads.html';
+  } else {
+    document.getElementById('welcomeName').textContent = 'Welcome, ' + (name || 'Admin');
+    document.getElementById('checkingScreen').style.display = 'none';
+    document.getElementById('pageContent').style.display = 'block';
+    loadProfile();
+  }
+
+  function statusClass(status) {
+    if (status === 'New') return 'status-new';
+    if (status === 'Rejected') return 'status-rejected';
+    if (status === 'Closed' || status === 'Commission Received' || status === 'Disbursement') return 'status-good';
+    return 'status-process';
+  }
+
+  function safeDate(val, timeVal) {
+    if (typeof val === 'string' && val.indexOf('T') === -1) {
+      return val + (timeVal ? ' ' + timeVal : '');
+    }
+    return 'Recently';
+  }
+
+  function loadProfile() {
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'getLeadDetail', token: token, leadId: leadId })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      document.getElementById('loadingProfile').style.display = 'none';
+      if (!data.success) {
+        document.getElementById('loadingProfile').textContent = data.error || 'Failed to load profile.';
+        document.getElementById('loadingProfile').style.display = 'block';
+        return;
+      }
+
+      var lead = data.lead;
+      leadRowNumber = data.leadRowNumber;
+
+      document.getElementById('pName').textContent = lead.name;
+      document.getElementById('pLeadId').textContent = lead.leadId;
+      document.getElementById('pMobile').textContent = lead.mobile;
+      document.getElementById('pLoanType').textContent = lead.loanType;
+      document.getElementById('pAmount').textContent = lead.amount;
+      document.getElementById('pDate').textContent = safeDate(lead.date, lead.time);
+      document.getElementById('remarksBox').value = lead.remarks || '';
+
+      var badge = document.getElementById('pStatusBadge');
+      badge.textContent = lead.status;
+      badge.className = 'status-badge ' + statusClass(lead.status);
+
+      // Timeline
+      var timelineHtml = '';
+      if (data.timeline.length === 0) {
+        timelineHtml = '<p class="empty-note">No status changes recorded yet.</p>';
+      } else {
+        data.timeline.forEach(function(t){
+          timelineHtml +=
+            '<div class="timeline-item">' +
+              '<div class="timeline-dot"></div>' +
+              '<div>' +
+                '<div class="timeline-text">' + (t.oldStatus || 'Created') + ' → <strong>' + t.newStatus + '</strong></div>' +
+                '<div class="timeline-meta">by ' + t.changedBy + '</div>' +
+              '</div>' +
+            '</div>';
+        });
+      }
+      document.getElementById('timelineList').innerHTML = timelineHtml;
+
+      // Follow-up History
+      var fuHtml = '';
+      if (data.followUps.length === 0) {
+        fuHtml = '<p class="empty-note">No follow-ups scheduled yet.</p>';
+      } else {
+        data.followUps.forEach(function(fu){
+          fuHtml +=
+            '<div class="fu-history-item">' +
+              '<span class="fu-history-status">' + fu.status + '</span>' +
+              '<strong>' + fu.type + '</strong> · ' + fu.reminderDate + ' ' + fu.reminderTime +
+              (fu.notes ? '<div style="color:var(--text-mid);margin-top:4px">' + fu.notes + '</div>' : '') +
+            '</div>';
+        });
+      }
+      document.getElementById('fuHistoryList').innerHTML = fuHtml;
+
+      document.getElementById('profileWrap').style.display = 'block';
+    })
+    .catch(function(){
+      document.getElementById('loadingProfile').textContent = 'Network error loading profile.';
+    });
+  }
+
+  document.getElementById('saveRemarksBtn').addEventListener('click', function(){
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'updateLeadRemarks',
+        token: token,
+        rowNumber: leadRowNumber,
+        remarks: document.getElementById('remarksBox').value
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      btn.disabled = false;
+      btn.textContent = data.success ? 'Saved ✓' : 'Save Remarks';
+      if (data.success) setTimeout(function(){ btn.textContent = 'Save Remarks'; }, 2000);
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Save Remarks';
+    });
+  });
+
+  document.getElementById('scheduleFuBtn').addEventListener('click', function(){
+    document.getElementById('fuDate').value = '';
+    document.getElementById('fuTime').value = '';
+    document.getElementById('fuNotes').value = '';
+    document.getElementById('modalError').classList.remove('show');
+    document.getElementById('followUpModal').style.display = 'flex';
+  });
+
+  document.getElementById('modalCancelBtn').addEventListener('click', function(){
+    document.getElementById('followUpModal').style.display = 'none';
+  });
+
+  document.getElementById('modalSaveBtn').addEventListener('click', function(){
+    var date = document.getElementById('fuDate').value;
+    var time = document.getElementById('fuTime').value;
+    var errorBox = document.getElementById('modalError');
+
+    if (!date || !time) {
+      errorBox.textContent = 'Please select both date and time.';
+      errorBox.classList.add('show');
+      return;
+    }
+
+    var saveBtn = document.getElementById('modalSaveBtn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'createFollowUp',
+        token: token,
+        leadId: leadId,
+        customerName: document.getElementById('pName').textContent,
+        mobile: document.getElementById('pMobile').textContent,
+        reminderDate: date,
+        reminderTime: time,
+        type: document.getElementById('fuType').value,
+        priority: document.getElementById('fuPriority').value,
+        notes: document.getElementById('fuNotes').value
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Follow-up';
+      if (data.success) {
+        document.getElementById('followUpModal').style.display = 'none';
+        loadProfile();
+      } else {
+        errorBox.textContent = data.error || 'Failed to save follow-up.';
+        errorBox.classList.add('show');
+      }
+    })
+    .catch(function(){
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Follow-up';
+      errorBox.textContent = 'Network error. Please try again.';
+      errorBox.classList.add('show');
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'logout', token: token })
+    }).finally(function(){
+      localStorage.removeItem('crm_token');
+      localStorage.removeItem('crm_name');
+      localStorage.removeItem('crm_role');
+      localStorage.removeItem('crm_expires');
+      window.location.href = 'login.html';
+    });
+  });
+</script>
+
+</body>
+</html>
