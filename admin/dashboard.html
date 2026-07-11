@@ -10,17 +10,48 @@
   body{background:var(--off-white);min-height:100vh}
   .dash-header{background:var(--navy);padding:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.2)}
   .dash-header-inner{display:flex;justify-content:space-between;align-items:center}
-  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem}
+  .dash-brand{display:flex;align-items:center;gap:12px;color:var(--white);font-weight:700;font-size:1.1rem;text-decoration:none}
   .dash-brand img{width:40px;height:40px;border-radius:50%;background:var(--white);padding:4px}
   .dash-user{display:flex;align-items:center;gap:16px}
   .dash-user span{color:rgba(255,255,255,.85);font-size:.9rem;font-weight:600}
-  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;transition:background .25s ease}
+  .dash-logout{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:var(--white);padding:8px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer}
   .dash-logout:hover{background:rgba(255,255,255,.1)}
-  .dash-main{padding:60px 0;text-align:center}
-  .dash-card{background:var(--white);max-width:520px;margin:0 auto;padding:48px 36px;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--border)}
-  .dash-card h1{color:var(--navy);font-size:1.5rem;margin-bottom:10px}
-  .dash-card p{color:var(--text-mid);font-size:.95rem}
+
+  .dash-main{padding:32px 0 60px}
   .dash-checking{padding:100px 0;text-align:center;color:var(--text-mid)}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+  @media(max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.stat-grid{grid-template-columns:1fr}}
+  .stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+  .stat-value{font-size:1.9rem;font-weight:800;color:var(--navy)}
+  .stat-label{font-size:.82rem;color:var(--text-mid);margin-top:4px;font-weight:600}
+  .stat-card.alert .stat-value{color:#B42318}
+  .stat-card.good .stat-value{color:var(--green)}
+
+  .dash-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-bottom:24px}
+  .dash-section h2{color:var(--navy);font-size:1.05rem;font-weight:800;margin-bottom:18px}
+
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:800px){.charts-row{grid-template-columns:1fr}}
+
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .bar-label{width:150px;font-size:.8rem;color:var(--text-dark);flex-shrink:0}
+  .bar-track{flex:1;background:var(--off-white);border-radius:6px;height:20px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--green);border-radius:6px}
+  .bar-count{width:30px;text-align:right;font-size:.8rem;font-weight:700;color:var(--navy)}
+
+  .activity-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+  .activity-item:last-child{border-bottom:none}
+  .activity-name{font-weight:700;color:var(--navy);font-size:.9rem}
+  .activity-meta{font-size:.78rem;color:var(--text-mid);margin-top:2px}
+  .activity-badge{padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700;background:var(--off-white);color:var(--text-mid)}
+
+  .quick-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .quick-actions a{text-decoration:none;background:var(--navy);color:var(--white);padding:12px 22px;border-radius:var(--radius-sm);font-weight:700;font-size:.88rem}
+  .quick-actions a.secondary{background:transparent;border:1.5px solid var(--border);color:var(--navy)}
+
+  .empty-note{color:var(--text-mid);font-size:.85rem;text-align:center;padding:20px 0}
 </style>
 </head>
 <body>
@@ -43,16 +74,50 @@
 
   <main class="dash-main">
     <div class="container">
-      <div class="dash-card">
-        <h1>✅ Login Successful</h1>
-        <p>This is a placeholder dashboard. Statistics and reports will be added here in future modules.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px">
-          <a href="leads.html" class="btn btn-primary" style="text-decoration:none">View Leads →</a>
-          <a href="followups.html" class="btn btn-outline" style="text-decoration:none;border:1.5px solid var(--border);padding:12px 24px;border-radius:var(--radius-sm);color:var(--navy);font-weight:700">
-            Follow-ups <span id="fuTodayCount" style="color:var(--green)"></span>
-          </a>
+
+      <div class="stat-grid" id="statGrid">
+        <div class="stat-card">
+          <div class="stat-value" id="statTodayLeads">-</div>
+          <div class="stat-label">Today's Leads</div>
+        </div>
+        <div class="stat-card" id="statFollowUpCard">
+          <div class="stat-value" id="statTodayFollowUps">-</div>
+          <div class="stat-label">Today's Follow-ups</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statTotalLeads">-</div>
+          <div class="stat-label">Total Leads</div>
+        </div>
+        <div class="stat-card good">
+          <div class="stat-value" id="statConversion">-</div>
+          <div class="stat-label">Conversion Rate</div>
         </div>
       </div>
+
+      <div class="charts-row">
+        <div class="dash-section">
+          <h2>Leads by Status</h2>
+          <div id="statusChart"></div>
+        </div>
+        <div class="dash-section">
+          <h2>Leads by Loan Type</h2>
+          <div id="loanTypeChart"></div>
+        </div>
+      </div>
+
+      <div class="dash-section">
+        <h2>Recent Activity</h2>
+        <div id="recentActivity"></div>
+      </div>
+
+      <div class="dash-section">
+        <h2>Quick Actions</h2>
+        <div class="quick-actions">
+          <a href="leads.html">View Leads →</a>
+          <a href="followups.html" class="secondary">View Follow-ups →</a>
+        </div>
+      </div>
+
     </div>
   </main>
 </div>
@@ -75,30 +140,83 @@
     document.getElementById('welcomeName').textContent = 'Welcome, ' + (name || 'Admin');
     document.getElementById('checkingScreen').style.display = 'none';
     document.getElementById('dashboardContent').style.display = 'block';
-    loadTodayFollowUpCount();
+    loadDashboard();
   }
 
-  function loadTodayFollowUpCount() {
+  function renderBarChart(containerId, dataObj) {
+    var container = document.getElementById(containerId);
+    var entries = Object.keys(dataObj).map(function(key){ return { label: key, count: dataObj[key] }; });
+
+    if (entries.length === 0) {
+      container.innerHTML = '<p class="empty-note">No data yet.</p>';
+      return;
+    }
+
+    var maxCount = Math.max.apply(null, entries.map(function(e){ return e.count; }));
+    var html = '';
+
+    entries.forEach(function(entry){
+      var pct = maxCount > 0 ? Math.round((entry.count / maxCount) * 100) : 0;
+      html +=
+        '<div class="bar-row">' +
+          '<div class="bar-label">' + entry.label + '</div>' +
+          '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+          '<div class="bar-count">' + entry.count + '</div>' +
+        '</div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  function loadDashboard() {
     fetch(CRM_API_URL, {
       method: 'POST',
-      body: JSON.stringify({ action: 'getFollowUps', token: token })
+      body: JSON.stringify({ action: 'getDashboardStats', token: token })
     })
     .then(function(res){ return res.json(); })
     .then(function(data){
-      if (!data.success) return;
-      var d = new Date();
-      var todayStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-      var todayCount = data.followUps.filter(function(fu){
-        return fu.status === 'Pending' && fu.reminderDate === todayStr;
-      }).length;
-      if (todayCount > 0) {
-        document.getElementById('fuTodayCount').textContent = '(' + todayCount + ' today)';
+      if (!data.success) {
+        if (data.error && data.error.indexOf('Session') !== -1) {
+          window.location.href = 'login.html';
+        }
+        return;
       }
+
+      document.getElementById('statTodayLeads').textContent = data.todayLeads;
+      document.getElementById('statTotalLeads').textContent = data.totalLeads;
+      document.getElementById('statConversion').textContent = data.conversionRate + '%';
+
+      var fuVal = data.todayFollowUps;
+      document.getElementById('statTodayFollowUps').textContent = fuVal;
+      if (data.overdueFollowUps > 0) {
+        document.getElementById('statFollowUpCard').classList.add('alert');
+        document.getElementById('statTodayFollowUps').textContent = fuVal + ' (' + data.overdueFollowUps + ' overdue)';
+      }
+
+      renderBarChart('statusChart', data.statusCounts);
+      renderBarChart('loanTypeChart', data.loanTypeCounts);
+
+      var activityHtml = '';
+      if (data.recentActivity.length === 0) {
+        activityHtml = '<p class="empty-note">No leads yet.</p>';
+      } else {
+        data.recentActivity.forEach(function(item){
+          activityHtml +=
+            '<div class="activity-item">' +
+              '<div>' +
+                '<div class="activity-name">' + item.name + '</div>' +
+                '<div class="activity-meta">' + item.loanType + ' · ' + item.date + ' ' + item.time + '</div>' +
+              '</div>' +
+              '<span class="activity-badge">' + item.status + '</span>' +
+            '</div>';
+        });
+      }
+      document.getElementById('recentActivity').innerHTML = activityHtml;
     })
     .catch(function(){});
   }
 
-  document.getElementById('logoutBtn') && document.getElementById('logoutBtn').addEventListener('click', function(){
+  document.getElementById('logoutBtn').addEventListener('click', function(){
     fetch(CRM_API_URL, {
       method: 'POST',
       body: JSON.stringify({ action: 'logout', token: token })
@@ -106,6 +224,7 @@
       localStorage.removeItem('crm_token');
       localStorage.removeItem('crm_name');
       localStorage.removeItem('crm_role');
+      localStorage.removeItem('crm_expires');
       window.location.href = 'login.html';
     });
   });
