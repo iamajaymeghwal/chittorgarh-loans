@@ -116,6 +116,24 @@
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
   }
 
+function formatReminder(dateStr, timeStr) {
+    var parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr + ' ' + timeStr;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var d = new Date(parts[0], parts[1] - 1, parts[2]);
+    var dateLabel = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+
+    var timeParts = timeStr.split(':');
+    var hour = parseInt(timeParts[0], 10);
+    var minute = timeParts[1] || '00';
+    var ampm = hour >= 12 ? 'PM' : 'AM';
+    var hour12 = hour % 12 || 12;
+
+    return dateLabel + ', ' + hour12 + ':' + minute + ' ' + ampm;
+  }
+
+  function categorize(fu) {
+  
   function categorize(fu) {
     if (fu.status === 'Completed') return 'completed';
     if (fu.status === 'Missed') return 'overdue';
@@ -193,7 +211,7 @@
         '<div class="fu-card-left">' +
           '<div class="fu-name">' + fu.customerName + ' <span class="fu-priority ' + priorityClass + '">' + fu.priority + '</span></div>' +
           '<div class="fu-meta">' +
-            '<span class="fu-datebadge ' + badgeClass + '">' + fu.reminderDate + ' at ' + fu.reminderTime + '</span> · ' +
+            '<span class="fu-datebadge ' + badgeClass + '">' + formatReminder(fu.reminderDate, fu.reminderTime) + '</span> · ' +
             fu.type + ' · ' + fu.mobile +
           '</div>' +
           (fu.notes ? '<div class="fu-notes">' + fu.notes + '</div>' : '') +
