@@ -270,7 +270,7 @@
      tr.innerHTML =
         '<td>' + lead.leadId + '</td>' +
         '<td>' + lead.date + '</td>' +
-        '<td>' + lead.name + '</td>' +
+        '<td><a href="profile.html?id=' + encodeURIComponent(lead.leadId) + '" style="color:var(--navy);font-weight:700;text-decoration:none">' + lead.name + '</a></td>' +
         '<td>' + lead.mobile + '</td>' +
         '<td>' + lead.loanType + '</td>' +
         '<td>' + lead.amount + '</td>' +
