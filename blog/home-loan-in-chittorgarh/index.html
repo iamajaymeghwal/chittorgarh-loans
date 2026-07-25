@@ -388,41 +388,32 @@ ARTICLE BODY
   </article>
 </main>
 
-<!-- LOAN ENQUIRY FORM -->
-<section id="lead-form" class="form-section" aria-labelledby="form-heading">
-  <div class="container">
-    <h2 id="form-heading" class="section-title">Apply for a Loan</h2>
-    <p class="section-sub">Fill in your details and we'll contact you on WhatsApp within minutes.</p>
-    <div class="form-wrap">
-      <div class="form-inner">
-        <div class="form-field">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" placeholder="Your full name" required autocomplete="name">
-        </div>
-        <div class="form-field">
-          <label for="mobile">Mobile Number</label>
-          <input type="tel" id="mobile" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxlength="10" required autocomplete="tel">
-        </div>
-        <div class="form-field">
-          <label for="loanType">Loan Type</label>
-          <select id="loanType" required>
-            <option value="" disabled selected>Select loan type</option>
-            <option value="Home Loan">Home Loan</option>
-            <option value="Personal Loan">Personal Loan</option>
-            <option value="Business Loan">Business Loan</option>
-            <option value="Loan Against Property">Loan Against Property</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="amount">Loan Amount Required</label>
-          <input type="text" id="amount" placeholder="e.g. ₹5,00,000" autocomplete="off">
-        </div>
-        <button type="button" class="btn btn-primary btn-full" onclick="sendWhatsApp()">
-          💬 Submit via WhatsApp
-        </button>
-        <p class="form-note">Your details will be sent securely via WhatsApp. We respond within minutes during business hours.</p>
+<!-- ===========================
+CONTACT FORM
+=========================== -->
+<section id="contact" class="bg-gray-50 py-16 md:py-20">
+  <div class="max-w-5xl mx-auto px-4 md:px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-[#0A2540]">
+      <span class="lang-en">Get Free Loan Consultation</span>
+      <span class="lang-hi hidden-lang">नि:शुल्क लोन सलाह पाएं</span>
+    </h2>
+    <form class="bg-white mt-10 p-6 md:p-10 rounded-xl shadow-lg" id="loan-form">
+      <div class="grid md:grid-cols-2 gap-6">
+        <input type="text" data-en="Full Name" data-hi="पूरा नाम" placeholder="Full Name" class="lang-field border rounded-lg p-4 w-full" required>
+        <input type="tel" data-en="Mobile Number" data-hi="मोबाइल नंबर" placeholder="Mobile Number" class="lang-field border rounded-lg p-4 w-full" required>
+        <input type="email" data-en="Email Address" data-hi="ईमेल पता" placeholder="Email Address" class="lang-field border rounded-lg p-4 w-full">
+        <select class="border rounded-lg p-4 w-full">
+          <option><span class="lang-en">Select Loan Type</span></option>
+          <option selected>Home Loan</option>
+          <option>Loan Against Property</option>
+        </select>
       </div>
-    </div>
+      <textarea rows="5" data-en="Tell us about your requirement" data-hi="अपनी आवश्यकता बताएं" placeholder="Tell us about your requirement" class="lang-field border rounded-lg p-4 mt-6 w-full"></textarea>
+      <button type="submit" class="btn-primary mt-8 px-10 py-4 rounded-lg font-semibold w-full md:w-auto">
+        <span class="lang-en">Submit Request</span>
+        <span class="lang-hi hidden-lang">भेजें</span>
+      </button>
+    </form>
   </div>
 </section>
 
