@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Chittorgarh Loans — Lead CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#152238;
+  --navy-2:#1F3358;
+  --marigold:#E8A33D;
+  --marigold-dark:#C4801E;
+  --cream:#F6F2EA;
+  --card:#FFFFFF;
+  --ink:#1B1B1B;
+  --muted:#7A7671;
+  --border:#E7E1D4;
+  --success:#2D8659;
+  --success-bg:#E5F3EC;
+  --danger:#C0463C;
+  --danger-bg:#FBEAE8;
+  --warn:#D98A2B;
+  --warn-bg:#FBF0DF;
+  --info:#3D6FB4;
+  --info-bg:#E8EFFA;
+  --purple:#6D4FC6;
+  --purple-bg:#EEEAF9;
+  --pink:#C13F84;
+  --pink-bg:#FBEAF3;
+  --maroon:#8C2F2F;
+  --maroon-bg:#F5E2E0;
+  --slate:#5B6472;
+  --slate-bg:#EAECEF;
+  --radius:16px;
+  --shadow: 0 2px 10px rgba(21,34,56,0.06), 0 1px 2px rgba(21,34,56,0.05);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+}
+h1,h2,h3,.font-display{font-family:'Sora',system-ui,sans-serif;}
+button{font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+::-webkit-scrollbar{width:0;height:0;}
+
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  background:var(--cream);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  box-shadow: 0 0 40px rgba(0,0,0,0.06);
+}
+
+/* ---------- HEADER ---------- */
+.topbar{
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  color:#fff;
+  padding:18px 18px 22px;
+  border-radius:0 0 22px 22px;
+  position:relative;
+  overflow:hidden;
+}
+.topbar::after{
+  content:"";
+  position:absolute; right:-40px; top:-40px;
+  width:160px; height:160px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(232,163,61,0.25) 0%, rgba(232,163,61,0) 70%);
+}
+.topbar-row{display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1;}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--marigold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora'; font-weight:800; color:var(--navy); font-size:16px;
+  flex-shrink:0;
+}
+.brand-text .name{font-family:'Sora'; font-weight:700; font-size:15px; line-height:1.2;}
+.brand-text .sub{font-size:11px; color:rgba(255,255,255,0.65); margin-top:1px; display:flex; align-items:center; gap:5px;}
+.sync-dot{width:6px;height:6px;border-radius:50%; background:#7CD992; flex-shrink:0;}
+.sync-dot.off{background:#E86A5C;}
+.sync-dot.busy{background:var(--marigold); animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.icon-btn{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  border:none; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.topbar-stats{
+  display:flex; gap:10px; margin-top:16px; position:relative; z-index:1;
+}
+.tstat{
+  flex:1;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;
+  padding:10px 10px;
+}
+.tstat .num{font-family:'Sora'; font-weight:700; font-size:19px;}
+.tstat .lbl{font-size:10.5px; color:rgba(255,255,255,0.65); margin-top:2px;}
+
+/* ---------- MAIN SCROLL ---------- */
+.main{flex:1; padding:16px 16px 100px; overflow-y:auto;}
+.section-title{
+  display:flex; align-items:center; justify-content:space-between;
+  margin:4px 0 10px;
+}
+.section-title h2{font-size:15px; margin:0; font-weight:700;}
+.link-btn{background:none;border:none;color:var(--marigold-dark);font-weight:600;font-size:12.5px;cursor:pointer;padding:0;}
+
+/* ---------- SETUP BANNER ---------- */
+.setup-banner{
+  background:linear-gradient(135deg, var(--marigold-dark), var(--marigold));
+  color:#fff; border-radius:14px; padding:13px 15px; margin-bottom:14px;
+  cursor:pointer; display:flex; align-items:center; gap:10px;
+}
+.setup-banner .sb-icon{font-size:20px;}
+.setup-banner .sb-title{font-weight:700; font-size:13px;}
+.setup-banner .sb-sub{font-size:11px; opacity:0.9; margin-top:1px;}
+
+/* ---------- PIPELINE SIGNATURE BAR ---------- */
+.pipeline-track{display:flex; gap:3px; margin-top:8px;}
+.pipeline-dot{flex:1; height:5px; border-radius:3px; background:var(--border);}
+.pipeline-dot.filled{background:var(--marigold);}
+.pipeline-dot.done{background:var(--success);}
+
+/* ---------- LEAD CARD ---------- */
+.lead-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:14px;
+  margin-bottom:10px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  cursor:pointer;
+}
+.lead-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.lead-name{font-weight:700; font-size:14.5px;}
+.lead-meta{font-size:12px; color:var(--muted); margin-top:2px;}
+.badge{
+  font-size:10px; font-weight:700; padding:3px 9px; border-radius:20px;
+  white-space:nowrap; text-transform:uppercase; letter-spacing:0.2px;
+}
+.b-notconnected{background:var(--slate-bg); color:var(--slate);}
+.b-followup{background:var(--warn-bg); color:var(--warn);}
+.b-interested{background:var(--pink-bg); color:var(--pink);}
+.b-loginterested{background:var(--purple-bg); color:var(--purple);}
+.b-logined{background:var(--info-bg); color:var(--info);}
+.b-disbursed{background:var(--success-bg); color:var(--success);}
+.b-finalnotinterested{background:var(--danger-bg); color:var(--danger);}
+.b-rejected{background:var(--maroon-bg); color:var(--maroon);}
+.b-noteligible{background:#F0EFEC; color:#8A857C;}
+
+.stage-tag{font-size:10.5px; color:var(--navy-2); background:#EDF1F8; padding:3px 9px; border-radius:8px; border:1px solid #DCE3F0; font-weight:600;}
+
+.lead-bottom{display:flex; align-items:center; justify-content:space-between; margin-top:10px;}
+.lead-tags{display:flex; gap:6px; flex-wrap:wrap;}
+.tag{font-size:11px; color:var(--muted); background:var(--cream); padding:3px 8px; border-radius:8px; border:1px solid var(--border);}
+.quick-actions{display:flex; gap:6px;}
+.qa-btn{
+  width:32px;height:32px;border-radius:9px;border:none;
+  display:flex;align-items:center;justify-content:center; cursor:pointer;
+}
+.qa-call{background:var(--success-bg); color:var(--success);}
+.qa-wa{background:#E4F5E9; color:#25963F;}
+
+.followup-flag{
+  display:flex; align-items:center; gap:5px; margin-top:9px;
+  font-size:11.5px; padding:6px 9px; border-radius:9px;
+}
+.ff-overdue{background:var(--danger-bg); color:var(--danger); font-weight:600;}
+.ff-today{background:var(--warn-bg); color:#B36A16; font-weight:600;}
+.ff-upcoming{background:var(--cream); color:var(--muted);}
+
+/* ---------- EMPTY STATE ---------- */
+.empty{ text-align:center; padding:40px 20px; color:var(--muted); }
+.empty .em-icon{font-size:34px; margin-bottom:10px;}
+.empty .em-title{font-weight:700; color:var(--ink); font-size:14px; margin-bottom:4px;}
+.empty .em-sub{font-size:12.5px; line-height:1.5;}
+
+/* ---------- SEARCH & FILTERS ---------- */
+.search-wrap{position:relative; margin-bottom:12px;}
+.search-wrap input{
+  width:100%; padding:11px 14px 11px 38px; border-radius:12px;
+  border:1px solid var(--border); background:var(--card); font-size:13.5px;
+  outline:none;
+}
+.search-wrap input:focus{border-color:var(--marigold);}
+.search-icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted);}
+
+.chip-row{display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px;}
+.chip{
+  flex-shrink:0; padding:7px 13px; border-radius:20px; font-size:12px; font-weight:600;
+  background:var(--card); border:1px solid var(--border); color:var(--muted); cursor:pointer;
+  white-space:nowrap;
+}
+.chip.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+
+/* ---------- BOTTOM NAV ---------- */
+.bottomnav{
+  position:sticky; bottom:0; left:0; right:0;
+  background:#fff; border-top:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-around;
+  padding:8px 6px 10px; z-index:20;
+}
+.nav-item{
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:none; border:none; color:var(--muted); font-size:10px; font-weight:600;
+  cursor:pointer; padding:4px 8px; flex:1;
+}
+.nav-item.active{color:var(--navy);}
+.nav-item svg{width:20px;height:20px;}
+.fab{
+  width:52px; height:52px; border-radius:16px;
+  background:linear-gradient(135deg, var(--marigold), var(--marigold-dark));
+  border:none; color:#fff; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; margin-top:-28px;
+  box-shadow:0 6px 16px rgba(196,128,30,0.4);
+}
+
+/* ---------- SHEET / MODAL ---------- */
+.overlay{
+  position:fixed; inset:0; background:rgba(21,34,56,0.45);
+  display:none; align-items:flex-end; justify-content:center; z-index:100;
+}
+.overlay.open{display:flex;}
+.sheet{
+  width:100%; max-width:480px; background:var(--cream);
+  border-radius:22px 22px 0 0; max-height:92vh; overflow-y:auto;
+  animation:slideup 0.25s ease-out;
+  padding-bottom:24px;
+}
+@keyframes slideup{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+.sheet-handle{width:38px; height:4px; background:var(--border); border-radius:3px; margin:10px auto 4px;}
+.sheet-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 18px 14px;
+}
+.sheet-header h3{margin:0; font-size:16px;}
+.sheet-close{
+  width:30px;height:30px;border-radius:9px; border:none; background:var(--card);
+  display:flex;align-items:center;justify-content:center; cursor:pointer; color:var(--muted);
+}
+.sheet-body{padding:0 18px;}
+
+/* ---------- FORM ---------- */
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:12px; font-weight:700; color:var(--navy); margin-bottom:6px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:11px 12px; border-radius:11px; border:1px solid var(--border);
+  background:var(--card); font-size:13.5px; outline:none; color:var(--ink);
+}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--marigold);}
+.field textarea{resize:vertical; min-height:64px;}
+.field-row{display:flex; gap:10px;}
+.field-row .field{flex:1;}
+.req{color:var(--danger);}
+.hint{font-size:11px; color:var(--muted); margin-top:5px; line-height:1.5;}
+
+.btn{
+  width:100%; padding:13px; border-radius:12px; border:none; font-weight:700; font-size:14px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.btn-primary{background:var(--navy); color:#fff;}
+.btn-marigold{background:var(--marigold); color:var(--navy);}
+.btn-ghost{background:var(--card); color:var(--ink); border:1px solid var(--border);}
+
+/* ---------- LEAD DETAIL ---------- */
+.detail-head{display:flex; align-items:center; gap:12px; padding:2px 0 16px;}
+.detail-avatar{
+  width:52px;height:52px;border-radius:14px; background:var(--navy); color:#fff;
+  display:flex;align-items:center;justify-content:center; font-family:'Sora'; font-weight:700; font-size:18px;
+  flex-shrink:0;
+}
+.detail-name{font-family:'Sora'; font-weight:700; font-size:17px;}
+.detail-phone{font-size:12.5px; color:var(--muted); margin-top:2px;}
+
+.action-row{display:flex; gap:10px; margin-bottom:18px;}
+.action-btn{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:11px 6px;
+  cursor:pointer; text-decoration:none; color:var(--ink); font-size:11px; font-weight:600;
+}
+.action-btn .ic{width:34px;height:34px;border-radius:10px; display:flex;align-items:center;justify-content:center;}
+.ic-call{background:var(--success-bg); color:var(--success);}
+.ic-wa{background:#E4F5E9; color:#25963F;}
+.ic-sms{background:var(--info-bg); color:var(--info);}
+.ic-edit{background:var(--warn-bg); color:var(--warn);}
+
+.info-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+.info-box{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 12px;}
+.info-box .k{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; font-weight:600;}
+.info-box .v{font-size:13.5px; font-weight:700; margin-top:3px;}
+
+.pill-scroll{display:flex; gap:7px; overflow-x:auto; margin-bottom:18px; padding-bottom:2px;}
+.pill{
+  flex-shrink:0; padding:8px 13px; border-radius:20px; font-size:11.5px; font-weight:700;
+  border:1.5px solid var(--border); background:var(--card); color:var(--muted); cursor:pointer;
+  white-space:nowrap;
+}
+.pill.active-notconnected{border-color:var(--slate); color:var(--slate); background:var(--slate-bg);}
+.pill.active-followup{border-color:var(--warn); color:var(--warn); background:var(--warn-bg);}
+.pill.active-interested{border-color:var(--pink); color:var(--pink); background:var(--pink-bg);}
+.pill.active-loginterested{border-color:var(--purple); color:var(--purple); background:var(--purple-bg);}
+.pill.active-logined{border-color:var(--info); color:var(--info); background:var(--info-bg);}
+.pill.active-disbursed{border-color:var(--success); color:var(--success); background:var(--success-bg);}
+.pill.active-finalnotinterested{border-color:var(--danger); color:var(--danger); background:var(--danger-bg);}
+.pill.active-rejected{border-color:var(--maroon); color:var(--maroon); background:var(--maroon-bg);}
+.pill.active-noteligible{border-color:#8A857C; color:#8A857C; background:#F0EFEC;}
+.pill.active-stage{border-color:var(--navy-2); color:var(--navy-2); background:#EDF1F8;}
+
+.timeline{margin-top:6px;}
+.tl-item{display:flex; gap:10px; margin-bottom:14px;}
+.tl-dot{width:8px;height:8px;border-radius:50%; background:var(--marigold); margin-top:5px; flex-shrink:0;}
+.tl-content{flex:1;}
+.tl-text{font-size:13px; line-height:1.4;}
+.tl-time{font-size:10.5px; color:var(--muted); margin-top:2px;}
+
+.note-input-row{display:flex; gap:8px; margin:14px 0 20px;}
+.note-input-row input{flex:1;}
+.note-send{
+  width:42px;height:42px;border-radius:11px;background:var(--navy);border:none;color:#fff;
+  display:flex;align-items:center;justify-content:center; cursor:pointer; flex-shrink:0;
+}
+
+/* toast */
+.toast{
+  position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--navy); color:#fff; padding:11px 18px; border-radius:11px; font-size:13px;
+  font-weight:600; z-index:200; opacity:0; pointer-events:none; transition:all 0.25s ease;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2); max-width:85%; text-align:center;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+.hidden{display:none !important;}
+code.inline{background:var(--card); border:1px solid var(--border); padding:1px 5px; border-radius:5px; font-size:11px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">CL</div>
+        <div class="brand-text">
+          <div class="name">Chittorgarh Loans</div>
+          <div class="sub"><span class="sync-dot off" id="syncDot"></span><span id="syncLabel">Not connected to Sheet</span></div>
+        </div>
+      </div>
+      <button class="icon-btn" id="settingsBtn" title="Sheet settings">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.13.36.35.68.63.94"/></svg>
+      </button>
+    </div>
+    <div class="topbar-stats">
+      <div class="tstat"><div class="num" id="statTotal">0</div><div class="lbl">Total Leads</div></div>
+      <div class="tstat"><div class="num" id="statToday">0</div><div class="lbl">Today's F/up</div></div>
+      <div class="tstat"><div class="num" id="statConverted">0</div><div class="lbl">Disbursed</div></div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main" id="mainHome">
+
+    <div class="setup-banner hidden" id="setupBanner">
+      <div class="sb-icon">📊</div>
+      <div>
+        <div class="sb-title">Connect your Google Sheet</div>
+        <div class="sb-sub">Tap here to link this CRM to your own Sheet — takes 2 minutes.</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </span>
+      <input type="text" id="searchInput" placeholder="Search by name or phone number">
+    </div>
+
+    <div class="chip-row" id="dispositionChips"></div>
+
+    <div class="section-title">
+      <h2 id="listTitle">All Leads</h2>
+      <button class="link-btn" id="sortBtn">Newest first ⇅</button>
+    </div>
+
+    <div id="leadList"></div>
+  </div>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <div class="bottomnav">
+    <button class="nav-item active" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h0a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10"/></svg>
+      Home
+    </button>
+    <button class="nav-item" data-tab="leads">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Leads
+    </button>
+    <button class="fab" id="fabAdd">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <button class="nav-item" data-tab="followups">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Follow-ups
+    </button>
+    <button class="nav-item" data-tab="more">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      More
+    </button>
+  </div>
+</div>
+
+<!-- ===== ADD LEAD SHEET ===== -->
+<div class="overlay" id="addOverlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 class="font-display">Add New Lead</h3>
+      <button class="sheet-close" data-close="addOverlay">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" id="f_name" placeholder="e.g. Ramesh Suthar">
+      </div>
+      <div class="field">
+        <label>Phone Number <span class="req">*</span></label>
+        <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="10">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Loan Type</label>
+          <select id="f_loanType">
+            <option>Personal Loan</option>
+            <option>Home Loan</option>
+            <option>Business Loan</option>
+            <option>Car Loan</option>
+            <option>Gold Loan</option>
+            <option>Loan Against Property</option>
+            <option>Education Loan</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Amount (₹)</label>
+          <input type="number" id="f_amount" placeholder="e.g. 200000">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Lead Source</label>
+          <select id="f_source">
+            <option>Facebook / Instagram Ad</option>
+            <option>Referral</option>
+            <option>Walk-in</option>
+            <option>Just Dial</option>
+            <option>Cold Calling List</option>
+            <option>Website Enquiry</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>City / Area</label>
+          <input type="text" id="f_city" placeholder="e.g. Chittorgarh">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Disposition</label>
+          <select id="f_disposition"></select>
+        </div>
+        <div class="field">
+          <label>Stage</label>
+          <select id="f_stage"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Next Follow-up Date</label>
+        <input type="date" id="f_followup">
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <textarea id="f_notes" placeholder="Any details about the lead..."></textarea>
+      </div>
+      <button class="btn btn-marigold" id="saveLead">Save Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LEAD DETAIL SHEET ===== -->
+<div class="overlay" id="detailOverlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <h3 class="font-display" id="detailTitle">Lead Details</h3>
+      <button class="sheet-close" data-close="detailOverlay">✕</button>
+    </div>
+    <div class="sheet-body" id="detailBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ CONSTANTS ============ */
+const LOCAL_CACHE_KEY = 'ctgLoansCrmCache_v2';
+const CONFIG_KEY = 'ctgLoansCrmConfig_v2';
+
+const DISPOSITIONS = ["Not Connected","Follow-up","Interested","Login Interested","Logined","Disbursed","Final Not Interested","Rejected","Not Eligible"];
+const STAGES = ["Basic Details Collected","Site Visited","Docs Checked","Eligible","Doc Collection","In Process","Disbursed"];
+const CLOSED_DISPOSITIONS = ["Disbursed","Final Not Interested","Rejected","Not Eligible"];
+
+function dispoKey(d){ return d.toLowerCase().replace(/[\s-]/g,''); }
+
+/* ============ CONFIG (Sheet URL) ============ */
+function loadConfig(){
+  try{ return JSON.parse(localStorage.getItem(CONFIG_KEY)) || {url:'', key:''}; }
+  catch(e){ return {url:'', key:''}; }
+}
+function saveConfig(cfg){ localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); }
+let config = loadConfig();
+
+/* ============ LOCAL CACHE (offline backup) ============ */
+function loadCache(){
+  try{ const raw = localStorage.getItem(LOCAL_CACHE_KEY); return raw ? JSON.parse(raw) : []; }
+  catch(e){ return []; }
+}
+function saveCache(list){ localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(list)); }
+let leads = loadCache();
+
+function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+/* ============ SYNC LAYER (Google Apps Script Web App) ============ */
+function setSyncStatus(state, label){
+  const dot = document.getElementById('syncDot');
+  dot.className = 'sync-dot' + (state==='on' ? '' : state==='busy' ? ' busy' : ' off');
+  document.getElementById('syncLabel').textContent = label;
+}
+
+async function sheetRequest(payload){
+  if(!config.url) throw new Error('no-url');
+  const res = await fetch(config.url, {
+    method:'POST',
+    headers: {'Content-Type':'text/plain;charset=utf-8'}, // kept simple to avoid CORS preflight
+    body: JSON.stringify(Object.assign({key: config.key||''}, payload))
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error);
+  return data;
+}
+
+async function fullSync(){
+  if(!config.url){
+    setSyncStatus('off','Not connected to Sheet');
+    document.getElementById('setupBanner').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('setupBanner').classList.add('hidden');
+  setSyncStatus('busy','Syncing…');
+  try{
+    const data = await sheetRequest({action:'list'});
+    leads = (data.leads||[]).map(normalizeLead);
+    saveCache(leads);
+    setSyncStatus('on','Synced with Google Sheet');
+    renderAll();
+  }catch(e){
+    setSyncStatus('off','Sync failed — showing offline copy');
+    toast('Could not reach Google Sheet, showing last saved data');
+  }
+}
+
+function normalizeLead(l){
+  return {
+    id: l.id, name: l.name||'', phone: String(l.phone||''), loanType: l.loanType||'Personal Loan',
+    amount: Number(l.amount)||0, source: l.source||'Other', city: l.city||'',
+    disposition: DISPOSITIONS.includes(l.disposition) ? l.disposition : 'Not Connected',
+    stage: STAGES.includes(l.stage) ? l.stage : 'Basic Details Collected',
+    followUpAt: l.followUpAt || null,
+    createdAt: Number(l.createdAt)||Date.now(),
+    timeline: Array.isArray(l.timeline) ? l.timeline : (typeof l.timeline==='string' ? safeParse(l.timeline) : [])
+  };
+}
+function safeParse(s){ try{ return JSON.parse(s); }catch(e){ return []; } }
+
+async function pushCreate(lead){
+  saveCache(leads);
+  if(!config.url) return;
+  try{ await sheetRequest({action:'create', lead}); setSyncStatus('on','Synced with Google Sheet'); }
+  catch(e){ setSyncStatus('off','Saved locally — will retry next sync'); }
+}
+async function pushUpdate(lead){
+  saveCache(leads);
+  if(!config.url) return;
+  try{ await sheetRequest({action:'update', lead}); setSyncStatus('on','Synced with Google Sheet'); }
+  catch(e){ setSyncStatus('off','Saved locally — will retry next sync'); }
+}
+async function pushDelete(id){
+  saveCache(leads);
+  if(!config.url) return;
+  try{ await sheetRequest({action:'delete', id}); setSyncStatus('on','Synced with Google Sheet'); }
+  catch(e){ setSyncStatus('off','Deleted locally — will retry next sync'); }
+}
+
+/* ============ SEED (only used before first Sheet connection) ============ */
+function seedIfEmpty(){
+  if(leads.length>0 || config.url) return;
+  const now = Date.now(); const day = 86400000;
+  leads = [
+    {id:uid(), name:"Ramesh Suthar", phone:"9414123456", loanType:"Personal Loan", amount:200000, source:"Referral", city:"Chittorgarh City", disposition:"Follow-up", stage:"Basic Details Collected", createdAt:now-3*day, followUpAt: todayStr(), timeline:[{type:'created', text:'Lead added', at: now-3*day},{type:'note', text:'Interested, asked for interest rate details', at: now-2*day}]},
+    {id:uid(), name:"Priya Jain", phone:"9829988776", loanType:"Home Loan", amount:1500000, source:"Facebook / Instagram Ad", city:"Nimbahera", disposition:"Not Connected", stage:"Basic Details Collected", createdAt:now-1*day, followUpAt: new Date(now+day).toISOString().slice(0,10), timeline:[{type:'created', text:'Lead added', at: now-1*day}]}
+  ];
+  saveCache(leads);
+}
+seedIfEmpty();
+
+/* ============ STATE ============ */
+let activeDisposition = 'all';
+let searchQuery = '';
+let sortNewestFirst = true;
+let currentTab = 'home';
+
+/* ============ HELPERS ============ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+function initials(name){ return (name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+function formatMoney(n){
+  if(!n) return '—';
+  n = Number(n);
+  if(n>=100000) return '₹'+(n/100000).toFixed(n%100000===0?0:1)+'L';
+  if(n>=1000) return '₹'+(n/1000).toFixed(n%1000===0?0:1)+'K';
+  return '₹'+n;
+}
+function formatDate(d){ if(!d) return null; return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'}); }
+function formatDateTime(ts){
+  const dt = new Date(ts);
+  return dt.toLocaleDateString('en-IN',{day:'numeric',month:'short'}) + ', ' + dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+}
+function followUpBucket(lead){
+  if(!lead.followUpAt || CLOSED_DISPOSITIONS.includes(lead.disposition)) return null;
+  const today = todayStr();
+  if(lead.followUpAt < today) return 'overdue';
+  if(lead.followUpAt === today) return 'today';
+  return 'upcoming';
+}
+function escapeHTML(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+/* ============ RENDER: HEADER STATS ============ */
+function renderStats(){
+  document.getElementById('statTotal').textContent = leads.length;
+  const today = todayStr();
+  document.getElementById('statToday').textContent = leads.filter(l=>l.followUpAt===today && !CLOSED_DISPOSITIONS.includes(l.disposition)).length;
+  document.getElementById('statConverted').textContent = leads.filter(l=>l.disposition==='Disbursed').length;
+}
+
+/* ============ RENDER: PIPELINE DOTS (based on Stage) ============ */
+function pipelineDotsHTML(lead){
+  const idx = STAGES.indexOf(lead.stage);
+  let dots = '';
+  for(let i=0;i<STAGES.length;i++){
+    let cls = 'pipeline-dot';
+    if(idx>=0){ if(i<idx) cls+=' done'; else if(i===idx) cls+=' filled'; }
+    dots += `<div class="${cls}"></div>`;
+  }
+  return `<div class="pipeline-track">${dots}</div>`;
+}
+
+/* ============ RENDER: LEAD CARD ============ */
+function leadCardHTML(lead){
+  const bucket = followUpBucket(lead);
+  let flag = '';
+  if(bucket==='overdue') flag = `<div class="followup-flag ff-overdue">⏰ Follow-up overdue — ${formatDate(lead.followUpAt)}</div>`;
+  else if(bucket==='today') flag = `<div class="followup-flag ff-today">📌 Follow-up today</div>`;
+  else if(bucket==='upcoming') flag = `<div class="followup-flag ff-upcoming">🗓 Next follow-up: ${formatDate(lead.followUpAt)}</div>`;
+
+  return `
+  <div class="lead-card" data-id="${lead.id}">
+    <div class="lead-top">
+      <div>
+        <div class="lead-name">${escapeHTML(lead.name)}</div>
+        <div class="lead-meta">${lead.phone} · ${lead.city||'—'}</div>
+      </div>
+      <span class="badge b-${dispoKey(lead.disposition)}">${lead.disposition}</span>
+    </div>
+    ${pipelineDotsHTML(lead)}
+    <div class="lead-bottom">
+      <div class="lead-tags">
+        <span class="tag">${lead.loanType}</span>
+        <span class="tag">${formatMoney(lead.amount)}</span>
+        <span class="stage-tag">${lead.stage}</span>
+      </div>
+      <div class="quick-actions">
+        <button class="qa-btn qa-call" onclick="event.stopPropagation(); callLead('${lead.id}')" title="Call">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </button>
+        <button class="qa-btn qa-wa" onclick="event.stopPropagation(); waLead('${lead.id}')" title="WhatsApp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.06 4a7.94 7.94 0 00-6.88 11.89L4 20l4.24-1.11a7.93 7.93 0 003.81.97h0a7.94 7.94 0 007.94-7.94 7.86 7.86 0 00-2.39-5.6zm-5.54 12.2h0a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.66.67-2.44-.16-.25a6.6 6.6 0 01-1-3.51 6.61 6.61 0 0111.28-4.67 6.57 6.57 0 011.94 4.67 6.61 6.61 0 01-6.63 6.6z"/></svg>
+        </button>
+      </div>
+    </div>
+    ${flag}
+  </div>`;
+}
+
+/* ============ RENDER: LIST ============ */
+function getFiltered(){
+  let list = [...leads];
+  if(activeDisposition!=='all') list = list.filter(l=>l.disposition===activeDisposition);
+  if(searchQuery.trim()){
+    const q = searchQuery.toLowerCase();
+    list = list.filter(l=> l.name.toLowerCase().includes(q) || l.phone.includes(q));
+  }
+  list.sort((a,b)=> sortNewestFirst ? b.createdAt-a.createdAt : a.createdAt-b.createdAt);
+  return list;
+}
+function renderList(){
+  const container = document.getElementById('leadList');
+  const list = getFiltered();
+  if(list.length===0){
+    container.innerHTML = `<div class="empty"><div class="em-icon">🗂️</div><div class="em-title">No leads here yet</div><div class="em-sub">Market se jo naye leads mile hain unhe "+" button se add karein aur follow-up track karna shuru karein.</div></div>`;
+    return;
+  }
+  container.innerHTML = list.map(leadCardHTML).join('');
+  container.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
+}
+
+/* ============ RENDER: FOLLOW-UPS TAB ============ */
+function renderFollowups(){
+  const container = document.getElementById('leadList');
+  document.getElementById('listTitle').textContent = "Follow-ups";
+  document.querySelector('.search-wrap').classList.add('hidden');
+  document.getElementById('dispositionChips').classList.add('hidden');
+  document.getElementById('sortBtn').classList.add('hidden');
+
+  const active = leads.filter(l=>!CLOSED_DISPOSITIONS.includes(l.disposition) && l.followUpAt);
+  const overdue = active.filter(l=>l.followUpAt<todayStr()).sort((a,b)=>a.followUpAt.localeCompare(b.followUpAt));
+  const today = active.filter(l=>l.followUpAt===todayStr());
+  const upcoming = active.filter(l=>l.followUpAt>todayStr()).sort((a,b)=>a.followUpAt.localeCompare(b.followUpAt));
+
+  let html = '';
+  if(overdue.length+today.length+upcoming.length===0){
+    html = `<div class="empty"><div class="em-icon">✅</div><div class="em-title">Sab follow-ups clear hain</div><div class="em-sub">Koi pending follow-up nahi hai abhi.</div></div>`;
+  } else {
+    if(overdue.length) html += `<div class="section-title"><h2 style="color:var(--danger)">Overdue (${overdue.length})</h2></div>` + overdue.map(leadCardHTML).join('');
+    if(today.length) html += `<div class="section-title"><h2 style="color:var(--warn)">Today (${today.length})</h2></div>` + today.map(leadCardHTML).join('');
+    if(upcoming.length) html += `<div class="section-title"><h2>Upcoming (${upcoming.length})</h2></div>` + upcoming.map(leadCardHTML).join('');
+  }
+  container.innerHTML = html;
+  container.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
+}
+function resetToLeadsView(){
+  document.querySelector('.search-wrap').classList.remove('hidden');
+  document.getElementById('dispositionChips').classList.remove('hidden');
+  document.getElementById('sortBtn').classList.remove('hidden');
+  document.getElementById('listTitle').textContent = activeDisposition==='all' ? 'All Leads' : activeDisposition+' Leads';
+}
+function renderAll(){
+  renderStats();
+  if(currentTab==='followups') renderFollowups();
+  else if(currentTab!=='more') { resetToLeadsView(); renderList(); }
+}
+
+/* ============ DISPOSITION CHIPS (build once) ============ */
+function buildChips(){
+  const row = document.getElementById('dispositionChips');
+  let html = `<div class="chip active" data-d="all">All</div>`;
+  DISPOSITIONS.forEach(d=> html += `<div class="chip" data-d="${d}">${d}</div>`);
+  row.innerHTML = html;
+  row.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    activeDisposition = chip.dataset.d;
+    document.getElementById('listTitle').textContent = activeDisposition==='all' ? 'All Leads' : activeDisposition+' Leads';
+    renderList();
+  });
+}
+function buildFormDropdowns(){
+  document.getElementById('f_disposition').innerHTML = DISPOSITIONS.map(d=>`<option>${d}</option>`).join('');
+  document.getElementById('f_stage').innerHTML = STAGES.map(s=>`<option>${s}</option>`).join('');
+}
+
+/* ============ TABS ============ */
+document.querySelectorAll('.nav-item').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    if(currentTab==='followups') renderFollowups();
+    else if(currentTab==='more') showMoreSheet();
+    else { resetToLeadsView(); renderList(); }
+  });
+});
+
+function showMoreSheet(){
+  const totalDisbursed = leads.filter(l=>l.disposition==='Disbursed').length;
+  const totalLost = leads.filter(l=>['Final Not Interested','Rejected','Not Eligible'].includes(l.disposition)).length;
+  const convRate = leads.length ? Math.round((totalDisbursed/leads.length)*100) : 0;
+  document.getElementById('detailTitle').textContent = 'More';
+  document.getElementById('detailBody').innerHTML = `
+    <div class="info-grid" style="margin-top:6px;">
+      <div class="info-box"><div class="k">Total Leads</div><div class="v">${leads.length}</div></div>
+      <div class="info-box"><div class="k">Disbursed</div><div class="v">${totalDisbursed}</div></div>
+      <div class="info-box"><div class="k">Disbursal Rate</div><div class="v">${convRate}%</div></div>
+      <div class="info-box"><div class="k">Lost Leads</div><div class="v">${totalLost}</div></div>
+    </div>
+    <div class="section-title"><h2>Google Sheet Connection</h2></div>
+    <div class="field">
+      <label>Apps Script Web App URL</label>
+      <input type="text" id="cfg_url" placeholder="https://script.google.com/macros/s/.../exec" value="${config.url||''}">
+    </div>
+    <div class="field">
+      <label>Secret Key (optional, must match your script)</label>
+      <input type="text" id="cfg_key" placeholder="e.g. ctg2026" value="${config.key||''}">
+      <div class="hint">Sets up basic protection so random people with the URL can't edit your data. Leave both blank in the script and here if you're not using a key.</div>
+    </div>
+    <button class="btn btn-primary" id="cfgSaveBtn" style="margin-bottom:10px;">Save & Sync Now</button>
+    <button class="btn btn-ghost" id="manualSyncBtn" style="margin-bottom:10px;">🔄 Refresh from Sheet</button>
+    <button class="btn btn-ghost" id="exportBtn2" style="margin-bottom:10px;">⬇️ Download local backup (JSON)</button>
+    <p class="hint" style="padding:4px 2px 0;">
+      Don't have the Sheet set up yet? Ask for the Apps Script setup guide and I'll walk you through pasting it into your Google Sheet.
+    </p>
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('cfgSaveBtn').addEventListener('click', ()=>{
+    config = { url: document.getElementById('cfg_url').value.trim(), key: document.getElementById('cfg_key').value.trim() };
+    saveConfig(config);
+    toast('Sheet connection saved');
+    fullSync();
+  });
+  document.getElementById('manualSyncBtn').addEventListener('click', fullSync);
+  document.getElementById('exportBtn2').addEventListener('click', exportData);
+}
+
+/* ============ SEARCH / SORT ============ */
+document.getElementById('searchInput').addEventListener('input', (e)=>{ searchQuery = e.target.value; renderList(); });
+document.getElementById('sortBtn').addEventListener('click', ()=>{
+  sortNewestFirst = !sortNewestFirst;
+  document.getElementById('sortBtn').textContent = sortNewestFirst ? 'Newest first ⇅' : 'Oldest first ⇅';
+  renderList();
+});
+document.getElementById('setupBanner').addEventListener('click', ()=>{
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.nav-item[data-tab="more"]').classList.add('active');
+  currentTab='more'; showMoreSheet();
+});
+document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.nav-item[data-tab="more"]').classList.add('active');
+  currentTab='more'; showMoreSheet();
+});
+
+/* ============ OVERLAY HELPERS ============ */
+function openOverlay(id){ document.getElementById(id).classList.add('open'); }
+function closeOverlay(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(btn=> btn.addEventListener('click', ()=> closeOverlay(btn.dataset.close)));
+document.querySelectorAll('.overlay').forEach(ov=> ov.addEventListener('click', (e)=>{ if(e.target===ov) closeOverlay(ov.id); }));
+
+/* ============ ADD / EDIT LEAD ============ */
+let editingLeadId = null;
+
+document.getElementById('fabAdd').addEventListener('click', ()=>{
+  editingLeadId = null;
+  document.querySelector('#addOverlay h3').textContent = 'Add New Lead';
+  document.getElementById('saveLead').textContent = 'Save Lead';
+  clearAddForm();
+  openOverlay('addOverlay');
+});
+function clearAddForm(){
+  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_loanType').selectedIndex = 0;
+  document.getElementById('f_source').selectedIndex = 0;
+  document.getElementById('f_disposition').value = 'Not Connected';
+  document.getElementById('f_stage').value = 'Basic Details Collected';
+}
+
+function handleSaveLead(){
+  const name = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  if(!name){ toast("Please enter the lead's name"); return; }
+  if(!phone || phone.length<10){ toast('Please enter a valid 10-digit phone number'); return; }
+
+  const loanType = document.getElementById('f_loanType').value;
+  const amount = Number(document.getElementById('f_amount').value)||0;
+  const source = document.getElementById('f_source').value;
+  const city = document.getElementById('f_city').value.trim();
+  const disposition = document.getElementById('f_disposition').value;
+  const stage = document.getElementById('f_stage').value;
+  const followUpAt = document.getElementById('f_followup').value || null;
+  const notes = document.getElementById('f_notes').value.trim();
+
+  if(editingLeadId){
+    const lead = leads.find(l=>l.id===editingLeadId);
+    const dispoChanged = lead.disposition!==disposition;
+    const stageChanged = lead.stage!==stage;
+    lead.name=name; lead.phone=phone; lead.loanType=loanType; lead.amount=amount;
+    lead.source=source; lead.city=city; lead.disposition=disposition; lead.stage=stage; lead.followUpAt=followUpAt;
+    if(dispoChanged) lead.timeline.push({type:'status', text:'Disposition changed to '+disposition, at: Date.now()});
+    if(stageChanged) lead.timeline.push({type:'status', text:'Stage changed to '+stage, at: Date.now()});
+    if(notes) lead.timeline.push({type:'note', text:notes, at: Date.now()});
+    closeOverlay('addOverlay'); closeOverlay('detailOverlay');
+    toast('Lead updated');
+    pushUpdate(lead);
+  } else {
+    const lead = {
+      id: uid(), name, phone, loanType, amount, source, city, disposition, stage, followUpAt,
+      createdAt: Date.now(),
+      timeline: [{type:'created', text:'Lead added', at: Date.now()}]
+    };
+    if(notes) lead.timeline.push({type:'note', text: notes, at: Date.now()});
+    leads.unshift(lead);
+    closeOverlay('addOverlay');
+    toast('Lead saved successfully ✅');
+    pushCreate(lead);
+  }
+  renderAll();
+}
+document.getElementById('saveLead').addEventListener('click', handleSaveLead);
+
+/* ============ LEAD DETAIL ============ */
+function openDetail(id){
+  const lead = leads.find(l=>l.id===id);
+  if(!lead) return;
+  document.getElementById('detailTitle').textContent = 'Lead Details';
+  renderDetail(lead);
+  openOverlay('detailOverlay');
+}
+
+function renderDetail(lead){
+  const dispoPills = DISPOSITIONS.map(d=>{
+    const active = d===lead.disposition ? ' active-'+dispoKey(d) : '';
+    return `<div class="pill${active}" onclick="changeDisposition('${lead.id}','${d}')">${d}</div>`;
+  }).join('');
+  const stagePills = STAGES.map(s=>{
+    const active = s===lead.stage ? ' active-stage' : '';
+    return `<div class="pill${active}" onclick="changeStage('${lead.id}','${s}')">${s}</div>`;
+  }).join('');
+  const timelineHTML = [...lead.timeline].sort((a,b)=>b.at-a.at).map(t=>{
+    const icon = t.type==='status' ? '🔄' : t.type==='created' ? '✨' : t.type==='call' ? '📞' : '📝';
+    return `<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-text">${icon} ${escapeHTML(t.text)}</div><div class="tl-time">${formatDateTime(t.at)}</div></div></div>`;
+  }).join('');
+
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-head">
+      <div class="detail-avatar">${initials(lead.name)}</div>
+      <div>
+        <div class="detail-name">${escapeHTML(lead.name)}</div>
+        <div class="detail-phone">${lead.phone} · ${lead.city||'—'}</div>
+      </div>
+    </div>
+    <div class="action-row">
+      <a class="action-btn" href="tel:${lead.phone}" onclick="logCall('${lead.id}')"><span class="ic ic-call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>Call</a>
+      <a class="action-btn" href="https://wa.me/91${lead.phone}" target="_blank"><span class="ic ic-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.06 4a7.94 7.94 0 00-6.88 11.89L4 20l4.24-1.11a7.93 7.93 0 003.81.97h0a7.94 7.94 0 007.94-7.94 7.86 7.86 0 00-2.39-5.6zm-5.54 12.2h0a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.66.67-2.44-.16-.25a6.6 6.6 0 01-1-3.51 6.61 6.61 0 0111.28-4.67 6.57 6.57 0 011.94 4.67 6.61 6.61 0 01-6.63 6.6z"/></svg></span>WhatsApp</a>
+      <a class="action-btn" href="sms:${lead.phone}"><span class="ic ic-sms"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>SMS</a>
+      <div class="action-btn" onclick="openEdit('${lead.id}')"><span class="ic ic-edit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg></span>Edit</div>
+    </div>
+    <div class="info-grid">
+      <div class="info-box"><div class="k">Loan Type</div><div class="v">${lead.loanType}</div></div>
+      <div class="info-box"><div class="k">Amount</div><div class="v">${formatMoney(lead.amount)}</div></div>
+      <div class="info-box"><div class="k">Source</div><div class="v">${lead.source}</div></div>
+      <div class="info-box"><div class="k">Next Follow-up</div><div class="v">${lead.followUpAt ? formatDate(lead.followUpAt) : 'Not set'}</div></div>
+    </div>
+    <div class="field">
+      <label>Update Next Follow-up Date</label>
+      <input type="date" id="d_followup" value="${lead.followUpAt||''}" onchange="updateFollowup('${lead.id}', this.value)">
+    </div>
+    <div class="section-title"><h2>Disposition</h2></div>
+    <div class="pill-scroll">${dispoPills}</div>
+    <div class="section-title"><h2>Stage</h2></div>
+    <div class="pill-scroll">${stagePills}</div>
+    <div class="section-title"><h2>Notes & Activity</h2></div>
+    <div class="note-input-row">
+      <input type="text" id="noteInput" placeholder="Add a follow-up note...">
+      <button class="note-send" onclick="addNote('${lead.id}')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></button>
+    </div>
+    <div class="timeline">${timelineHTML}</div>
+    <button class="btn btn-ghost" style="margin-top:6px; color:var(--danger); border-color:var(--danger-bg);" onclick="deleteLead('${lead.id}')">Delete Lead</button>
+  `;
+}
+
+function updateFollowup(id, val){
+  const lead = leads.find(l=>l.id===id);
+  lead.followUpAt = val || null;
+  lead.timeline.push({type:'note', text:'Follow-up date set to '+(val?formatDate(val):'none'), at: Date.now()});
+  renderStats(); toast('Follow-up date updated');
+  pushUpdate(lead);
+}
+function changeDisposition(id, disposition){
+  const lead = leads.find(l=>l.id===id);
+  if(lead.disposition===disposition) return;
+  lead.disposition = disposition;
+  lead.timeline.push({type:'status', text:'Disposition changed to '+disposition, at: Date.now()});
+  renderDetail(lead); renderStats(); toast('Disposition set to '+disposition);
+  pushUpdate(lead);
+}
+function changeStage(id, stage){
+  const lead = leads.find(l=>l.id===id);
+  if(lead.stage===stage) return;
+  lead.stage = stage;
+  lead.timeline.push({type:'status', text:'Stage changed to '+stage, at: Date.now()});
+  renderDetail(lead); renderStats(); toast('Stage set to '+stage);
+  pushUpdate(lead);
+}
+function addNote(id){
+  const input = document.getElementById('noteInput');
+  const text = input.value.trim(); if(!text) return;
+  const lead = leads.find(l=>l.id===id);
+  lead.timeline.push({type:'note', text, at: Date.now()});
+  input.value=''; renderDetail(lead); toast('Note added');
+  pushUpdate(lead);
+}
+function logCall(id){
+  const lead = leads.find(l=>l.id===id);
+  lead.timeline.push({type:'call', text:'Called '+lead.name, at: Date.now()});
+  pushUpdate(lead);
+}
+function callLead(id){ const lead = leads.find(l=>l.id===id); logCall(id); window.location.href = 'tel:'+lead.phone; }
+function waLead(id){ const lead = leads.find(l=>l.id===id); window.open('https://wa.me/91'+lead.phone, '_blank'); }
+
+function deleteLead(id){
+  if(!confirm('Delete this lead permanently? This cannot be undone.')) return;
+  leads = leads.filter(l=>l.id!==id);
+  closeOverlay('detailOverlay');
+  renderAll();
+  toast('Lead deleted');
+  pushDelete(id);
+}
+
+/* ============ EDIT LEAD (reuses add form) ============ */
+function openEdit(id){
+  const lead = leads.find(l=>l.id===id);
+  editingLeadId = id;
+  document.getElementById('f_name').value = lead.name;
+  document.getElementById('f_phone').value = lead.phone;
+  document.getElementById('f_loanType').value = lead.loanType;
+  document.getElementById('f_amount').value = lead.amount||'';
+  document.getElementById('f_source').value = lead.source;
+  document.getElementById('f_city').value = lead.city||'';
+  document.getElementById('f_disposition').value = lead.disposition;
+  document.getElementById('f_stage').value = lead.stage;
+  document.getElementById('f_followup').value = lead.followUpAt||'';
+  document.getElementById('f_notes').value = '';
+  document.querySelector('#addOverlay h3').textContent = 'Edit Lead';
+  document.getElementById('saveLead').textContent = 'Update Lead';
+  openOverlay('addOverlay');
+}
+
+/* ============ BACKUP ============ */
+function exportData(){
+  const blob = new Blob([JSON.stringify(leads, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'chittorgarh-loans-leads-backup-'+todayStr()+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  toast('Backup downloaded');
+}
+
+/* ============ INIT ============ */
+buildChips();
+buildFormDropdowns();
+renderStats();
+renderList();
+fullSync();
+</script>
+</body>
+</html>
