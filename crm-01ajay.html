@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Chittorgarh Loans — Lead CRM</title>
+<title>Bandhan Bank — Loan Lead CRM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#152238;
-  --navy-2:#1F3358;
-  --marigold:#E8A33D;
-  --marigold-dark:#C4801E;
+  --navy:#6E0F3C;
+  --navy-2:#8A1550;
+  --marigold:#F58220;
+  --marigold-dark:#D66A0F;
   --cream:#F6F2EA;
   --card:#FFFFFF;
   --ink:#1B1B1B;
@@ -203,6 +203,7 @@ input,select,textarea{font-family:inherit;}
 .search-wrap input:focus{border-color:var(--marigold);}
 .search-icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted);}
 
+.filter-label{font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; margin:0 0 6px 2px;}
 .chip-row{display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px;}
 .chip{
   flex-shrink:0; padding:7px 13px; border-radius:20px; font-size:12px; font-weight:600;
@@ -307,6 +308,11 @@ input,select,textarea{font-family:inherit;}
 .info-box .k{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; font-weight:600;}
 .info-box .v{font-size:13.5px; font-weight:700; margin-top:3px;}
 
+.comment-list{display:flex; flex-direction:column; gap:8px; margin-bottom:18px;}
+.comment-box{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 12px;}
+.comment-box .k{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; font-weight:600;}
+.comment-box .v{font-size:13px; margin-top:4px; line-height:1.45; font-weight:500; white-space:pre-wrap;}
+
 .pill-scroll{display:flex; gap:7px; overflow-x:auto; margin-bottom:18px; padding-bottom:2px;}
 .pill{
   flex-shrink:0; padding:8px 13px; border-radius:20px; font-size:11.5px; font-weight:700;
@@ -358,9 +364,9 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
   <div class="topbar">
     <div class="topbar-row">
       <div class="brand">
-        <div class="brand-mark">CL</div>
+        <div class="brand-mark">BB</div>
         <div class="brand-text">
-          <div class="name">Chittorgarh Loans</div>
+          <div class="name">Bandhan Bank</div>
           <div class="sub"><span class="sync-dot off" id="syncDot"></span><span id="syncLabel">Not connected to Sheet</span></div>
         </div>
       </div>
@@ -393,7 +399,15 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       <input type="text" id="searchInput" placeholder="Search by name or phone number">
     </div>
 
-    <div class="chip-row" id="dispositionChips"></div>
+    <div id="dispositionFilterGroup">
+      <div class="filter-label">Filter by Disposition</div>
+      <div class="chip-row" id="dispositionChips"></div>
+    </div>
+
+    <div id="stageFilterGroup">
+      <div class="filter-label">Filter by Stage</div>
+      <div class="chip-row" id="stageChips"></div>
+    </div>
 
     <div class="section-title">
       <h2 id="listTitle">All Leads</h2>
@@ -442,43 +456,37 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       </div>
       <div class="field">
         <label>Phone Number <span class="req">*</span></label>
-        <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="10">
+        <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
       </div>
       <div class="field-row">
         <div class="field">
           <label>Loan Type</label>
           <select id="f_loanType">
-            <option>Personal Loan</option>
-            <option>Home Loan</option>
-            <option>Business Loan</option>
-            <option>Car Loan</option>
-            <option>Gold Loan</option>
-            <option>Loan Against Property</option>
-            <option>Education Loan</option>
-            <option>Other</option>
+            <option>P+C</option>
+            <option>Construction</option>
+            <option>Purchase</option>
+            <option>LAP</option>
           </select>
         </div>
         <div class="field">
           <label>Amount (₹)</label>
-          <input type="number" id="f_amount" placeholder="e.g. 200000">
+          <input type="number" id="f_amount" placeholder="e.g. 200000" min="0">
         </div>
       </div>
       <div class="field-row">
         <div class="field">
           <label>Lead Source</label>
           <select id="f_source">
-            <option>Facebook / Instagram Ad</option>
-            <option>Referral</option>
-            <option>Walk-in</option>
-            <option>Just Dial</option>
-            <option>Cold Calling List</option>
-            <option>Website Enquiry</option>
-            <option>Other</option>
+            <option>Door to Door Marketing</option>
+            <option>CL</option>
+            <option>DSA/Connector</option>
+            <option>Personal Contact</option>
+            <option>Other Source</option>
           </select>
         </div>
         <div class="field">
           <label>City / Area</label>
-          <input type="text" id="f_city" placeholder="e.g. Chittorgarh">
+          <input type="text" id="f_city" placeholder="e.g. Kolkata">
         </div>
       </div>
       <div class="field-row">
@@ -494,6 +502,18 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       <div class="field">
         <label>Next Follow-up Date</label>
         <input type="date" id="f_followup">
+      </div>
+      <div class="field">
+        <label>Loan Usage Comment</label>
+        <textarea id="f_loanUsageComment" placeholder="Purpose / end-use of the loan..."></textarea>
+      </div>
+      <div class="field">
+        <label>CIBIL Comment</label>
+        <textarea id="f_cibilComment" placeholder="CIBIL score, defaults, remarks..."></textarea>
+      </div>
+      <div class="field">
+        <label>Property Comment</label>
+        <textarea id="f_propertyComment" placeholder="Property status, documents, valuation..."></textarea>
       </div>
       <div class="field">
         <label>Notes</label>
@@ -520,8 +540,8 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
 
 <script>
 /* ============ CONSTANTS ============ */
-const LOCAL_CACHE_KEY = 'ctgLoansCrmCache_v2';
-const CONFIG_KEY = 'ctgLoansCrmConfig_v2';
+const LOCAL_CACHE_KEY = 'bandhanBankCrmCache_v1';
+const CONFIG_KEY = 'bandhanBankCrmConfig_v1';
 
 const DISPOSITIONS = ["Not Connected","Follow-up","Interested","Login Interested","Logined","Disbursed","Final Not Interested","Rejected","Not Eligible"];
 const STAGES = ["Basic Details Collected","Site Visited","Docs Checked","Eligible","Doc Collection","In Process","Disbursed"];
@@ -589,11 +609,12 @@ async function fullSync(){
 
 function normalizeLead(l){
   return {
-    id: l.id, name: l.name||'', phone: String(l.phone||''), loanType: l.loanType||'Personal Loan',
-    amount: Number(l.amount)||0, source: l.source||'Other', city: l.city||'',
+    id: l.id, name: l.name||'', phone: String(l.phone||''), loanType: l.loanType||'Purchase',
+    amount: Number(l.amount)||0, source: l.source||'Other Source', city: l.city||'',
     disposition: DISPOSITIONS.includes(l.disposition) ? l.disposition : 'Not Connected',
     stage: STAGES.includes(l.stage) ? l.stage : 'Basic Details Collected',
     followUpAt: l.followUpAt || null,
+    loanUsageComment: l.loanUsageComment||'', cibilComment: l.cibilComment||'', propertyComment: l.propertyComment||'',
     createdAt: Number(l.createdAt)||Date.now(),
     timeline: Array.isArray(l.timeline) ? l.timeline : (typeof l.timeline==='string' ? safeParse(l.timeline) : [])
   };
@@ -624,8 +645,8 @@ function seedIfEmpty(){
   if(leads.length>0 || config.url) return;
   const now = Date.now(); const day = 86400000;
   leads = [
-    {id:uid(), name:"Ramesh Suthar", phone:"9414123456", loanType:"Personal Loan", amount:200000, source:"Referral", city:"Chittorgarh City", disposition:"Follow-up", stage:"Basic Details Collected", createdAt:now-3*day, followUpAt: todayStr(), timeline:[{type:'created', text:'Lead added', at: now-3*day},{type:'note', text:'Interested, asked for interest rate details', at: now-2*day}]},
-    {id:uid(), name:"Priya Jain", phone:"9829988776", loanType:"Home Loan", amount:1500000, source:"Facebook / Instagram Ad", city:"Nimbahera", disposition:"Not Connected", stage:"Basic Details Collected", createdAt:now-1*day, followUpAt: new Date(now+day).toISOString().slice(0,10), timeline:[{type:'created', text:'Lead added', at: now-1*day}]}
+    {id:uid(), name:"Ramesh Suthar", phone:"9414123456", loanType:"Purchase", amount:2000000, source:"DSA/Connector", city:"Kolkata", disposition:"Follow-up", stage:"Basic Details Collected", createdAt:now-3*day, followUpAt: todayStr(), loanUsageComment:"Purchasing a ready-to-move flat, needs funds within 45 days.", cibilComment:"Score 742, no active defaults.", propertyComment:"Property documents under verification.", timeline:[{type:'created', text:'Lead added', at: now-3*day},{type:'note', text:'Interested, asked for interest rate details', at: now-2*day}]},
+    {id:uid(), name:"Priya Jain", phone:"9829988776", loanType:"LAP", amount:1500000, source:"Personal Contact", city:"Nimbahera", disposition:"Not Connected", stage:"Basic Details Collected", createdAt:now-1*day, followUpAt: new Date(now+day).toISOString().slice(0,10), loanUsageComment:"", cibilComment:"", propertyComment:"", timeline:[{type:'created', text:'Lead added', at: now-1*day}]}
   ];
   saveCache(leads);
 }
@@ -633,6 +654,7 @@ seedIfEmpty();
 
 /* ============ STATE ============ */
 let activeDisposition = 'all';
+let activeStage = 'all';
 let searchQuery = '';
 let sortNewestFirst = true;
 let currentTab = 'home';
@@ -726,6 +748,7 @@ function leadCardHTML(lead){
 function getFiltered(){
   let list = [...leads];
   if(activeDisposition!=='all') list = list.filter(l=>l.disposition===activeDisposition);
+  if(activeStage!=='all') list = list.filter(l=>l.stage===activeStage);
   if(searchQuery.trim()){
     const q = searchQuery.toLowerCase();
     list = list.filter(l=> l.name.toLowerCase().includes(q) || l.phone.includes(q));
@@ -749,7 +772,8 @@ function renderFollowups(){
   const container = document.getElementById('leadList');
   document.getElementById('listTitle').textContent = "Follow-ups";
   document.querySelector('.search-wrap').classList.add('hidden');
-  document.getElementById('dispositionChips').classList.add('hidden');
+  document.getElementById('dispositionFilterGroup').classList.add('hidden');
+  document.getElementById('stageFilterGroup').classList.add('hidden');
   document.getElementById('sortBtn').classList.add('hidden');
 
   const active = leads.filter(l=>!CLOSED_DISPOSITIONS.includes(l.disposition) && l.followUpAt);
@@ -770,9 +794,16 @@ function renderFollowups(){
 }
 function resetToLeadsView(){
   document.querySelector('.search-wrap').classList.remove('hidden');
-  document.getElementById('dispositionChips').classList.remove('hidden');
+  document.getElementById('dispositionFilterGroup').classList.remove('hidden');
+  document.getElementById('stageFilterGroup').classList.remove('hidden');
   document.getElementById('sortBtn').classList.remove('hidden');
-  document.getElementById('listTitle').textContent = activeDisposition==='all' ? 'All Leads' : activeDisposition+' Leads';
+  updateListTitle();
+}
+function updateListTitle(){
+  const parts = [];
+  if(activeDisposition!=='all') parts.push(activeDisposition);
+  if(activeStage!=='all') parts.push(activeStage);
+  document.getElementById('listTitle').textContent = parts.length ? parts.join(' · ') : 'All Leads';
 }
 function renderAll(){
   renderStats();
@@ -791,7 +822,21 @@ function buildChips(){
     row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
     chip.classList.add('active');
     activeDisposition = chip.dataset.d;
-    document.getElementById('listTitle').textContent = activeDisposition==='all' ? 'All Leads' : activeDisposition+' Leads';
+    updateListTitle();
+    renderList();
+  });
+}
+function buildStageChips(){
+  const row = document.getElementById('stageChips');
+  let html = `<div class="chip active" data-s="all">All</div>`;
+  STAGES.forEach(s=> html += `<div class="chip" data-s="${s}">${s}</div>`);
+  row.innerHTML = html;
+  row.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    activeStage = chip.dataset.s;
+    updateListTitle();
     renderList();
   });
 }
@@ -887,7 +932,7 @@ document.getElementById('fabAdd').addEventListener('click', ()=>{
   openOverlay('addOverlay');
 });
 function clearAddForm(){
-  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes'].forEach(id=>document.getElementById(id).value='');
+  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes','f_loanUsageComment','f_cibilComment','f_propertyComment'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f_loanType').selectedIndex = 0;
   document.getElementById('f_source').selectedIndex = 0;
   document.getElementById('f_disposition').value = 'Not Connected';
@@ -908,6 +953,9 @@ function handleSaveLead(){
   const stage = document.getElementById('f_stage').value;
   const followUpAt = document.getElementById('f_followup').value || null;
   const notes = document.getElementById('f_notes').value.trim();
+  const loanUsageComment = document.getElementById('f_loanUsageComment').value.trim();
+  const cibilComment = document.getElementById('f_cibilComment').value.trim();
+  const propertyComment = document.getElementById('f_propertyComment').value.trim();
 
   if(editingLeadId){
     const lead = leads.find(l=>l.id===editingLeadId);
@@ -915,15 +963,18 @@ function handleSaveLead(){
     const stageChanged = lead.stage!==stage;
     lead.name=name; lead.phone=phone; lead.loanType=loanType; lead.amount=amount;
     lead.source=source; lead.city=city; lead.disposition=disposition; lead.stage=stage; lead.followUpAt=followUpAt;
+    lead.loanUsageComment=loanUsageComment; lead.cibilComment=cibilComment; lead.propertyComment=propertyComment;
     if(dispoChanged) lead.timeline.push({type:'status', text:'Disposition changed to '+disposition, at: Date.now()});
     if(stageChanged) lead.timeline.push({type:'status', text:'Stage changed to '+stage, at: Date.now()});
     if(notes) lead.timeline.push({type:'note', text:notes, at: Date.now()});
-    closeOverlay('addOverlay'); closeOverlay('detailOverlay');
+    closeOverlay('addOverlay');
     toast('Lead updated');
+    renderDetail(lead);
     pushUpdate(lead);
   } else {
     const lead = {
       id: uid(), name, phone, loanType, amount, source, city, disposition, stage, followUpAt,
+      loanUsageComment, cibilComment, propertyComment,
       createdAt: Date.now(),
       timeline: [{type:'created', text:'Lead added', at: Date.now()}]
     };
@@ -984,6 +1035,13 @@ function renderDetail(lead){
       <label>Update Next Follow-up Date</label>
       <input type="date" id="d_followup" value="${lead.followUpAt||''}" onchange="updateFollowup('${lead.id}', this.value)">
     </div>
+    ${(lead.loanUsageComment||lead.cibilComment||lead.propertyComment) ? `
+    <div class="section-title"><h2>Comments</h2></div>
+    <div class="comment-list">
+      ${lead.loanUsageComment ? `<div class="comment-box"><div class="k">Loan Usage</div><div class="v">${escapeHTML(lead.loanUsageComment)}</div></div>` : ''}
+      ${lead.cibilComment ? `<div class="comment-box"><div class="k">CIBIL</div><div class="v">${escapeHTML(lead.cibilComment)}</div></div>` : ''}
+      ${lead.propertyComment ? `<div class="comment-box"><div class="k">Property</div><div class="v">${escapeHTML(lead.propertyComment)}</div></div>` : ''}
+    </div>` : ''}
     <div class="section-title"><h2>Disposition</h2></div>
     <div class="pill-scroll">${dispoPills}</div>
     <div class="section-title"><h2>Stage</h2></div>
@@ -1059,6 +1117,9 @@ function openEdit(id){
   document.getElementById('f_disposition').value = lead.disposition;
   document.getElementById('f_stage').value = lead.stage;
   document.getElementById('f_followup').value = lead.followUpAt||'';
+  document.getElementById('f_loanUsageComment').value = lead.loanUsageComment||'';
+  document.getElementById('f_cibilComment').value = lead.cibilComment||'';
+  document.getElementById('f_propertyComment').value = lead.propertyComment||'';
   document.getElementById('f_notes').value = '';
   document.querySelector('#addOverlay h3').textContent = 'Edit Lead';
   document.getElementById('saveLead').textContent = 'Update Lead';
@@ -1070,13 +1131,14 @@ function exportData(){
   const blob = new Blob([JSON.stringify(leads, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'chittorgarh-loans-leads-backup-'+todayStr()+'.json';
+  a.href = url; a.download = 'bandhan-bank-leads-backup-'+todayStr()+'.json';
   a.click(); URL.revokeObjectURL(url);
   toast('Backup downloaded');
 }
 
 /* ============ INIT ============ */
 buildChips();
+buildStageChips();
 buildFormDropdowns();
 renderStats();
 renderList();
