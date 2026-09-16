@@ -344,13 +344,100 @@
       }
       document.getElementById('fuHistoryList').innerHTML = fuHtml;
 
+         showConditionalEligFields(lead.loanType);
+
+      if (data.eligibility) {
+        showEligResult(data.eligibility);
+      }
+
       document.getElementById('profileWrap').style.display = 'block';
     })
     .catch(function(){
       document.getElementById('loadingProfile').textContent = 'Network error loading profile.';
     });
   }
+  function showConditionalEligFields(loanType) {
+    document.getElementById('hlTypeField').classList.remove('show');
+    document.getElementById('propertyValueField').classList.remove('show');
+    document.getElementById('itrIncomeField').classList.remove('show');
+    document.getElementById('bankBalanceField').classList.remove('show');
 
+    if (loanType === 'Home Loan') {
+      document.getElementById('hlTypeField').classList.add('show');
+      document.getElementById('propertyValueField').classList.add('show');
+    } else if (loanType === 'Loan Against Property') {
+      document.getElementById('propertyValueField').classList.add('show');
+    } else if (loanType === 'Business Loan') {
+      document.getElementById('itrIncomeField').classList.add('show');
+      document.getElementById('bankBalanceField').classList.add('show');
+    }
+  }
+
+  function showEligResult(data) {
+    var box = document.getElementById('eligResultBox');
+    var title = document.getElementById('eligResultTitle');
+    var amount = document.getElementById('eligResultAmount');
+    var list = document.getElementById('eligReasonsList');
+
+    box.className = 'elig-result-box result-' + data.result.toLowerCase();
+    title.textContent = data.result === 'Green' ? '✅ Eligible' : data.result === 'Yellow' ? '⚠ Eligible with Caution' : '❌ Not Eligible';
+    amount.textContent = 'Max Eligible Amount: ₹' + data.maxEligible.toLocaleString('en-IN');
+
+    list.innerHTML = '';
+    data.reasons.forEach(function(r){
+      var li = document.createElement('li');
+      li.textContent = r;
+      list.appendChild(li);
+    });
+
+    box.style.display = 'block';
+  }
+
+  document.getElementById('calcEligBtn').addEventListener('click', function(){
+    var btn = this;
+    var loanType = document.getElementById('pLoanType').textContent;
+
+    btn.disabled = true;
+    btn.textContent = 'Calculating...';
+
+    fetch(CRM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'calculateEligibility',
+        token: token,
+        leadId: leadId,
+        loanType: loanType,
+        income: document.getElementById('eligIncome').value,
+        cibil: document.getElementById('eligCibil').value,
+        age: document.getElementById('eligAge').value,
+        employmentType: document.getElementById('eligEmployment').value,
+        existingEmi: document.getElementById('eligExistingEmi').value,
+        requestedAmount: document.getElementById('eligRequestedAmount').value,
+        hlType: document.getElementById('eligHlType').value,
+        propertyValue: document.getElementById('eligPropertyValue').value,
+        itrIncome: document.getElementById('eligItrIncome').value,
+        avgBankBalance: document.getElementById('eligAvgBankBalance').value,
+        dpdFlag: document.getElementById('eligDpdFlag').checked
+      })
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      btn.disabled = false;
+      btn.textContent = 'Calculate Eligibility';
+      if (data.success) {
+        showEligResult(data);
+      } else {
+        alert(data.error || 'Failed to calculate eligibility.');
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Calculate Eligibility';
+      alert('Network error. Please try again.');
+    });
+  });
+
+  document.getElementById('saveRemarksBtn').addEventListener('click', function(){
   document.getElementById('saveRemarksBtn').addEventListener('click', function(){
     var btn = this;
     btn.disabled = true;
