@@ -134,10 +134,77 @@
               <div id="timelineList"></div>
             </div>
 
-            <div class="dash-section">
+                        <div class="dash-section">
               <h2>Remarks / Notes</h2>
               <textarea class="remarks-box" id="remarksBox" placeholder="Add notes about this customer..."></textarea>
               <button class="btn btn-primary remarks-save-btn" id="saveRemarksBtn">Save Remarks</button>
+            </div>
+
+            <div class="dash-section">
+              <h2>Eligibility Check</h2>
+
+              <div class="elig-grid">
+                <div class="elig-field">
+                  <label for="eligIncome">Net Monthly Income (₹)</label>
+                  <input type="number" id="eligIncome">
+                </div>
+                <div class="elig-field">
+                  <label for="eligCibil">CIBIL Score</label>
+                  <input type="number" id="eligCibil">
+                </div>
+                <div class="elig-field">
+                  <label for="eligAge">Age</label>
+                  <input type="number" id="eligAge">
+                </div>
+                <div class="elig-field">
+                  <label for="eligEmployment">Employment Type</label>
+                  <select id="eligEmployment">
+                    <option value="Salaried">Salaried</option>
+                    <option value="Self-employed">Self-employed</option>
+                  </select>
+                </div>
+                <div class="elig-field">
+                  <label for="eligExistingEmi">Existing Monthly EMI (₹)</label>
+                  <input type="number" id="eligExistingEmi" value="0">
+                </div>
+                <div class="elig-field">
+                  <label for="eligRequestedAmount">Requested Loan Amount (₹)</label>
+                  <input type="number" id="eligRequestedAmount">
+                </div>
+
+                <div class="elig-field elig-conditional" id="hlTypeField">
+                  <label for="eligHlType">Home Loan Type</label>
+                  <select id="eligHlType">
+                    <option value="Purchase">Purchase</option>
+                    <option value="Construction">Construction</option>
+                  </select>
+                </div>
+                <div class="elig-field elig-conditional" id="propertyValueField">
+                  <label for="eligPropertyValue">Property Value (₹)</label>
+                  <input type="number" id="eligPropertyValue">
+                </div>
+                <div class="elig-field elig-conditional" id="itrIncomeField">
+                  <label for="eligItrIncome">ITR Annual Income (₹)</label>
+                  <input type="number" id="eligItrIncome">
+                </div>
+                <div class="elig-field elig-conditional" id="bankBalanceField">
+                  <label for="eligAvgBankBalance">Average Bank Balance (₹)</label>
+                  <input type="number" id="eligAvgBankBalance">
+                </div>
+              </div>
+
+              <div class="elig-checkbox">
+                <input type="checkbox" id="eligDpdFlag">
+                <label for="eligDpdFlag" style="font-size:.85rem;color:var(--text-dark)">Customer has a current/recent loan overdue (DPD)</label>
+              </div>
+
+              <button class="btn btn-primary" id="calcEligBtn" style="margin-top:16px">Calculate Eligibility</button>
+
+              <div id="eligResultBox" class="elig-result-box" style="display:none">
+                <div class="elig-result-title" id="eligResultTitle"></div>
+                <div class="elig-result-amount" id="eligResultAmount"></div>
+                <ul class="elig-reasons" id="eligReasonsList"></ul>
+              </div>
             </div>
           </div>
 
