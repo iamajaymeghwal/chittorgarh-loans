@@ -65,6 +65,24 @@
   .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-dark)}
 
   .loading-note, .empty-note{color:var(--text-mid);font-size:.85rem;text-align:center;padding:20px 0}
+
+  .elig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:700px){.elig-grid{grid-template-columns:1fr}}
+  .elig-field label{display:block;font-size:.8rem;font-weight:700;color:var(--text-dark);margin-bottom:6px}
+  .elig-field input, .elig-field select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:.88rem}
+  .elig-checkbox{display:flex;align-items:center;gap:8px;margin-top:14px}
+  .elig-conditional{display:none}
+  .elig-conditional.show{display:block}
+
+  .elig-result-box{margin-top:20px;padding:20px;border-radius:var(--radius-md);border:2px solid var(--border)}
+  .elig-result-box.result-green{border-color:#166534;background:#E2F5E9}
+  .elig-result-box.result-yellow{border-color:#92660A;background:#FDF3DC}
+  .elig-result-box.result-red{border-color:#B42318;background:#FDECEC}
+  .elig-result-title{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+  .elig-result-amount{font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:12px}
+  .elig-reasons{list-style:none;padding:0;margin:0}
+  .elig-reasons li{font-size:.85rem;color:var(--text-dark);padding:6px 0;border-top:1px solid rgba(0,0,0,.08)}
+  .elig-reasons li:first-child{border-top:none}
 </style>
 </head>
 <body>
