@@ -204,13 +204,55 @@ input,select,textarea{font-family:inherit;}
 .search-icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted);}
 
 .filter-label{font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; margin:0 0 6px 2px;}
+.date-range-row{display:flex; align-items:center; gap:8px; margin:-2px 0 14px; flex-wrap:wrap;}
+.date-range-row input[type=date]{flex:1 1 120px; min-width:120px; padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:12.5px;}
+.date-range-row span{font-size:12px; color:var(--muted);}
+.date-range-row .link-btn{flex:0 0 auto;}
 .chip-row{display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px;}
+.chip-row.wrap{flex-wrap:wrap; overflow-x:visible; padding-bottom:0; margin-bottom:18px;}
 .chip{
   flex-shrink:0; padding:7px 13px; border-radius:20px; font-size:12px; font-weight:600;
   background:var(--card); border:1px solid var(--border); color:var(--muted); cursor:pointer;
   white-space:nowrap;
 }
 .chip.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+
+/* ---------- SEARCH + FILTER TRIGGER ---------- */
+.search-filter-row{display:flex; gap:8px; align-items:center; margin-bottom:10px;}
+.filter-trigger-btn{
+  position:relative; flex-shrink:0; width:44px; height:44px; border-radius:12px;
+  border:1px solid var(--border); background:var(--card); color:var(--navy);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.filter-count{
+  position:absolute; top:-6px; right:-6px; background:var(--marigold); color:var(--navy);
+  font-size:10px; font-weight:800; min-width:17px; height:17px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center; padding:0 3px; border:2px solid var(--cream);
+}
+.active-filters-row{display:flex; align-items:center; gap:6px; overflow-x:auto; margin-bottom:12px; padding-bottom:2px;}
+.active-filter-pill{
+  flex-shrink:0; display:flex; align-items:center; gap:6px; background:var(--navy); color:#fff;
+  font-size:11.5px; font-weight:600; padding:6px 6px 6px 12px; border-radius:20px; white-space:nowrap;
+}
+.active-filter-pill button{
+  background:rgba(255,255,255,0.2); border:none; color:#fff; width:16px; height:16px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:11px; line-height:1; padding:0;
+}
+.clear-all-link{flex-shrink:0; font-size:11.5px; font-weight:700; color:var(--marigold-dark); background:none; border:none; cursor:pointer; padding:0 2px;}
+
+/* ---------- HOME DASHBOARD ---------- */
+.metric-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;}
+.metric-card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:13px 14px; box-shadow:var(--shadow);}
+.metric-card .m-icon{width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:15px; margin-bottom:9px;}
+.metric-card .m-num{font-family:'Sora'; font-weight:800; font-size:21px; line-height:1;}
+.metric-card .m-lbl{font-size:11px; color:var(--muted); margin-top:4px; font-weight:600;}
+
+.bar-list{margin-bottom:20px; display:flex; flex-direction:column; gap:11px;}
+.bar-row-top{display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; margin-bottom:5px; gap:8px;}
+.bar-row-top .b-label{font-weight:600; color:var(--ink);}
+.bar-row-top .b-count{color:var(--muted); font-weight:700; flex-shrink:0;}
+.bar-track{height:8px; border-radius:6px; background:var(--border); overflow:hidden;}
+.bar-fill{height:100%; border-radius:6px;}
 
 /* ---------- BOTTOM NAV ---------- */
 .bottomnav{
@@ -392,29 +434,84 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       </div>
     </div>
 
-    <div class="search-wrap">
-      <span class="search-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      </span>
-      <input type="text" id="searchInput" placeholder="Search by name or phone number">
+    <!-- ===== HOME DASHBOARD ===== -->
+    <div id="homeView">
+      <div class="section-title"><h2>Overview</h2></div>
+      <div class="metric-grid" id="metricGrid"></div>
+
+      <div class="section-title"><h2>Leads by Disposition</h2></div>
+      <div class="bar-list" id="dispoBarList"></div>
+
+      <div class="section-title"><h2>Pipeline by Stage</h2></div>
+      <div class="bar-list" id="stageBarList"></div>
+
+      <div class="section-title"><h2>Loan Type Split</h2></div>
+      <div class="bar-list" id="loanTypeBarList"></div>
+
+      <div class="section-title"><h2>Lead Source Split</h2></div>
+      <div class="bar-list" id="sourceBarList"></div>
+
+      <div class="section-title">
+        <h2>Recent Leads</h2>
+        <button class="link-btn" id="viewAllLeadsBtn">View all →</button>
+      </div>
+      <div id="recentLeadsList"></div>
     </div>
 
-    <div id="dispositionFilterGroup">
-      <div class="filter-label">Filter by Disposition</div>
-      <div class="chip-row" id="dispositionChips"></div>
-    </div>
+    <!-- ===== LEADS LIST VIEW ===== -->
+    <div id="leadsView" class="hidden">
+      <div class="search-filter-row">
+        <div class="search-wrap" style="margin-bottom:0;">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="Search by name or phone number">
+        </div>
+        <button class="filter-trigger-btn" id="openFilterBtn" title="Filters">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+          <span class="filter-count hidden" id="filterCountBadge">0</span>
+        </button>
+      </div>
 
-    <div id="stageFilterGroup">
-      <div class="filter-label">Filter by Stage</div>
-      <div class="chip-row" id="stageChips"></div>
-    </div>
+      <div class="active-filters-row hidden" id="activeFiltersRow"></div>
 
-    <div class="section-title">
-      <h2 id="listTitle">All Leads</h2>
-      <button class="link-btn" id="sortBtn">Newest first ⇅</button>
-    </div>
+      <div class="section-title">
+        <h2 id="listTitle">All Leads</h2>
+        <button class="link-btn" id="sortBtn">Newest first ⇅</button>
+      </div>
 
-    <div id="leadList"></div>
+      <div id="leadList"></div>
+    </div>
+  </div>
+
+  <!-- ===== FILTERS SHEET ===== -->
+  <div class="overlay" id="filterOverlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>Filters</h3>
+        <button class="sheet-close" id="filterSheetClose">✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="filter-label">Disposition</div>
+        <div class="chip-row wrap" id="dispositionChips"></div>
+
+        <div class="filter-label">Stage</div>
+        <div class="chip-row wrap" id="stageChips"></div>
+
+        <div class="filter-label">Date Added</div>
+        <div class="chip-row wrap" id="dateChips"></div>
+        <div class="date-range-row hidden" id="customDateRow">
+          <input type="date" id="dateFrom">
+          <span>to</span>
+          <input type="date" id="dateTo">
+          <button class="link-btn" id="applyDateRange">Apply</button>
+        </div>
+
+        <button class="btn btn-ghost" id="clearFiltersBtn" style="margin-top:8px; margin-bottom:10px;">Clear All Filters</button>
+        <button class="btn btn-marigold" id="showFilterResultsBtn">Show Results</button>
+      </div>
+    </div>
   </div>
 
   <!-- ===== BOTTOM NAV ===== -->
@@ -466,6 +563,8 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
             <option>Construction</option>
             <option>Purchase</option>
             <option>LAP</option>
+            <option>HL BT</option>
+            <option>LAP BT</option>
           </select>
         </div>
         <div class="field">
@@ -516,6 +615,14 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
         <textarea id="f_propertyComment" placeholder="Property status, documents, valuation..."></textarea>
       </div>
       <div class="field">
+        <label>Income Source Comment</label>
+        <textarea id="f_incomeSourceComment" placeholder="Salaried / self-employed, income proof details..."></textarea>
+      </div>
+      <div class="field">
+        <label>Obligation Comment</label>
+        <textarea id="f_obligationComment" placeholder="Existing EMIs / loan obligations, FOIR remarks..."></textarea>
+      </div>
+      <div class="field">
         <label>Notes</label>
         <textarea id="f_notes" placeholder="Any details about the lead..."></textarea>
       </div>
@@ -544,7 +651,7 @@ const LOCAL_CACHE_KEY = 'bandhanBankCrmCache_v1';
 const CONFIG_KEY = 'bandhanBankCrmConfig_v1';
 
 const DISPOSITIONS = ["Not Connected","Follow-up","Interested","Login Interested","Logined","Disbursed","Final Not Interested","Rejected","Not Eligible"];
-const STAGES = ["Basic Details Collected","Site Visited","Docs Checked","Eligible","Doc Collection","In Process","Disbursed"];
+const STAGES = ["Basic Details Collected","Site Visited","Docs Checked","Eligible","Doc Collection","In Process","Sanctioned","Disbursed"];
 const CLOSED_DISPOSITIONS = ["Disbursed","Final Not Interested","Rejected","Not Eligible"];
 
 function dispoKey(d){ return d.toLowerCase().replace(/[\s-]/g,''); }
@@ -615,6 +722,7 @@ function normalizeLead(l){
     stage: STAGES.includes(l.stage) ? l.stage : 'Basic Details Collected',
     followUpAt: l.followUpAt || null,
     loanUsageComment: l.loanUsageComment||'', cibilComment: l.cibilComment||'', propertyComment: l.propertyComment||'',
+    incomeSourceComment: l.incomeSourceComment||'', obligationComment: l.obligationComment||'',
     createdAt: Number(l.createdAt)||Date.now(),
     timeline: Array.isArray(l.timeline) ? l.timeline : (typeof l.timeline==='string' ? safeParse(l.timeline) : [])
   };
@@ -655,6 +763,9 @@ seedIfEmpty();
 /* ============ STATE ============ */
 let activeDisposition = 'all';
 let activeStage = 'all';
+let activeDateFilter = 'all'; // all | week | month | custom
+let customDateFrom = null;
+let customDateTo = null;
 let searchQuery = '';
 let sortNewestFirst = true;
 let currentTab = 'home';
@@ -749,6 +860,18 @@ function getFiltered(){
   let list = [...leads];
   if(activeDisposition!=='all') list = list.filter(l=>l.disposition===activeDisposition);
   if(activeStage!=='all') list = list.filter(l=>l.stage===activeStage);
+  if(activeDateFilter==='week'){
+    const cutoff = Date.now() - 7*24*60*60*1000;
+    list = list.filter(l=>l.createdAt >= cutoff);
+  } else if(activeDateFilter==='month'){
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    list = list.filter(l=>l.createdAt >= monthStart);
+  } else if(activeDateFilter==='custom' && (customDateFrom || customDateTo)){
+    const fromTs = customDateFrom ? new Date(customDateFrom+'T00:00:00').getTime() : -Infinity;
+    const toTs = customDateTo ? new Date(customDateTo+'T23:59:59').getTime() : Infinity;
+    list = list.filter(l=>l.createdAt >= fromTs && l.createdAt <= toTs);
+  }
   if(searchQuery.trim()){
     const q = searchQuery.toLowerCase();
     list = list.filter(l=> l.name.toLowerCase().includes(q) || l.phone.includes(q));
@@ -771,9 +894,8 @@ function renderList(){
 function renderFollowups(){
   const container = document.getElementById('leadList');
   document.getElementById('listTitle').textContent = "Follow-ups";
-  document.querySelector('.search-wrap').classList.add('hidden');
-  document.getElementById('dispositionFilterGroup').classList.add('hidden');
-  document.getElementById('stageFilterGroup').classList.add('hidden');
+  document.querySelector('.search-filter-row').classList.add('hidden');
+  document.getElementById('activeFiltersRow').classList.add('hidden');
   document.getElementById('sortBtn').classList.add('hidden');
 
   const active = leads.filter(l=>!CLOSED_DISPOSITIONS.includes(l.disposition) && l.followUpAt);
@@ -793,21 +915,20 @@ function renderFollowups(){
   container.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
 }
 function resetToLeadsView(){
-  document.querySelector('.search-wrap').classList.remove('hidden');
-  document.getElementById('dispositionFilterGroup').classList.remove('hidden');
-  document.getElementById('stageFilterGroup').classList.remove('hidden');
+  document.querySelector('.search-filter-row').classList.remove('hidden');
   document.getElementById('sortBtn').classList.remove('hidden');
   updateListTitle();
 }
 function updateListTitle(){
-  const parts = [];
-  if(activeDisposition!=='all') parts.push(activeDisposition);
-  if(activeStage!=='all') parts.push(activeStage);
-  document.getElementById('listTitle').textContent = parts.length ? parts.join(' · ') : 'All Leads';
+  const hasFilters = activeDisposition!=='all' || activeStage!=='all' || activeDateFilter!=='all' || searchQuery.trim();
+  const count = getFiltered().length;
+  document.getElementById('listTitle').textContent = hasFilters ? `${count} Lead${count!==1?'s':''} Found` : 'All Leads';
+  renderActiveFilterPills();
 }
 function renderAll(){
   renderStats();
-  if(currentTab==='followups') renderFollowups();
+  if(currentTab==='home') renderHome();
+  else if(currentTab==='followups') renderFollowups();
   else if(currentTab!=='more') { resetToLeadsView(); renderList(); }
 }
 
@@ -823,6 +944,7 @@ function buildChips(){
     chip.classList.add('active');
     activeDisposition = chip.dataset.d;
     updateListTitle();
+    updateShowResultsBtn();
     renderList();
   });
 }
@@ -837,13 +959,190 @@ function buildStageChips(){
     chip.classList.add('active');
     activeStage = chip.dataset.s;
     updateListTitle();
+    updateShowResultsBtn();
     renderList();
   });
 }
+function buildDateChips(){
+  const row = document.getElementById('dateChips');
+  const opts = [
+    {key:'all', label:'All Time'},
+    {key:'week', label:'Last 7 Days'},
+    {key:'month', label:'This Month'},
+    {key:'custom', label:'Custom Range'}
+  ];
+  row.innerHTML = opts.map(o=>`<div class="chip ${o.key==='all'?'active':''}" data-t="${o.key}">${o.label}</div>`).join('');
+  row.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    activeDateFilter = chip.dataset.t;
+    document.getElementById('customDateRow').classList.toggle('hidden', activeDateFilter!=='custom');
+    if(activeDateFilter!=='custom'){
+      customDateFrom = null; customDateTo = null;
+      document.getElementById('dateFrom').value = '';
+      document.getElementById('dateTo').value = '';
+      updateListTitle();
+      updateShowResultsBtn();
+      renderList();
+    }
+  });
+}
+document.getElementById('applyDateRange').addEventListener('click', ()=>{
+  customDateFrom = document.getElementById('dateFrom').value || null;
+  customDateTo = document.getElementById('dateTo').value || null;
+  if(!customDateFrom && !customDateTo){ toast('Pick at least one date'); return; }
+  updateListTitle();
+  updateShowResultsBtn();
+  renderList();
+});
 function buildFormDropdowns(){
   document.getElementById('f_disposition').innerHTML = DISPOSITIONS.map(d=>`<option>${d}</option>`).join('');
   document.getElementById('f_stage').innerHTML = STAGES.map(s=>`<option>${s}</option>`).join('');
 }
+
+/* ============ ACTIVE FILTER PILLS / FILTER SHEET ============ */
+function renderActiveFilterPills(){
+  const row = document.getElementById('activeFiltersRow');
+  const pills = [];
+  if(activeDisposition!=='all') pills.push({key:'disposition', label:activeDisposition});
+  if(activeStage!=='all') pills.push({key:'stage', label:activeStage});
+  if(activeDateFilter==='week') pills.push({key:'date', label:'Last 7 Days'});
+  else if(activeDateFilter==='month') pills.push({key:'date', label:'This Month'});
+  else if(activeDateFilter==='custom' && (customDateFrom||customDateTo)) pills.push({key:'date', label:`${customDateFrom||'…'} → ${customDateTo||'…'}`});
+
+  updateFilterBadge();
+  if(!pills.length){ row.classList.add('hidden'); row.innerHTML=''; return; }
+  row.classList.remove('hidden');
+  row.innerHTML = pills.map(p=>`<div class="active-filter-pill">${escapeHTML(p.label)}<button data-k="${p.key}">✕</button></div>`).join('')
+    + `<button class="clear-all-link" id="clearAllFiltersBtn">Clear all</button>`;
+  row.querySelectorAll('.active-filter-pill button').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{ e.stopPropagation(); removeFilter(btn.dataset.k); });
+  });
+  document.getElementById('clearAllFiltersBtn').addEventListener('click', clearAllFilters);
+}
+function removeFilter(key){
+  if(key==='disposition'){
+    activeDisposition = 'all';
+    document.querySelectorAll('#dispositionChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.d==='all'));
+  }
+  if(key==='stage'){
+    activeStage = 'all';
+    document.querySelectorAll('#stageChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.s==='all'));
+  }
+  if(key==='date'){
+    activeDateFilter = 'all'; customDateFrom = null; customDateTo = null;
+    document.getElementById('dateFrom').value=''; document.getElementById('dateTo').value='';
+    document.getElementById('customDateRow').classList.add('hidden');
+    document.querySelectorAll('#dateChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.t==='all'));
+  }
+  updateListTitle();
+  updateShowResultsBtn();
+  renderList();
+}
+function clearAllFilters(){
+  activeDisposition='all'; activeStage='all'; activeDateFilter='all'; customDateFrom=null; customDateTo=null;
+  document.querySelectorAll('#dispositionChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.d==='all'));
+  document.querySelectorAll('#stageChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.s==='all'));
+  document.querySelectorAll('#dateChips .chip').forEach(c=>c.classList.toggle('active', c.dataset.t==='all'));
+  document.getElementById('dateFrom').value=''; document.getElementById('dateTo').value='';
+  document.getElementById('customDateRow').classList.add('hidden');
+  updateListTitle();
+  updateShowResultsBtn();
+  renderList();
+}
+function updateFilterBadge(){
+  let n = 0;
+  if(activeDisposition!=='all') n++;
+  if(activeStage!=='all') n++;
+  if(activeDateFilter!=='all') n++;
+  const badge = document.getElementById('filterCountBadge');
+  if(n>0){ badge.textContent = n; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+}
+function updateShowResultsBtn(){
+  const n = getFiltered().length;
+  document.getElementById('showFilterResultsBtn').textContent = `Show ${n} Result${n!==1?'s':''}`;
+}
+document.getElementById('openFilterBtn').addEventListener('click', ()=>{ updateShowResultsBtn(); openOverlay('filterOverlay'); });
+document.getElementById('filterSheetClose').addEventListener('click', ()=> closeOverlay('filterOverlay'));
+document.getElementById('showFilterResultsBtn').addEventListener('click', ()=> closeOverlay('filterOverlay'));
+document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{ clearAllFilters(); updateShowResultsBtn(); });
+
+/* ============ HOME / LEADS VIEW SWITCH ============ */
+function switchMainView(){
+  const isHome = currentTab==='home';
+  document.getElementById('homeView').classList.toggle('hidden', !isHome);
+  document.getElementById('leadsView').classList.toggle('hidden', isHome);
+}
+
+/* ============ HOME DASHBOARD ============ */
+function renderBarList(containerId, entries, emptyText){
+  const el = document.getElementById(containerId);
+  const filtered = entries.filter(e=>e.count>0);
+  if(!filtered.length){ el.innerHTML = `<div class="hint" style="margin:-4px 0 4px;">${emptyText||'No data yet.'}</div>`; return; }
+  const max = Math.max(...filtered.map(e=>e.count));
+  el.innerHTML = filtered.map(e=>{
+    const pct = max ? Math.max(6, Math.round(e.count/max*100)) : 0;
+    return `<div class="bar-row">
+      <div class="bar-row-top"><span class="b-label">${escapeHTML(e.label)}</span><span class="b-count">${e.count}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${e.color}"></div></div>
+    </div>`;
+  }).join('');
+}
+const DISPO_COLORS = {
+  'Not Connected':'#5B6472', 'Follow-up':'#D98A2B', 'Interested':'#C13F84', 'Login Interested':'#6D4FC6',
+  'Logined':'#3D6FB4', 'Disbursed':'#2D8659', 'Final Not Interested':'#C0463C', 'Rejected':'#8C2F2F', 'Not Eligible':'#8A857C'
+};
+const BREAKDOWN_PALETTE = ['#3D6FB4','#6D4FC6','#C13F84','#2D8659','#D98A2B','#8C2F2F','#5B6472','#C0463C'];
+function renderHome(){
+  const total = leads.length;
+  const weekCutoff = Date.now() - 7*24*60*60*1000;
+  const newThisWeek = leads.filter(l=>l.createdAt>=weekCutoff).length;
+  const today = todayStr();
+  const todayFollowups = leads.filter(l=>l.followUpAt===today && !CLOSED_DISPOSITIONS.includes(l.disposition)).length;
+  const overdue = leads.filter(l=>l.followUpAt && l.followUpAt<today && !CLOSED_DISPOSITIONS.includes(l.disposition)).length;
+  const disbursed = leads.filter(l=>l.disposition==='Disbursed').length;
+  const rate = total ? Math.round((disbursed/total)*100) : 0;
+
+  document.getElementById('metricGrid').innerHTML = `
+    <div class="metric-card"><div class="m-icon" style="background:var(--info-bg); color:var(--info);">👥</div><div class="m-num">${total}</div><div class="m-lbl">Total Leads</div></div>
+    <div class="metric-card"><div class="m-icon" style="background:var(--purple-bg); color:var(--purple);">🆕</div><div class="m-num">${newThisWeek}</div><div class="m-lbl">New This Week</div></div>
+    <div class="metric-card"><div class="m-icon" style="background:var(--warn-bg); color:var(--warn);">📅</div><div class="m-num">${todayFollowups}</div><div class="m-lbl">Today's Follow-ups</div></div>
+    <div class="metric-card"><div class="m-icon" style="background:var(--danger-bg); color:var(--danger);">⏰</div><div class="m-num">${overdue}</div><div class="m-lbl">Overdue Follow-ups</div></div>
+    <div class="metric-card"><div class="m-icon" style="background:var(--success-bg); color:var(--success);">✅</div><div class="m-num">${disbursed}</div><div class="m-lbl">Disbursed</div></div>
+    <div class="metric-card"><div class="m-icon" style="background:var(--pink-bg); color:var(--pink);">📈</div><div class="m-num">${rate}%</div><div class="m-lbl">Disbursal Rate</div></div>
+  `;
+
+  renderBarList('dispoBarList', DISPOSITIONS.map(d=>({label:d, count:leads.filter(l=>l.disposition===d).length, color:DISPO_COLORS[d]||'var(--navy)'})), 'No leads yet.');
+  renderBarList('stageBarList', STAGES.map(s=>({label:s, count:leads.filter(l=>l.stage===s).length, color:'var(--navy-2)'})), 'No leads yet.');
+
+  const loanTypeCounts = {};
+  leads.forEach(l=>{ loanTypeCounts[l.loanType] = (loanTypeCounts[l.loanType]||0)+1; });
+  const loanTypeEntries = Object.keys(loanTypeCounts).sort((a,b)=>loanTypeCounts[b]-loanTypeCounts[a]).map((k,i)=>({label:k, count:loanTypeCounts[k], color:BREAKDOWN_PALETTE[i%BREAKDOWN_PALETTE.length]}));
+  renderBarList('loanTypeBarList', loanTypeEntries, 'No leads yet.');
+
+  const sourceCounts = {};
+  leads.forEach(l=>{ sourceCounts[l.source] = (sourceCounts[l.source]||0)+1; });
+  const sourceEntries = Object.keys(sourceCounts).sort((a,b)=>sourceCounts[b]-sourceCounts[a]).map((k,i)=>({label:k, count:sourceCounts[k], color:BREAKDOWN_PALETTE[i%BREAKDOWN_PALETTE.length]}));
+  renderBarList('sourceBarList', sourceEntries, 'No leads yet.');
+
+  const recent = [...leads].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
+  const recentContainer = document.getElementById('recentLeadsList');
+  if(!recent.length){
+    recentContainer.innerHTML = `<div class="empty"><div class="em-icon">🗂️</div><div class="em-title">No leads yet</div><div class="em-sub">Naya lead add karne ke liye neeche "+" button dabayein.</div></div>`;
+  } else {
+    recentContainer.innerHTML = recent.map(leadCardHTML).join('');
+    recentContainer.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
+  }
+}
+document.getElementById('viewAllLeadsBtn').addEventListener('click', ()=>{
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.nav-item[data-tab="leads"]').classList.add('active');
+  currentTab = 'leads';
+  switchMainView();
+  resetToLeadsView();
+  renderList();
+});
 
 /* ============ TABS ============ */
 document.querySelectorAll('.nav-item').forEach(btn=>{
@@ -851,25 +1150,18 @@ document.querySelectorAll('.nav-item').forEach(btn=>{
     document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     currentTab = btn.dataset.tab;
-    if(currentTab==='followups') renderFollowups();
+    switchMainView();
+    if(currentTab==='home') renderHome();
+    else if(currentTab==='followups') renderFollowups();
     else if(currentTab==='more') showMoreSheet();
     else { resetToLeadsView(); renderList(); }
   });
 });
 
 function showMoreSheet(){
-  const totalDisbursed = leads.filter(l=>l.disposition==='Disbursed').length;
-  const totalLost = leads.filter(l=>['Final Not Interested','Rejected','Not Eligible'].includes(l.disposition)).length;
-  const convRate = leads.length ? Math.round((totalDisbursed/leads.length)*100) : 0;
   document.getElementById('detailTitle').textContent = 'More';
   document.getElementById('detailBody').innerHTML = `
-    <div class="info-grid" style="margin-top:6px;">
-      <div class="info-box"><div class="k">Total Leads</div><div class="v">${leads.length}</div></div>
-      <div class="info-box"><div class="k">Disbursed</div><div class="v">${totalDisbursed}</div></div>
-      <div class="info-box"><div class="k">Disbursal Rate</div><div class="v">${convRate}%</div></div>
-      <div class="info-box"><div class="k">Lost Leads</div><div class="v">${totalLost}</div></div>
-    </div>
-    <div class="section-title"><h2>Google Sheet Connection</h2></div>
+    <div class="section-title" style="margin-top:6px;"><h2>Google Sheet Connection</h2></div>
     <div class="field">
       <label>Apps Script Web App URL</label>
       <input type="text" id="cfg_url" placeholder="https://script.google.com/macros/s/.../exec" value="${config.url||''}">
@@ -898,7 +1190,7 @@ function showMoreSheet(){
 }
 
 /* ============ SEARCH / SORT ============ */
-document.getElementById('searchInput').addEventListener('input', (e)=>{ searchQuery = e.target.value; renderList(); });
+document.getElementById('searchInput').addEventListener('input', (e)=>{ searchQuery = e.target.value; updateListTitle(); renderList(); });
 document.getElementById('sortBtn').addEventListener('click', ()=>{
   sortNewestFirst = !sortNewestFirst;
   document.getElementById('sortBtn').textContent = sortNewestFirst ? 'Newest first ⇅' : 'Oldest first ⇅';
@@ -907,12 +1199,12 @@ document.getElementById('sortBtn').addEventListener('click', ()=>{
 document.getElementById('setupBanner').addEventListener('click', ()=>{
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   document.querySelector('.nav-item[data-tab="more"]').classList.add('active');
-  currentTab='more'; showMoreSheet();
+  currentTab='more'; switchMainView(); showMoreSheet();
 });
 document.getElementById('settingsBtn').addEventListener('click', ()=>{
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   document.querySelector('.nav-item[data-tab="more"]').classList.add('active');
-  currentTab='more'; showMoreSheet();
+  currentTab='more'; switchMainView(); showMoreSheet();
 });
 
 /* ============ OVERLAY HELPERS ============ */
@@ -932,7 +1224,7 @@ document.getElementById('fabAdd').addEventListener('click', ()=>{
   openOverlay('addOverlay');
 });
 function clearAddForm(){
-  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes','f_loanUsageComment','f_cibilComment','f_propertyComment'].forEach(id=>document.getElementById(id).value='');
+  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes','f_loanUsageComment','f_cibilComment','f_propertyComment','f_incomeSourceComment','f_obligationComment'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f_loanType').selectedIndex = 0;
   document.getElementById('f_source').selectedIndex = 0;
   document.getElementById('f_disposition').value = 'Not Connected';
@@ -956,6 +1248,8 @@ function handleSaveLead(){
   const loanUsageComment = document.getElementById('f_loanUsageComment').value.trim();
   const cibilComment = document.getElementById('f_cibilComment').value.trim();
   const propertyComment = document.getElementById('f_propertyComment').value.trim();
+  const incomeSourceComment = document.getElementById('f_incomeSourceComment').value.trim();
+  const obligationComment = document.getElementById('f_obligationComment').value.trim();
 
   if(editingLeadId){
     const lead = leads.find(l=>l.id===editingLeadId);
@@ -964,6 +1258,7 @@ function handleSaveLead(){
     lead.name=name; lead.phone=phone; lead.loanType=loanType; lead.amount=amount;
     lead.source=source; lead.city=city; lead.disposition=disposition; lead.stage=stage; lead.followUpAt=followUpAt;
     lead.loanUsageComment=loanUsageComment; lead.cibilComment=cibilComment; lead.propertyComment=propertyComment;
+    lead.incomeSourceComment=incomeSourceComment; lead.obligationComment=obligationComment;
     if(dispoChanged) lead.timeline.push({type:'status', text:'Disposition changed to '+disposition, at: Date.now()});
     if(stageChanged) lead.timeline.push({type:'status', text:'Stage changed to '+stage, at: Date.now()});
     if(notes) lead.timeline.push({type:'note', text:notes, at: Date.now()});
@@ -974,7 +1269,7 @@ function handleSaveLead(){
   } else {
     const lead = {
       id: uid(), name, phone, loanType, amount, source, city, disposition, stage, followUpAt,
-      loanUsageComment, cibilComment, propertyComment,
+      loanUsageComment, cibilComment, propertyComment, incomeSourceComment, obligationComment,
       createdAt: Date.now(),
       timeline: [{type:'created', text:'Lead added', at: Date.now()}]
     };
@@ -1035,12 +1330,14 @@ function renderDetail(lead){
       <label>Update Next Follow-up Date</label>
       <input type="date" id="d_followup" value="${lead.followUpAt||''}" onchange="updateFollowup('${lead.id}', this.value)">
     </div>
-    ${(lead.loanUsageComment||lead.cibilComment||lead.propertyComment) ? `
+    ${(lead.loanUsageComment||lead.cibilComment||lead.propertyComment||lead.incomeSourceComment||lead.obligationComment) ? `
     <div class="section-title"><h2>Comments</h2></div>
     <div class="comment-list">
       ${lead.loanUsageComment ? `<div class="comment-box"><div class="k">Loan Usage</div><div class="v">${escapeHTML(lead.loanUsageComment)}</div></div>` : ''}
       ${lead.cibilComment ? `<div class="comment-box"><div class="k">CIBIL</div><div class="v">${escapeHTML(lead.cibilComment)}</div></div>` : ''}
       ${lead.propertyComment ? `<div class="comment-box"><div class="k">Property</div><div class="v">${escapeHTML(lead.propertyComment)}</div></div>` : ''}
+      ${lead.incomeSourceComment ? `<div class="comment-box"><div class="k">Income Source</div><div class="v">${escapeHTML(lead.incomeSourceComment)}</div></div>` : ''}
+      ${lead.obligationComment ? `<div class="comment-box"><div class="k">Obligation</div><div class="v">${escapeHTML(lead.obligationComment)}</div></div>` : ''}
     </div>` : ''}
     <div class="section-title"><h2>Disposition</h2></div>
     <div class="pill-scroll">${dispoPills}</div>
@@ -1120,6 +1417,8 @@ function openEdit(id){
   document.getElementById('f_loanUsageComment').value = lead.loanUsageComment||'';
   document.getElementById('f_cibilComment').value = lead.cibilComment||'';
   document.getElementById('f_propertyComment').value = lead.propertyComment||'';
+  document.getElementById('f_incomeSourceComment').value = lead.incomeSourceComment||'';
+  document.getElementById('f_obligationComment').value = lead.obligationComment||'';
   document.getElementById('f_notes').value = '';
   document.querySelector('#addOverlay h3').textContent = 'Edit Lead';
   document.getElementById('saveLead').textContent = 'Update Lead';
@@ -1139,8 +1438,11 @@ function exportData(){
 /* ============ INIT ============ */
 buildChips();
 buildStageChips();
+buildDateChips();
 buildFormDropdowns();
 renderStats();
+switchMainView();
+renderHome();
 renderList();
 fullSync();
 </script>
