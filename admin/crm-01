@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chittorgarh Loans — DSA CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A2540; --navy-2:#123A63; --blue:#1B6FC9; --blue-dark:#12508F;
+  --gold:#C9A227; --gold-dark:#A8841C; --green:#0F8B5F; --green-dark:#0B6E4A;
+  --cream:#F4F7FA; --card:#FFFFFF; --ink:#12202E; --muted:#66798D; --border:#E1E7EE;
+  --success:#0F8B5F; --success-bg:#E3F5EC; --danger:#C0463C; --danger-bg:#FBEAE8;
+  --warn:#D98A2B; --warn-bg:#FBF0DF; --info:#1B6FC9; --info-bg:#E7F0FB;
+  --purple:#6D4FC6; --purple-bg:#EEEAF9; --pink:#C13F84; --pink-bg:#FBEAF3;
+  --maroon:#8C2F2F; --maroon-bg:#F5E2E0; --slate:#5B6472; --slate-bg:#EAECEF;
+  --teal:#0E7C86; --teal-bg:#E2F2F3;
+  --radius:16px;
+  --shadow:0 2px 10px rgba(10,37,64,.07),0 1px 2px rgba(10,37,64,.06);
+  --pad-top:env(safe-area-inset-top,0px);
+  --pad-bot:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+html{scroll-padding-top:var(--pad-top);}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;justify-content:center;}
+h1,h2,h3,.font-display{font-family:'Sora',system-ui,sans-serif;}
+button,input,select,textarea{font-family:inherit;}
+::-webkit-scrollbar{width:0;height:0;}
+.hidden{display:none !important;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
+
+.app{width:100%;max-width:480px;min-height:100vh;background:var(--cream);position:relative;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.06);}
+
+/* ---------- TOPBAR ---------- */
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 60%,var(--blue-dark) 100%);color:#fff;padding:calc(16px + var(--pad-top)) 16px 20px;border-radius:0 0 22px 22px;position:relative;overflow:hidden;}
+.topbar::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.26) 0%,rgba(201,162,39,0) 70%);}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;gap:8px;}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;}
+.brand-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:800;color:var(--navy);font-size:15px;flex-shrink:0;}
+.brand-text .name{font-family:'Sora';font-weight:700;font-size:15px;line-height:1.2;}
+.brand-text .sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;display:flex;align-items:center;gap:5px;}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:#63D68A;flex-shrink:0;}
+.sync-dot.off{background:#E86A5C;} .sync-dot.busy{background:var(--gold);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.icon-btn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.1);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.topbar-stats{display:flex;gap:8px;margin-top:16px;position:relative;z-index:1;}
+.tstat{flex:1;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:10px;}
+.tstat .num{font-family:'Sora';font-weight:700;font-size:19px;line-height:1.1;}
+.tstat .lbl{font-size:10.5px;color:rgba(255,255,255,.7);margin-top:3px;}
+
+.main{flex:1;overflow-y:auto;padding:16px 16px calc(96px + var(--pad-bot));}
+
+/* ---------- SECTION / CARD ---------- */
+.sec{margin-bottom:18px;}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 2px 9px;gap:8px;}
+.sec-head h2{font-size:14.5px;font-weight:700;margin:0;letter-spacing:-.01em;}
+.sec-head .note{font-size:11.5px;color:var(--muted);}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;}
+.card+.card{margin-top:10px;}
+
+/* ---------- KPI ---------- */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:12px 13px;position:relative;overflow:hidden;}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,var(--blue));}
+.kpi .k-lbl{font-size:11px;color:var(--muted);font-weight:500;}
+.kpi .k-num{font-family:'Sora';font-weight:700;font-size:22px;margin-top:4px;letter-spacing:-.02em;line-height:1.15;}
+.kpi .k-sub{font-size:10.5px;color:var(--muted);margin-top:3px;}
+.kpi .k-sub strong{color:var(--ink);font-weight:600;}
+
+/* ---------- BARS ---------- */
+.bar{margin-bottom:12px;}
+.bar:last-child{margin-bottom:0;}
+.bar-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:5px;}
+.bar-name{font-size:12.5px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bar-val{font-size:12px;font-weight:700;font-family:'Sora';flex-shrink:0;}
+.bar-val em{font-style:normal;color:var(--muted);font-weight:500;font-size:11px;margin-left:5px;font-family:'Inter';}
+.bar-track{height:9px;border-radius:6px;background:#EEF2F6;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;transition:width .35s ease;min-width:3px;}
+.bar.clickable{cursor:pointer;}
+.bar-sub{font-size:10.5px;color:var(--muted);margin-top:4px;}
+.empty-note{font-size:12.5px;color:var(--muted);text-align:center;padding:14px 0;}
+
+/* ---------- FUNNEL ---------- */
+.funnel-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);cursor:pointer;}
+.funnel-row:last-child{border-bottom:none;}
+.fn-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.fn-name{font-size:12.5px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fn-bar{width:78px;height:7px;border-radius:5px;background:#EEF2F6;overflow:hidden;flex-shrink:0;}
+.fn-bar i{display:block;height:100%;border-radius:5px;}
+.fn-count{font-family:'Sora';font-weight:700;font-size:13px;width:30px;text-align:right;flex-shrink:0;}
+
+/* ---------- COLUMN CHART ---------- */
+.colchart{display:flex;align-items:flex-end;gap:6px;height:118px;padding-top:6px;}
+.colwrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;}
+.colnum{font-size:10.5px;font-weight:700;font-family:'Sora';color:var(--navy);}
+.colbar{width:100%;background:linear-gradient(180deg,var(--blue),var(--navy-2));border-radius:5px 5px 2px 2px;min-height:3px;transition:height .35s ease;}
+.collbl{font-size:9.5px;color:var(--muted);white-space:nowrap;}
+
+/* ---------- MINI TABLE ---------- */
+.mtable{width:100%;border-collapse:collapse;font-size:12px;}
+.mtable th{text-align:left;font-size:10.5px;color:var(--muted);font-weight:600;padding:0 0 7px;border-bottom:1px solid var(--border);}
+.mtable td{padding:8px 0;border-bottom:1px solid #F1F4F8;}
+.mtable tr:last-child td{border-bottom:none;}
+.mtable td.num,.mtable th.num{text-align:right;font-family:'Sora';font-weight:600;}
+.mtable .tname{font-weight:600;}
+
+/* ---------- PILL STRIP ---------- */
+.strip{display:flex;gap:8px;}
+.strip-item{flex:1;border-radius:13px;padding:11px 10px;text-align:center;cursor:pointer;border:1px solid transparent;}
+.strip-item .n{font-family:'Sora';font-weight:700;font-size:20px;line-height:1;}
+.strip-item .l{font-size:10.5px;margin-top:5px;font-weight:500;}
+
+/* ---------- LEAD CARD ---------- */
+.lead-card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:12px;margin-bottom:10px;cursor:pointer;}
+.lc-top{display:flex;gap:10px;align-items:flex-start;}
+.avatar{width:38px;height:38px;border-radius:11px;background:var(--info-bg);color:var(--blue-dark);display:flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:700;font-size:13px;flex-shrink:0;}
+.lc-name{font-weight:700;font-size:14px;line-height:1.25;}
+.lc-meta{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.lc-amt{font-family:'Sora';font-weight:700;font-size:14px;text-align:right;flex-shrink:0;}
+.lc-amt small{display:block;font-size:10px;color:var(--muted);font-weight:500;font-family:'Inter';margin-top:2px;}
+.lc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.tag{font-size:10.5px;font-weight:600;padding:3.5px 8px;border-radius:7px;background:var(--slate-bg);color:var(--slate);}
+.lc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:1px solid #F1F4F8;gap:8px;}
+.fu{font-size:11px;font-weight:600;}
+.fu.overdue{color:var(--danger);} .fu.today{color:var(--warn);} .fu.upcoming{color:var(--muted);}
+.mini-acts{display:flex;gap:6px;}
+.mini-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;}
+.pipe-dots{display:flex;gap:3px;margin-top:9px;}
+.pipe-dots i{height:4px;flex:1;border-radius:3px;background:#E6EBF1;}
+.pipe-dots i.on{background:var(--green);}
+.pipe-dots i.cur{background:var(--gold);}
+
+/* ---------- FORM ---------- */
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--ink);}
+.field .req{color:var(--danger);}
+.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:11px;font-size:14px;background:#fff;color:var(--ink);}
+.field textarea{min-height:76px;resize:vertical;}
+.field .hint{font-size:11px;color:var(--muted);margin-top:5px;}
+.field-row{display:flex;gap:10px;}
+.field-row .field{flex:1;}
+.chip-row{display:flex;gap:7px;overflow-x:auto;}
+.chip-row.wrap{flex-wrap:wrap;overflow:visible;}
+.chip{padding:7px 12px;border-radius:9px;border:1px solid var(--border);background:#fff;font-size:12.5px;font-weight:500;cursor:pointer;white-space:nowrap;color:var(--slate);}
+.chip.active{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600;}
+.btn{width:100%;padding:13px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);}
+.btn-navy{background:var(--navy);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--ink);}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #F2CFCB;}
+.btn-sm{padding:9px 12px;font-size:12.5px;width:auto;}
+.btn-row{display:flex;gap:9px;}
+.btn-row .btn{flex:1;}
+.link-btn{background:none;border:none;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;padding:0;}
+
+/* ---------- OVERLAY / SHEET ---------- */
+.overlay{position:fixed;inset:0;background:rgba(10,37,64,.45);z-index:60;display:none;align-items:flex-end;justify-content:center;}
+.overlay.show{display:flex;}
+.sheet{width:100%;max-width:480px;background:var(--cream);border-radius:22px 22px 0 0;max-height:94vh;display:flex;flex-direction:column;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 12px;border-bottom:1px solid var(--border);background:#fff;border-radius:22px 22px 0 0;gap:8px;}
+.sheet-head h3{margin:0;font-size:15px;font-weight:700;}
+.sheet-close{width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:14px;color:var(--muted);flex-shrink:0;}
+.sheet-body{padding:16px 16px calc(24px + var(--pad-bot));overflow-y:auto;}
+
+/* ---------- STAGE STEPPER ---------- */
+.stepper{display:flex;gap:4px;overflow-x:auto;padding:2px 0 8px;}
+.step{flex-shrink:0;font-size:10.5px;font-weight:600;padding:6px 10px;border-radius:8px;background:#EEF2F6;color:var(--muted);border:1px solid transparent;}
+.step.done{background:var(--success-bg);color:var(--green-dark);}
+.step.cur{background:var(--navy);color:#fff;border-color:var(--navy);}
+.step.bad{background:var(--danger-bg);color:var(--danger);}
+
+.stage-action{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border-radius:15px;padding:14px;margin-bottom:14px;}
+.stage-action .sa-lbl{font-size:10.5px;color:rgba(255,255,255,.65);font-weight:600;}
+.stage-action .sa-title{font-family:'Sora';font-weight:700;font-size:15px;margin:4px 0 3px;}
+.stage-action .sa-desc{font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.5;}
+.stage-action .btn{margin-top:11px;}
+
+/* ---------- DETAIL BLOCKS ---------- */
+.blk{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:11px;overflow:hidden;}
+.blk-head{display:flex;align-items:center;justify-content:space-between;padding:12px 13px;cursor:pointer;gap:8px;}
+.blk-head .bh-l{display:flex;align-items:center;gap:8px;min-width:0;}
+.blk-head h4{margin:0;font-size:13px;font-weight:700;}
+.blk-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--slate-bg);color:var(--slate);}
+.blk-body{padding:0 13px 13px;border-top:1px solid #F1F4F8;padding-top:11px;}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12.5px;border-bottom:1px solid #F5F7FA;}
+.kv:last-child{border-bottom:none;}
+.kv .k{color:var(--muted);flex-shrink:0;}
+.kv .v{font-weight:600;text-align:right;word-break:break-word;}
+
+/* ---------- DOC CHECKLIST ---------- */
+.doc-group-title{font-size:11px;font-weight:700;color:var(--muted);margin:13px 0 7px;}
+.doc-group-title:first-child{margin-top:0;}
+.doc-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--border);border-radius:11px;margin-bottom:7px;cursor:pointer;background:#fff;}
+.doc-item.on{background:var(--success-bg);border-color:#BFE5D3;}
+.doc-box{width:20px;height:20px;border-radius:6px;border:2px solid #CBD5E0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0;}
+.doc-item.on .doc-box{background:var(--green);border-color:var(--green);}
+.doc-name{font-size:12.5px;font-weight:500;flex:1;}
+.doc-item.on .doc-name{font-weight:600;color:var(--green-dark);}
+.doc-progress{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.doc-progress .dp-track{flex:1;height:8px;border-radius:5px;background:#EEF2F6;overflow:hidden;}
+.doc-progress .dp-fill{height:100%;background:var(--green);border-radius:5px;}
+.doc-progress .dp-txt{font-size:12px;font-weight:700;font-family:'Sora';}
+
+/* ---------- LENDER CARD ---------- */
+.lender-card{border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;background:#fff;}
+.lender-card.sel{border-color:var(--green);background:var(--success-bg);}
+.lender-card.sel .lh-name{color:var(--green-dark);}
+.lh{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.lh-name{font-weight:700;font-size:13.5px;}
+.lh-prod{font-size:11px;color:var(--muted);margin-top:2px;}
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:10px;}
+.lgrid div{font-size:11.5px;color:var(--muted);}
+.lgrid div b{color:var(--ink);font-weight:600;display:block;font-size:12px;margin-top:1px;}
+.fit{font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap;}
+.fit.ok{background:var(--success-bg);color:var(--green-dark);}
+.fit.no{background:var(--warn-bg);color:var(--warn);}
+.lender-more{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:9px;padding-top:9px;border-top:1px dashed var(--border);}
+.lender-more b{color:var(--ink);}
+.lender-acts{display:flex;gap:7px;margin-top:10px;}
+
+/* ---------- TIMELINE ---------- */
+.tl-item{display:flex;gap:10px;padding-bottom:13px;position:relative;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;position:relative;z-index:1;}
+.tl-item:not(:last-child)::before{content:"";position:absolute;left:4px;top:13px;bottom:0;width:1px;background:var(--border);}
+.tl-txt{font-size:12.5px;line-height:1.45;}
+.tl-time{font-size:10.5px;color:var(--muted);margin-top:2px;}
+
+/* ---------- SEARCH / FILTER ---------- */
+.search-row{display:flex;gap:9px;margin-bottom:12px;}
+.search-wrap{flex:1;position:relative;}
+.search-wrap input{width:100%;padding:11px 12px 11px 36px;border:1px solid var(--border);border-radius:12px;font-size:13.5px;background:#fff;}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);}
+.filter-trigger-btn{width:44px;border-radius:12px;border:1px solid var(--border);background:#fff;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.filter-count{position:absolute;top:-5px;right:-5px;background:var(--gold);color:var(--navy);font-size:9.5px;font-weight:800;border-radius:9px;min-width:17px;height:17px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.active-filters-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;align-items:center;}
+.fpill{background:var(--navy);color:#fff;font-size:11px;font-weight:600;padding:5px 9px;border-radius:8px;display:flex;align-items:center;gap:6px;}
+.fpill span{cursor:pointer;opacity:.7;}
+.clear-all-link{background:none;border:none;color:var(--blue);font-size:11.5px;font-weight:600;cursor:pointer;}
+.filter-label{font-size:11.5px;font-weight:700;color:var(--muted);margin:15px 0 7px;}
+.filter-label:first-child{margin-top:0;}
+
+/* ---------- WIZARD ---------- */
+.wiz-progress-wrap{margin-bottom:16px;}
+.wiz-progress-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:6px;gap:8px;}
+.wp-title{font-weight:700;color:var(--ink);}
+.wiz-progress-track{height:5px;background:#E6EBF1;border-radius:4px;overflow:hidden;}
+.wiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-dark));border-radius:4px;transition:width .3s;}
+.wiz-nav-row{display:flex;gap:9px;margin-top:18px;}
+.wiz-nav-row .btn{flex:1;}
+.review-block{background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:13px;}
+.rb-title{font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:8px;}
+.review-row{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;padding:5px 0;}
+.review-row .rk{color:var(--muted);} .review-row .rv{font-weight:600;text-align:right;}
+.wiz-denied-banner{background:var(--warn-bg);border:1px solid #F0DCB8;color:#8A5A14;font-size:12px;padding:11px;border-radius:11px;margin-bottom:13px;line-height:1.5;}
+
+/* ---------- SETTINGS ---------- */
+.set-item{display:flex;align-items:center;justify-content:space-between;padding:13px;background:#fff;border:1px solid var(--border);border-radius:13px;margin-bottom:9px;cursor:pointer;gap:10px;}
+.set-item .si-l{display:flex;gap:11px;align-items:center;min-width:0;}
+.set-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.set-item .si-title{font-size:13px;font-weight:700;}
+.set-item .si-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.prod-edit{border:1px solid var(--border);border-radius:12px;padding:11px;margin-bottom:10px;background:#fff;}
+.prod-edit-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.prod-edit-head b{font-size:12.5px;}
+
+/* ---------- BOTTOM NAV ---------- */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;padding:8px 6px calc(8px + var(--pad-bot));z-index:40;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;padding:4px 0;}
+.nav-item.active{color:var(--navy);}
+.nav-item .ndot{width:18px;height:3px;border-radius:2px;background:transparent;}
+.nav-item.active .ndot{background:var(--gold);}
+.fab{position:fixed;bottom:calc(74px + var(--pad-bot));right:50%;margin-right:-224px;width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border:none;color:var(--navy);font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(201,162,39,.4);cursor:pointer;z-index:45;}
+@media(max-width:480px){.fab{right:18px;margin-right:0;}}
+
+.toast{position:fixed;bottom:calc(140px + var(--pad-bot));left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:11px;font-size:12.5px;font-weight:500;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90%;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.setup-banner{background:var(--warn-bg);border:1px solid #F0DCB8;border-radius:13px;padding:12px;margin-bottom:14px;font-size:12px;color:#8A5A14;line-height:1.5;}
+.setup-banner b{display:block;margin-bottom:3px;font-size:12.5px;}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">CL</div>
+        <div class="brand-text">
+          <div class="name">Chittorgarh Loans</div>
+          <div class="sub"><span class="sync-dot off" id="syncDot"></span><span id="syncLabel">Saved on this device</span></div>
+        </div>
+      </div>
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+    <div class="topbar-stats">
+      <div class="tstat"><div class="num" id="statTotal">0</div><div class="lbl">Total leads</div></div>
+      <div class="tstat"><div class="num" id="statToday">0</div><div class="lbl">Follow-up today</div></div>
+      <div class="tstat"><div class="num" id="statConverted">0</div><div class="lbl">Disbursed</div></div>
+    </div>
+  </header>
+
+  <div class="main" id="mainScroll">
+
+    <!-- ============ HOME ============ -->
+    <div id="homeView">
+    <div class="setup-banner hidden" id="setupBanner">
+      <b>Working offline</b>
+      Leads are saved on this device only. Connect your Google Sheet in Settings to back up and sync across phones.
+    </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Business snapshot</h2><span class="note" id="snapNote"></span></div>
+        <div class="kpi-grid" id="kpiGrid"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Follow-up health</h2><span class="note">Tap to open</span></div>
+        <div class="strip" id="followStrip"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Pipeline funnel</h2><span class="note" id="funnelNote"></span></div>
+        <div class="card" id="funnelCard"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Money flow</h2><span class="note">Live totals</span></div>
+        <div class="card" id="moneyCard"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>New leads per month</h2><span class="note">Last 6 months</span></div>
+        <div class="card"><div class="colchart" id="trendChart"></div></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Loan type mix</h2><span class="note">By lead count</span></div>
+        <div class="card" id="loanTypeBars"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Call outcomes</h2><span class="note">Disposition split</span></div>
+        <div class="card" id="dispoBars"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Lender performance</h2><span class="note">Logins to disbursal</span></div>
+        <div class="card" id="lenderPerf"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Where leads come from</h2><span class="note">Source split</span></div>
+        <div class="card" id="sourceBars"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2>Credit profile</h2><span class="note">CIBIL band</span></div>
+        <div class="card" id="cibilBars"></div>
+      </div>
+    </div>
+
+    <!-- ============ LEADS ============ -->
+    <div id="leadsView" class="hidden">
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by name or phone">
+        </div>
+        <button class="filter-trigger-btn" id="openFilterBtn" title="Filters">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+          <span class="filter-count hidden" id="filterCountBadge">0</span>
+        </button>
+      </div>
+      <div class="active-filters-row hidden" id="activeFiltersRow"></div>
+      <div class="sec-head">
+        <h2 id="listTitle">All leads</h2>
+        <button class="link-btn" id="sortBtn">Newest first</button>
+      </div>
+      <div id="leadList"></div>
+    </div>
+
+    <!-- ============ PIPELINE BOARD ============ -->
+    <div id="boardView" class="hidden">
+      <div class="sec-head"><h2>Stage board</h2><span class="note">Tap a stage to see its leads</span></div>
+      <div id="boardList"></div>
+    </div>
+
+    <!-- ============ LENDERS ============ -->
+    <div id="lendersView" class="hidden">
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="lenderSearch" placeholder="Search lender or RM">
+        </div>
+      </div>
+      <div class="chip-row wrap" id="lenderTypeChips" style="margin-bottom:12px;"></div>
+      <div id="lenderDirectory"></div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="home"><span class="ndot"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>Home</button>
+    <button class="nav-item" data-tab="leads"><span class="ndot"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>Leads</button>
+    <button class="nav-item" data-tab="board"><span class="ndot"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1.5"/><rect x="14" y="3" width="7" height="11" rx="1.5"/></svg>Stages</button>
+    <button class="nav-item" data-tab="lenders"><span class="ndot"></span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>Lenders</button>
+  </nav>
+
+  <button class="fab" id="fabAdd">+</button>
+</div>
+
+<!-- ===== SHEETS ===== -->
+<div class="overlay" id="quickOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display">New lead</h3><button class="sheet-close" data-close="quickOverlay">✕</button></div><div class="sheet-body" id="quickBody"></div></div></div>
+
+<div class="overlay" id="wizOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display" id="wizHeaderTitle">Basic details</h3><button class="sheet-close" data-close="wizOverlay">✕</button></div><div class="sheet-body" id="wizBody"></div></div></div>
+
+<div class="overlay" id="detailOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display" id="detailTitle">Lead</h3><button class="sheet-close" data-close="detailOverlay">✕</button></div><div class="sheet-body" id="detailBody"></div></div></div>
+
+<div class="overlay" id="stageOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display" id="stageTitle">Stage</h3><button class="sheet-close" data-close="stageOverlay">✕</button></div><div class="sheet-body" id="stageBody"></div></div></div>
+
+<div class="overlay" id="editOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display">Edit lead</h3><button class="sheet-close" data-close="editOverlay">✕</button></div><div class="sheet-body" id="editBody"></div></div></div>
+
+<div class="overlay" id="filterOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display">Filters</h3><button class="sheet-close" data-close="filterOverlay">✕</button></div><div class="sheet-body" id="filterBody"></div></div></div>
+
+<div class="overlay" id="settingsOverlay"><div class="sheet"><div class="sheet-head"><h3 class="font-display" id="setTitle">Settings</h3><button class="sheet-close" data-close="settingsOverlay">✕</button></div><div class="sheet-body" id="settingsBody"></div></div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= CONSTANTS ================= */
+const CACHE_KEY='clCrmLeads_v2', CONFIG_KEY='clCrmConfig_v2', LENDER_KEY='clCrmLenders_v2';
+
+const STAGES=[
+ {k:'New',                 d:'Name, number, amount and loan type captured.',           c:'#5B6472'},
+ {k:'Basic Details',       d:'Full intake form filled with the customer.',             c:'#1B6FC9'},
+ {k:'Docs Collection',     d:'Collect the document checklist for this profile.',       c:'#0E7C86'},
+ {k:'Lenders Suggestion',  d:'Review lenders that fund this loan type.',               c:'#6D4FC6'},
+ {k:'Eligible Lenders',    d:'Shortlist the lenders this customer qualifies for.',     c:'#C13F84'},
+ {k:'Logined',             d:'File logged in with one or more lenders.',               c:'#12508F'},
+ {k:'Sanctioned',          d:'Lender approved the loan. Record the sanction terms.',   c:'#C9A227'},
+ {k:'Commission Got',      d:'Payout received from the lender.',                       c:'#A8841C'},
+ {k:'Disbursed',           d:'Money credited to the customer.',                        c:'#0F8B5F'},
+ {k:'Closed',              d:'File closed and archived.',                              c:'#0B6E4A'},
+ {k:'Not Eligible',        d:'Customer does not qualify right now.',                   c:'#C0463C'}
+];
+const STAGE_KEYS=STAGES.map(s=>s.k);
+const FLOW_STAGES=STAGE_KEYS.slice(0,10);           // linear path, excludes Not Eligible
+const TERMINAL_STAGES=['Closed','Not Eligible'];
+
+const DISPOSITIONS=['Not Connected','Follow Up','Interested','Disbursed','Closed','Final Not Interested','Not Eligible'];
+const DISPO_COLORS={'Not Connected':'#5B6472','Follow Up':'#D98A2B','Interested':'#1B6FC9','Disbursed':'#0F8B5F','Closed':'#0B6E4A','Final Not Interested':'#8C2F2F','Not Eligible':'#C0463C'};
+const CLOSED_DISPOSITIONS=['Disbursed','Closed','Final Not Interested','Not Eligible'];
+
+const LOAN_TYPES=['Home Loan','Loan Against Property (LAP)','Business Loan','Personal Loan','Vehicle Loan','Shop Loan','Credit Card'];
+const LOANTYPE_COLORS={'Home Loan':'#0F8B5F','Loan Against Property (LAP)':'#0B6E4A','Business Loan':'#C9A227','Personal Loan':'#1B6FC9','Vehicle Loan':'#6D4FC6','Shop Loan':'#A8841C','Credit Card':'#C13F84','Customer Denied':'#8C2F2F'};
+const CUSTOMER_TYPES=['Salaried','Self Employed','Business Owner'];
+const LEAD_SOURCES=['Door To Door Sourcing','Referral','GMB','Social Media','Website','Social Media Ads','Offline Marketing','Existing Customer','Google Ads'];
+const CIBIL_BANDS=['750+','700–749','650–699','Below 650',"Don't know"];
+const PALETTE=['#1B6FC9','#0F8B5F','#C9A227','#6D4FC6','#C13F84','#0E7C86','#8C2F2F','#5B6472','#A8841C','#12508F'];
+
+/* ================= DOCUMENT CHECKLIST MATRIX ================= */
+const DOC_MATRIX={
+  common:{title:'KYC — always needed',items:['Aadhaar card (front & back)','PAN card','Passport-size photo','Address proof (light bill / rent agreement)','Signature on blank paper']},
+  customer:{
+    'Salaried':{title:'Salaried income proof',items:['Last 3 months salary slips','Form 16 (latest)','6–12 months salary bank statement','Employee ID card','Offer / appointment letter','2 years ITR (if available)']},
+    'Self Employed':{title:'Self-employed income proof',items:['Last 3 years ITR with computation','12 months current account statement','12 months savings account statement','Business proof / Udhyam certificate','GST returns (if registered)','Letterhead with seal & sign']},
+    'Business Owner':{title:'Business income proof',items:['Last 3 years ITR with computation','Audited balance sheet & P&L','12 months current account statement','GST returns (last 12 months)','Udhyam / Shop Act / Trade licence','Partnership deed or MOA (if firm)','Business address proof']}
+  },
+  loan:{
+    'Home Loan':{title:'Property & home loan papers',items:['Registry / sale deed','Patta or lease deed','Nakal / Khatoni','Approved map (naksha)','NOC from authority or Gram Panchayat','Chain of documents (old deeds)','Property tax receipt','Construction estimate from engineer','Builder agreement / allotment letter','Loan statement (if balance transfer)']},
+    'Loan Against Property (LAP)':{title:'Property papers for LAP',items:['Registry / sale deed','Patta or lease deed','Nakal / Khatoni','Approved map (naksha)','NOC from authority or Gram Panchayat','Chain of documents (old deeds)','Property tax receipt','Current loan statement (if mortgaged)','Property photos (inside & outside)']},
+    'Business Loan':{title:'Business loan papers',items:['Business vintage proof (3 years)','Turnover / sales proof','Shop ownership or rent agreement','Existing loan statements','Stock or purchase register']},
+    'Personal Loan':{title:'Personal loan papers',items:['Existing loan statements','Salary account statement (6 months)','Reference contacts (2 persons)']},
+    'Vehicle Loan':{title:'Vehicle loan papers',items:['Vehicle quotation / proforma invoice','RC book (for used vehicle)','Insurance copy (for used vehicle)','Driving licence','Valuation report (used vehicle)','Seller KYC (used vehicle)']},
+    'Shop Loan':{title:'Shop loan papers',items:['Shop ownership papers or rent agreement','Shop Act / trade licence','Stock statement','Business vintage proof']},
+    'Credit Card':{title:'Credit card papers',items:['Latest salary slip','3 months bank statement','Existing card statement (if any)']}
+  },
+  coapp:{title:'Co-applicant papers',items:['Co-applicant Aadhaar & PAN','Co-applicant photo','Co-applicant income proof','Co-applicant bank statement']}
+};
+function docChecklistFor(lead){
+  const groups=[{...DOC_MATRIX.common}];
+  const ct=lead.customerType||(lead.profile&&lead.profile.employmentType)||'';
+  if(DOC_MATRIX.customer[ct]) groups.push({...DOC_MATRIX.customer[ct]});
+  const lt=lead.loanType;
+  if(DOC_MATRIX.loan[lt]) groups.push({...DOC_MATRIX.loan[lt]});
+  if(lead.profile&&lead.profile.hasCoApplicants==='Yes') groups.push({...DOC_MATRIX.coapp});
+  const custom=(lead.customDocs||[]);
+  if(custom.length) groups.push({title:'Added by you',items:custom});
+  return groups;
+}
+
+/* ================= LENDER MASTER ================= */
+const LENDER_SEED=[{"id":"indianbank","name":"Indian Bank","products":[{"type":"Home Loan","name":"Home Loan","rm":"Manoj Kumar( Loan Officer)","rmContact":"9530219268","range":"30L+","ltv":"30L- = 90%LTV | 1Cr- =80% | Cr+ = 75% LTV |","roi":"7.15% - 7.50%","tenure":"15yr-30yr","pf":"Max 5K","foreclosure":"Nil","lockin":"1Yr","partPay":"No limit","partPayRules":"","insurance":"1Cr - 10k","otherCharges":"Login-0 | legal 10k | Tech 7k","topup":"yes","income":"Min 5L/Yr (if self then in itr also)","employment":"Seleried/Self","experience":"Sel 2yr/self 3yr itr","cibil":"730+","age":"21-70yr","incomeMode":"Bank Seleried/Balance sheet","kyc":"AAdhar, Pan","incomeProof":"Banking, Form 16(sel),3Yr ITR(Self)","otherDocs":"Property Docs","foir":"0.6","dpd":"60days max","payout":"0.6%"}],"regStatus":"CODE - When Gives 30L+ First File","branch":"Near CA harish, Shashtri Nagar, Chittorgarh","portal":"","credentials":"no","support":"","compliance":"","payoutMode":"","payoutCycle":"After 20% Disbursed (only HL)","escalation":"Punit ji (BM) - 7073452516","loginMethod":"Direct","loginTat":"1 Week","clawback":"no payout on Existing Customers of bank","serviceArea":"10KM Branch (Only City - no rural)","negatives":"Poloitician , M Community","target":"High Income","highApproval":"Seleried/Business","offers":"","rm":"Manoj Kumar( Loan Officer)","rmContact":"9530219268"},{"id":"idbibank","name":"IDBI Bank","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"Anshul Agrawal(BM)","rmContact":"9376513969","range":"10L+","ltv":"Not Disclose (income 25k Exc. Emi's)","roi":"7.50% -12.25","tenure":"15yr","pf":"0.005","foreclosure":"nil","lockin":"1yr","partPay":"","partPayRules":"","insurance":"property mendetory","otherCharges":"login min 5k+gst","topup":"","income":"25k(excl emi's)","employment":"seleried(permanent employee), Self (Both itr must)","experience":"seleried(1yr) / self(2yr) ITR","cibil":"721+","age":"60yr","incomeMode":"Account","kyc":"same as other","incomeProof":"both Emp ITR 1/3yr, and other are same,","otherDocs":"property docs -all legal properties","foir":"not disclocee","dpd":"","payout":"50L- = 0.25% || 50L+ = 0.30% (if 5cr+ only 1L)"},{"type":"Home Loan","name":"BT,P+C,HP, (NOT PLOT P SOLE)","rm":"","rmContact":"","range":"","ltv":"","roi":"","tenure":"30yr","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"Code give for HL LAP only - when file gives- file denge to panel par lenge or sikhayenge","branch":"Front of Indira Gandhi Stadium","portal":"","credentials":"","support":"","compliance":"payout eksath nahi milega tanure ke aaording kisto me milega - agar bich me default hota hai to payment ruk jayega","payoutMode":"","payoutCycle":"according tanure - kisto me","escalation":"Anshul Agrawal(BM)-9376513969, Shaurya(assist. M)-9711908626","loginMethod":"direct bm","loginTat":"7 days","clawback":"payout according tanure- stop if default","serviceArea":"20KM from branch (Only City - no rural)","negatives":"no community , other accepts","target":"hingh income with verified ITR for both","highApproval":"","offers":"","rm":"Anshul Agrawal(BM)","rmContact":"9376513969"},{"id":"yesbank","name":"Yes Bank","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"Digvijay Chouhan","rmContact":"9887612452","range":"20L -15Cr","ltv":"LTV 45%","roi":"8.5 - 10%(50L 9.5%, 50L-1cr 9%, 1-2cr 8.75, 5cr 8.5%)","tenure":"5yr - 15yr","pf":"1% +gst","foreclosure":"under 1yr 5%","lockin":"after 1yr","partPay":"Remain 25%","partPayRules":"after 1yr","insurance":"1% icici, reliance (0 if high profile customer low risk)","otherCharges":"stamp, legal","topup":"according cx after 3m","income":"50k documented/ 35k saleried","employment":"sal/self","experience":"2yr","cibil":"660+reason/ 700+","age":"18-65yr","incomeMode":"acount saleried","kyc":"aadhar, pan","incomeProof":"3m pay slip","otherDocs":"2yr itr, audit report, property docs","foir":"sal 60% / sel 100%","dpd":"last 2yr no dpd","payout":"1.5%"}],"regStatus":"Only Corporate DSA se ho payega - direct nahi","branch":"Front of Mejar Natwar govt school","portal":"only corporate DSA","credentials":"","support":"digpal.chouhan@yesbank.in","compliance":"","payoutMode":"","payoutCycle":"45 days","escalation":"Digvijay","loginMethod":"direct no code","loginTat":"10-15 days","clawback":"","serviceArea":"only nagar palika Chittor, Nimbahera (Only City - no rural)","negatives":"","target":"high profile business","highApproval":"","offers":"","rm":"Digvijay Chouhan","rmContact":"9887612452"},{"id":"dcbbank","name":"DCB Bank","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"KANHAIYA LAK(BM)","rmContact":"7568750203","range":"3L - 3CR","ltv":"DVR AND LTV 70%","roi":"11%-17% ( IF AMT HIGH THEN LESS)","tenure":"15 YRS","pf":"1.5% - 2%","foreclosure":"SELF 0%, BT - ACC TANURE","lockin":"NO LOCKIN (POLICY 2M)","partPay":"MAX 25% PER YEAR(NO CHARGES)","partPayRules":"","insurance":"MIN 3% INSURANCE","otherCharges":"LOGIN 6K, STAMP,GOVT RM","topup":"AFTER 6-7M EMI (NO BOUNCE)","income":"10K+","employment":"SAL/SELF","experience":"2YR","cibil":"685+","age":"21-70YR","incomeMode":"CASH /AC / DAILY WAGES(WITH PROOF)","kyc":"AADHAR PAN","incomeProof":"","otherDocs":"LIGHT BILL(COMP IN LAP), PROPERTY DOCS, (GRAM P NOC)","foir":"0.6","dpd":"90 DAYS","payout":"0.5%"},{"type":"Home Loan","name":"PURCHASE, P+C, BT","rm":"","rmContact":"","range":"","ltv":"LTV 85-90%","roi":"9.5%-13%","tenure":"20 YRS","pf":"","foreclosure":"NIL","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"LOGIN 3K, STAMP,GOVT RM","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"RM ka Payout denge - abhi bank me aage se DSA rule nahi aya hai","branch":"Shashtri Nagar, near Balaji Mandir, Chittorgarh","portal":"","credentials":"","support":"Kanhaiyalal.dhaker@dcbbank.com","compliance":"2M minimum EMI","payoutMode":"","payoutCycle":"next to next month (26-27 date)","escalation":"Kanhaiya Dhaker(sales manager bm) - 7568750203","loginMethod":"DIRECT","loginTat":"4DAYS SENCTION, 7 DAYS DISBURSED","clawback":"2 MONTH MIN EMI","serviceArea":"50KM FROM BRANCH( BOTH ALLOW RURAL CITY)","negatives":"ADVOCATE, JUDGE, PROPERY BROCKER,","target":"LAP, BUSINESS PROFILE","highApproval":"","offers":"","rm":"KANHAIYA LAK(BM)","rmContact":"7568750203"},{"id":"hindujahousingfina","name":"Hinduja Housing Finance","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"Rohit Singh (HL/LAP)","rmContact":"7877141561","range":"5L - 50L","ltv":"LTV 60%","roi":"14.5% - 18% (15%)","tenure":"12YR","pf":"0.01","foreclosure":"0.025","lockin":"no limit","partPay":"min - emi*3","partPayRules":"","insurance":"7%(5% aft waiver)","otherCharges":"login 2000","topup":"aft 9M","income":"18k+","employment":"sal, self, business","experience":"2yr","cibil":"650+","age":"21-55yr","incomeMode":"BANK SAL","kyc":"AADHAR, PAN","incomeProof":"","otherDocs":"LOAN STATEMENT IF BT, PROPERTY PAPER","foir":"45-55%","dpd":"NOT IN LAST 3M","payout":"0.6%"},{"type":"Home Loan","name":"P+C, Constuction, Extension,","rm":"Bhavesh jain(HL, LAP) BEGU","rmContact":"8529473863","range":"5L - 50L","ltv":"LTV 80%(pure const 100%)","roi":"9.5% - 14.5% (13.5%)","tenure":"20 yr","pf":"0.01","foreclosure":"nil","lockin":"no limit","partPay":"min - emi*3","partPayRules":"","insurance":"0.05","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"BANK OR CASH SALARIED","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":"0.8%"},{"type":"Business Loan","name":"BL(secured) - only self owned property","rm":"","rmContact":"","range":"","ltv":"","roi":"","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""},{"type":"Vehicle Loan","name":"new teller no payout, old(unse baat krni) both -","rm":"Ritik(new Vehicle, no payot)","rmContact":"9521750744","range":"","ltv":"","roi":"14% - 18%","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"Done Ajay DSA- verifying physically","branch":"Roadways bustand ke pas parathe wali gali, near icici bank, chittor","portal":"no","credentials":"pending","support":"","compliance":"12m emi pay","payoutMode":"IOB Bank Cheque","payoutCycle":"on disb - 30 days","escalation":"Imran (Cluster business head) - 7737749047, PARWAT SINGH RAJPUT(BM) - 8005956603","loginMethod":"DIRECT CLOSTER","loginTat":"3-7 DAYS","clawback":"12 EMI","serviceArea":"75KM FROM BRANCH(BOTH ALLOW RURAL CITY)","negatives":"NASHE WALE DHANDHE, ADVOCATE, NON VEG,","target":"MANDI WALE, VILLAGE, DAIRY, SHOP, SMALL BUSINESS (NOT TEMP SETUP)","highApproval":"","offers":"","rm":"Rohit Singh (HL/LAP)","rmContact":"7877141561"},{"id":"bajajhousingfinanc","name":"Bajaj Housing finance","products":[{"type":"Home Loan","name":"HL BT, Self Construction, P+C, Resell Purchase, Seller BT,","rm":"Gopal Bhand","rmContact":"9166157845","range":"5L - 75L","ltv":"LTV 35L- = 90% | 35L+ = 80%","roi":"9.95% - 14% (11%)","tenure":"5yr-20yr (25yr seleried)","pf":"1% gst","foreclosure":"under 3yr 4%, afer nil","lockin":"1 yr","partPay":"","partPayRules":"4% on part payment","insurance":"3-4% ADD ON LOAN","otherCharges":"LOGIN 1999, STAMP, RM","topup":"AFT 1 YR","income":"15K-20K+","employment":"sal/self/bus","experience":"1yr","cibil":"700+","age":"23 to 60yr(sal) and 70-75yr(self)","incomeMode":"educated and living standard - cash, bank, daily wages with proof, agri property ind income,","kyc":"aadhar pan","incomeProof":"ITR, NON ITR, UDHYAM 1 YR, LETTER PAD, 1YR BANKING, 3M SALARY SLIP","otherDocs":"PROPERTY PAPERS","foir":"SAL 70% / SELF 80%","dpd":"6M NO DPD, 1YR 2 BOUNCE/DUE","payout":"0.40% (LEAD VOLUME KE SATH BADHEGA), ONLY SELF CONST 1 KIST DISB PAR 100% PAYOUT"}],"regStatus":"Reg pending - docs mail send - aadhar pan, mail id, address, udhyam, cancel cheque or bank details","branch":"Meera Market- Sbi bank ke samne, Chittorgarh","portal":"","credentials":"","support":"Gopal.bhand@bajajhousing.biz","compliance":"min 12 emi pay","payoutMode":"","payoutCycle":"1M bill on mail","escalation":"Narendra(Area Sales Manager) - 8502005664","loginMethod":"DIRECT SM(LINK BUT DIRECT)","loginTat":"MAX 15 DAYS","clawback":"MIN 12 EMI","serviceArea":"50KM CHITTOR (RURAL CITY BOTH), BEGU 25KM, KAPASAN 25KM, MANDALGARH 25KM, BHILWARA 25KM","negatives":"M CLASS HOGA, NO KACCHI BASTI, NO COMMUNITY AREA","target":"BANK SAL,ITR (ALL YES CASH,NON ITR)","highApproval":"","offers":"ONLY LOGIN, DSAOFFER MAIL","rm":"Gopal Bhand","rmContact":"9166157845"},{"id":"idfcfirstbank","name":"IDFC First Bank","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"SAMPAT JI(sales)","rmContact":"9660679175","range":"5L - 50L","ltv":"LTV 65%","roi":"14%-19% FIXED ( AFT BM Vaiw 12-16)","tenure":"180 M","pf":"12L+ =1.5% | 12L- = 2% GST","foreclosure":"3% + GST","lockin":"After 6M","partPay":"Remain Principal *25% Per Year","partPayRules":"After 6M - min no limit","insurance":"2% ICICI (acc. Age)","otherCharges":"Login Fee - 2500","topup":"After Starting Emi to 12M (also 2% roi vaiwer)","income":"10000+","employment":"Salaried(cash with proof), Bus(cash+ITR)","experience":"3yr Exp/vintage","cibil":"680+","age":"Sal 18-60, Bus 21-75","incomeMode":"Daily Wages (proof), bus-cash+bank, Salaried - Bank","kyc":"AAdhar, Pan/Voter id(applicant Pan Comp)","incomeProof":"Sal - 3M Payslip, latter pad with seel&sign, Pf statement || Business - ITR or cash flow no itr(sell proof)","otherDocs":"Propert Papers( gram P, Nagar Palika, UIT, nagar parishad, Agri- convert)","foir":"0.55","dpd":"BEFORE 6M, if Settlement aft 1yr with 1 loan mid","payout":"50L+=0.7%||50L-=0.6%"},{"type":"Home Loan","name":"SELF CONSTRUCTION","rm":"HEERA LAL(sales)","rmContact":"","range":"5L - 50L","ltv":"LTV 75%","roi":"10L+ = 10%-16% 10L- = 12%-18% ( Fixed or Floating ) (2% viewer By BM for all)","tenure":"240 M","pf":"12L+ =1% | 12L- = 1.5% GST","foreclosure":"0","lockin":"After 6M","partPay":"Remain Principal *25% Per Year","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"650+","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"0.75","dpd":"","payout":"50L+=0.6%||50L-=0.5%"},{"type":"Home Loan","name":"HOUSE PURCHASE","rm":"HEERA LAL(sales)","rmContact":"","range":"5L - 50L","ltv":"LTV 90%","roi":"","tenure":"240 M","pf":"","foreclosure":"","lockin":"After 6M","partPay":"Remain Principal *25% Per Year","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""},{"type":"Home Loan","name":"PURCHACE + CONSTRUCTION","rm":"HEERA LAL(sales)","rmContact":"","range":"5L - 50L","ltv":"LTV P70%+C75%","roi":"","tenure":"240 M","pf":"","foreclosure":"","lockin":"After 6M","partPay":"Remain Principal *25% Per Year","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"Done Ajay (Connector) - Aft 6M Daily Business Dete he to DSA Code Banega(0.8-1%||1.2-1.50%)","branch":"Keer Khera Petrol Pump ke pas, Chittorgarh","portal":"MyFirst Partner App","credentials":"Ajay - 9950990518,OTP","support":"Ratan.Rao@idfcfirstbank.com","compliance":"case cancel after disb no payout","payoutMode":"Bank - not updated","payoutCycle":"After 15 days - 1 or 30","escalation":"Ratan Singh Rao (BM) - 8949774512","loginMethod":"Direct Branch","loginTat":"Max 7 Day ( Login Fee-Credit Que Visit - Soft Senction - Legal Tech Report - Hard Senction - RM(Reg Mortgage every lender) 1%+GST - Disbursed","clawback":"Case Cancel No Payment","serviceArea":"40KM From Branch (Rural- Semi urban Both OK)","negatives":"M Class in Basti, Police, Mistri(if Gay bhes then ok), Advocate, Non Sransfer Patta)","target":"Salaried","highApproval":"Salaried","offers":"Login Fee, DSA Gifts","rm":"SAMPAT JI(sales)","rmContact":"9660679175"},{"id":"aadityabirlahousin","name":"AADITYA BIRLA HOUSING FINANCE","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"PRAHLAD RAY(BSM)","rmContact":"9414736385","range":"5L - 60L","ltv":"LTV 50% , 60% AC SAL","roi":"12-16% (13-14)","tenure":"15YR","pf":"1.5% GST","foreclosure":"","lockin":"1YR","partPay":"UPTO 25% YR - 0 CHARGES","partPayRules":"MORE THEN 25% EXTRA CHARGES","insurance":"ACCORDING AGE","otherCharges":"LOGIN 1180","topup":"AFT 1 YR","income":"CASH-20K, SAL-12K","employment":"SEL/SELF","experience":"2YR","cibil":"650+","age":"SAL 22-60YR || SELF 22-70YR","incomeMode":"CASH, BANK, DAILY WAGES","kyc":"AADHAR PAN","incomeProof":"LETTERPAD, 6M SALARY SLIP, 1YR BANKING, GST(IF HAVE),","otherDocs":"PHOTO, PROP DOCS","foir":"40%, 50-55%","dpd":"LAST 1YR NO DPD","payout":"0.8%"},{"type":"Home Loan","name":"HL BT, PURCHACE P+C, CONSTRUCTION","rm":"","rmContact":"","range":"5L - 1CR","ltv":"","roi":"11-14% (11-12)","tenure":"20YR(30YR SAL)","pf":"","foreclosure":"0","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":"0.6%"}],"regStatus":"DONE - AJAY FINANCIAL ADVISOR","branch":"PURNIMA KACHORI WALE KE UPAR, MEERA MARKET, CHITTOR","portal":"ABC STALLER APP","credentials":"AJAY - 9950990518, OTP","support":"","compliance":"CX LENDER KO NAHI BOLNA CHAHIYE KI KOI CHARGE LIYA, 1YR MIN CHALANA, NO PENDING DOCS,","payoutMode":"BANK - BOI CHEQUE","payoutCycle":"AFTER 15, NEXT MONTH","escalation":"PRAHLAD RAY (BSM)","loginMethod":"DIRECT RM","loginTat":"7-10DAYS","clawback":"NO PENDING DOCS, 1YR RUN","serviceArea":"50KM BRANCH (Rural- Semi urban Both OK)","negatives":"KACCHI BASTI, COMMUNITY AREA, DAILY WAGES(NO PROOF), VINE SHOP, NON VAGE, POLITICIAN, ADV, DRIVER(OTHERS WITH CASH INCOME),","target":"BUSINESS, ITR, CASH VERIFYING,","highApproval":"BANK SALARIED, ITR","offers":"","rm":"PRAHLAD RAY(BSM)","rmContact":"9414736385"},{"id":"fedbank","name":"FED BANK","products":[{"type":"Loan Against Property (LAP)","name":"Loan Against Property (LAP)","rm":"RAJKUMAR AHIR(BM)","rmContact":"9982051215","range":"5L - 75L","ltv":"LTV OR INCOME WHICH IS LOWER","roi":"12%-18% (16-17%","tenure":"15YR","pf":"2-2.5% +GST","foreclosure":"4%+GST","lockin":"AFT 12M","partPay":"Remain Principal *25% Per Year","partPayRules":"AFT 1YR","insurance":"0.04","otherCharges":"LOGIN - 1180(2980)","topup":"AFT 12M(NO BOUNCE)","income":"SAL-20K | SELF -25K","employment":"SEL/SELF","experience":"3YR","cibil":"650+","age":"21-65YR","incomeMode":"BANK SALARIED","kyc":"AADHAR PAN","incomeProof":"1YR BANKING, 2YR ITR,","otherDocs":"PROPERTY PAPERS, UDHYAM","foir":"40% (BOTH INCOME WISE)","dpd":"6M BEFORE WITH JUSTIFICATION","payout":"50L- = 0.60 | 51L-1CR = 0.75% | AFT 1CR 1%"},{"type":"Home Loan","name":"Home Loan","rm":"","rmContact":"","range":"","ltv":"","roi":"12%-16%","tenure":"20YR","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"0.6","dpd":"","payout":""}],"regStatus":"REG PENDING - UDHYAM, CANCEL CHEQUE, 2 PHOTO, AADHAR PAN, 6M BANK STATEMENT, 500RS AGREEMENT","branch":"2ND FLOOR ON YES BANK ,SHASHTRI NAGAR CHOURAHA, CHITTORGARH","portal":"","credentials":"","support":"","compliance":"","payoutMode":"","payoutCycle":"FINAL DISB - WITHIN 15DAYS, DATE 15,25,5","escalation":"RAJKUMAR AHIR (BM) - 9982051215","loginMethod":"DIRECT CONNECT","loginTat":"5 DAYS (LOGIN, SENCTION, DISB)","clawback":"","serviceArea":"50KM FROM BRANCH , BHILWARA CHITTOR (RURAL- CITY BOTH)","negatives":"LAWYER, POLITICIAN, DAILY WAGES, NON VEG, CASH SALARIED,","target":"SALARIED, SELF EMP, BUSINESS, DAIRY","highApproval":"","offers":"LOGIN, DSA VOUCHER, TOUR","rm":"RAJKUMAR AHIR(BM)","rmContact":"9982051215"},{"id":"unicohousingfinanc","name":"UNICO HOUSING FINANCE","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"ANIL YADAV(RM)","rmContact":"8000383437","range":"3L-10L (PARTNER - GODREJ 3L-50L 12%-14%)","ltv":"55-60% LTV","roi":"18.5-24%","tenure":"5-15YRS","pf":"2.5% GST","foreclosure":"SELF 0% || BT 4%","lockin":"1YR","partPay":"1L MIN WITH APPROVAL","partPayRules":"EVERY 6M","insurance":"ACCORDING AGE","otherCharges":"LOGIN FEE 5000, (GIVE MIN HL-999, LAP-1499 AND REMAIN DEDUCT FROM DISB)","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""},{"type":"Home Loan","name":"BT, RNR, PURCHACE P+C","rm":"","rmContact":"","range":"5L-30L","ltv":"100% LTV","roi":"13.5%-16.5%","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"1 YR","income":"MIN 20K (ADJUSTABLE)","employment":"SAL, SELF","experience":"2YR","cibil":"600+","age":"21-55YR","incomeMode":"CASH,BSNK,DAILY WAGES","kyc":"AADHAR PAN","incomeProof":"KACCHA PAKKA DAIRY, 1YR BANKING, 2M SALARY SLIP","otherDocs":"PROPERTY DOCS, UDHYAM(COMP),","foir":"0.6","dpd":"","payout":"1-1.5% (30L-=1%| 31L-60L=1.25% | 60L+ = 1.5%)"}],"regStatus":"DONE - AJAY - CODE PENDING","branch":"AMBE MARKET, NEAR BOB ATM, CHITTORGARH","portal":"","credentials":"","support":"","compliance":"","payoutMode":"BANK - BOB","payoutCycle":"20 DAY AFT 1ST DISB || BEFORE 16 DISB - 28,30 AND AFT 16 DISB - NEXT MONTH 28","escalation":"AMIT SHARMA (BM) - 8432992222","loginMethod":"","loginTat":"","clawback":"","serviceArea":"","negatives":"","target":"","highApproval":"","offers":"","rm":"ANIL YADAV(RM)","rmContact":"8000383437"},{"id":"tygercapital","name":"TYGER CAPITAL","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"BHUPENDRA SUTHAR(BM)","rmContact":"8104207721","range":"2L - 75L","ltv":"LTV 75-80%","roi":"13-22%(15-16%)","tenure":"5-15YR","pf":"2% + GST","foreclosure":"3-5%","lockin":"ANYTIME","partPay":"25% 1YR","partPayRules":"UNDER THIS NO CHARGES","insurance":"0.035","otherCharges":"LOGIN 500, STAMP, RM(1.5%)","topup":"AFT 12M (NO BOUNCE)","income":"12K (25-30% ADJUST)","employment":"SAL,SELF (SENP,SMP)","experience":"18M","cibil":"650+","age":"21-65YR","incomeMode":"SAL(ONLY BANK, NO CASH ANYWAY), BUSINESS","kyc":"AADHAR, PAN","incomeProof":"KACCHA PAKKA BUSINESS KA, 35L+ ITR, 3 SALARY SLIP, 6M BANKING","otherDocs":"PROPERTY PAPER","foir":"SELF 60%, SAL 50%","dpd":"LAST 3M NO DPD, BEFORE REASON WITH PROOF(MEDICAL REP)","payout":"0.82%"},{"type":"Home Loan","name":"ALL","rm":"SOHAN LAL KUMAWAT(BM)","rmContact":"9680398206","range":"5L - 40L","ltv":"LTV 80%","roi":"","tenure":"20YRS","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":"1% INDUVIDIAL, 1.5% COM DSA"},{"type":"Vehicle Loan","name":"COMMERCIAL","rm":"RAMESH MEGHWAL","rmContact":"9929329705","range":"","ltv":"","roi":"","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"REG PENDING - NEWBITE PORTAL PAR KARWANA HE - BM KA BETA KAREGA - APP LINK ALSO SENDED ON WHATSAPP","branch":"FRONT OF THANDA-GARAM CAFE, AMBE MARKET, CHITTORGARH","portal":"NEW BITE","credentials":"","support":"","compliance":"","payoutMode":"","payoutCycle":"AFTER 2 DAYS","escalation":"BHUPENDRA SUTHAR (BM-LAP)-8104207721, SOHANLAL KUMAWAT (BM HL, ON RESIGN)","loginMethod":"LEAD IN LINK THEN BM","loginTat":"7 DAYS","clawback":"","serviceArea":"ALL INDIA (RURAL CITY BOTH)","negatives":"COM MOHALLA HARIJAN KALBELIYA, BANJARA, MUSLIMS","target":"PLOT MORGAGE IN VILLAGE ROI18-16%, VALUATION HIGH DETE HE","highApproval":"2L-20L HO JATE HE, BADE ME DIKKAT","offers":"","rm":"BHUPENDRA SUTHAR(BM)","rmContact":"8104207721"},{"id":"sundaramfinance","name":"SUNDARAM FINANCE","products":[{"type":"Vehicle Loan","name":"USED AND NEW BOTH - TRACTOR, CAR, JCB, CVC, TRUCK(AFTER 2016 MODELS ONLY)","rm":"NAND KISHOR KHAKER(SE)","rmContact":"8306996330","range":"","ltv":"","roi":"18.5%-20%(TRACTOR) , 14-16%(CAR,JCB)","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":"1% COMMISION"}],"regStatus":"REG AND MORE DETAILS PENDING - JAB FILE HOGI TAB KARWAYENGE","branch":"SBI BANK KE SAMNE , MEERA MARKET, CHITTORGARH","portal":"","credentials":"","support":"NANDKISHORD@SUNDARAMFINANCE.IN","compliance":"","payoutMode":"","payoutCycle":"","escalation":"NAND KISHOR KHAKER(SENIOR EXICUTIVE) - 8306996330, +911472247877","loginMethod":"","loginTat":"","clawback":"","serviceArea":"","negatives":"","target":"","highApproval":"","offers":"","rm":"NAND KISHOR KHAKER(SE)","rmContact":"8306996330"},{"id":"ltfinance","name":"L&T FINANCE","products":[{"type":"Loan Against Property (LAP)","name":"LAP","rm":"ASHOK","rmContact":"8209948846","range":"3L - 25L","ltv":"","roi":"13-18%","tenure":"","pf":"","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"","topup":"","income":"","employment":"","experience":"","cibil":"","age":"","incomeMode":"","kyc":"","incomeProof":"","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"REG AND MORE DETAILS PENDING - CONNECTOR CODE RM DEGA","branch":"LADDA CLINIC KE SAMNE, SECOND FLOOR CORNER, MEERA MARKET CHITTORGARH","portal":"","credentials":"","support":"","compliance":"","payoutMode":"","payoutCycle":"","escalation":"SURESH (BM)","loginMethod":"","loginTat":"","clawback":"","serviceArea":"","negatives":"","target":"","highApproval":"","offers":"","rm":"ASHOK","rmContact":"8209948846"},{"id":"ayefinance","name":"AYE FINANCE","products":[{"type":"Business Loan","name":"BL (GAY-BHENS, DUKAN, CASH ONLY BUSINESS) / ONLY PATTA MORTGAGE ALSO","rm":"TARUN JI","rmContact":"9351834633","range":"50K - 2L","ltv":"4 LOAN YA USSE JYADA NAHI CHALNE CHAHIYE PEHLE SE","roi":"22-32%","tenure":"","pf":"NO","foreclosure":"","lockin":"","partPay":"","partPayRules":"","insurance":"","otherCharges":"NO LOGIN","topup":"","income":"NO MIN INCOME","employment":"SMALL BIS OWNERS","experience":"","cibil":"700+ , NO LATEST OVERDUE","age":"","incomeMode":"CASH","kyc":"AADHAR PAN","incomeProof":"BANK","otherDocs":"","foir":"","dpd":"","payout":""}],"regStatus":"NO REGISTRATION - DONT GIVES CONNECTOR CODE","branch":"UNICO FINANCE AND B&D CLOTHES KE UPAR, AMBE MARKET, CHITTORGARH","portal":"","credentials":"","support":"","compliance":"NO PAUOUT AVAILABLE","payoutMode":"","payoutCycle":"","escalation":"TARUN (UNSECURED BL) - 9351834633","loginMethod":"","loginTat":"","clawback":"","serviceArea":"70KM FROM BRANCH","negatives":"","target":"","highApproval":"","offers":"","rm":"TARUN JI","rmContact":"9351834633"}];
+
+function loadLenders(){
+  try{const r=localStorage.getItem(LENDER_KEY); if(r){const p=JSON.parse(r); if(Array.isArray(p)&&p.length) return p;}}catch(e){}
+  return JSON.parse(JSON.stringify(LENDER_SEED));
+}
+function saveLenders(){
+  localStorage.setItem(LENDER_KEY,JSON.stringify(lenders));
+  if(config&&config.url) sheetRequest({action:'saveLenders',lenders}).catch(()=>{});
+}
+let lenders=loadLenders();
+function lenderById(id){ return lenders.find(l=>l.id===id); }
+function productKey(lid,idx){ return lid+'::'+idx; }
+function productByKey(key){
+  const [lid,idx]=String(key).split('::'); const l=lenderById(lid);
+  if(!l||!l.products[idx]) return null;
+  return {lender:l,product:l.products[idx],key:key};
+}
+function lenderOptionsFor(loanType){
+  const out=[];
+  lenders.forEach(l=>l.products.forEach((p,i)=>{ if(p.type===loanType) out.push({lender:l,product:p,key:productKey(l.id,i)}); }));
+  return out;
+}
+
+/* amount range parsing: "5L - 50L", "30L+", "50K - 2L", "3L - 3CR" */
+function parseUnit(tok){
+  const m=String(tok).toUpperCase().match(/([\d.]+)\s*(CR|L|K)?/);
+  if(!m) return null;
+  let n=parseFloat(m[1]); const u=m[2]||'';
+  if(u==='CR') n*=1e7; else if(u==='L') n*=1e5; else if(u==='K') n*=1e3;
+  return n;
+}
+function rangeFit(rangeStr,amount){
+  if(!rangeStr||!amount) return null;
+  const s=String(rangeStr).toUpperCase();
+  const parts=s.match(/[\d.]+\s*(?:CR|L|K)?/g);
+  if(!parts||!parts.length) return null;
+  const min=parseUnit(parts[0]);
+  let max=parts[1]?parseUnit(parts[1]):null;
+  if(s.includes('+')&&!parts[1]) max=Infinity;
+  if(min===null) return null;
+  if(max===null) max=Infinity;
+  return amount>=min&&amount<=max;
+}
+
+/* ================= CONFIG + STORAGE ================= */
+function loadConfig(){ try{return JSON.parse(localStorage.getItem(CONFIG_KEY))||{url:'',key:''};}catch(e){return {url:'',key:''};} }
+function saveConfig(c){ localStorage.setItem(CONFIG_KEY,JSON.stringify(c)); }
+let config=loadConfig();
+
+function loadCache(){ try{const r=localStorage.getItem(CACHE_KEY); return r?JSON.parse(r):[];}catch(e){return [];} }
+function saveCache(){ try{localStorage.setItem(CACHE_KEY,JSON.stringify(leads));}catch(e){} }
+let leads=loadCache().map(normalizeLead);
+
+function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function todayStr(){ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
+
+function normalizeLead(l){
+  return {
+    id:l.id||uid(), name:l.name||'', phone:String(l.phone||''),
+    loanType:l.loanType||'Home Loan', amount:Number(l.amount)||0,
+    customerType:l.customerType||'', source:l.source||'Door To Door Sourcing', city:l.city||'',
+    stage:STAGE_KEYS.includes(l.stage)?l.stage:'New',
+    disposition:DISPOSITIONS.includes(l.disposition)?l.disposition:'Not Connected',
+    followUpAt:l.followUpAt||null, createdAt:Number(l.createdAt)||Date.now(),
+    profile:l.profile||{}, docs:l.docs||{}, customDocs:l.customDocs||[],
+    suggested:l.suggested||[], eligible:l.eligible||[], logins:l.logins||[],
+    sanction:l.sanction||null, commission:l.commission||null, disbursal:l.disbursal||null,
+    closure:l.closure||null, notEligible:l.notEligible||null,
+    timeline:Array.isArray(l.timeline)?l.timeline:[]
+  };
+}
+
+/* ================= SYNC (optional Google Apps Script) ================= */
+function setSyncStatus(state,label){
+  const d=document.getElementById('syncDot');
+  d.className='sync-dot'+(state==='on'?'':state==='busy'?' busy':' off');
+  document.getElementById('syncLabel').textContent=label;
+}
+async function sheetRequest(payload){
+  if(!config.url) throw new Error('no-url');
+  const res=await fetch(config.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({key:config.key||''},payload))});
+  const data=await res.json();
+  if(data.error) throw new Error(data.error);
+  return data;
+}
+async function fullSync(){
+  if(!config.url){ setSyncStatus('off','Saved on this device'); document.getElementById('setupBanner').classList.remove('hidden'); return; }
+  document.getElementById('setupBanner').classList.add('hidden');
+  setSyncStatus('busy','Syncing');
+  try{
+    const data=await sheetRequest({action:'list'});
+    const remote=(data.leads||[]).map(normalizeLead);
+    if(!remote.length && leads.length){
+      /* Sheet is empty but this phone has leads: upload instead of wiping them */
+      await sheetRequest({action:'bulk',leads});
+    } else { leads=remote; saveCache(); }
+    if(Array.isArray(data.lenders)&&data.lenders.length){
+      lenders=data.lenders; localStorage.setItem(LENDER_KEY,JSON.stringify(lenders));
+    } else if(lenders.length){
+      sheetRequest({action:'saveLenders',lenders}).catch(()=>{});
+    }
+    setSyncStatus('on','Synced with Google Sheet'); renderAll();
+  }catch(e){ setSyncStatus('off','Sync failed — showing device copy'); }
+}
+async function push(action,payload){
+  saveCache();
+  if(!config.url) return;
+  try{ await sheetRequest(Object.assign({action},payload)); setSyncStatus('on','Synced with Google Sheet'); }
+  catch(e){ setSyncStatus('off','Saved on device — will retry'); }
+}
+
+/* ================= HELPERS ================= */
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2400); }
+function esc(s){ const d=document.createElement('div'); d.textContent=(s===undefined||s===null)?'':s; return d.innerHTML; }
+function initials(n){ return (n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+function money(n){ n=Number(n)||0; if(!n) return '—'; if(n>=1e7) return '₹'+(n/1e7).toFixed(n%1e7===0?0:2)+'Cr'; if(n>=1e5) return '₹'+(n/1e5).toFixed(n%1e5===0?0:1)+'L'; if(n>=1000) return '₹'+(n/1000).toFixed(n%1000===0?0:1)+'K'; return '₹'+n; }
+function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return isNaN(dt)?'—':dt.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'}); }
+function fmtDateTime(ts){ const dt=new Date(ts); return dt.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+', '+dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}); }
+function followBucket(l){
+  if(!l.followUpAt||CLOSED_DISPOSITIONS.includes(l.disposition)) return null;
+  const t=todayStr();
+  if(l.followUpAt<t) return 'overdue'; if(l.followUpAt===t) return 'today'; return 'upcoming';
+}
+function stageIndex(s){ return FLOW_STAGES.indexOf(s); }
+function logEvent(lead,text){ lead.timeline.unshift({text,at:Date.now()}); if(lead.timeline.length>60) lead.timeline.length=60; }
+function parseAmountRange(str){
+  if(!str) return 0;
+  const n=String(str).match(/[\d,]+/g); if(!n) return 0;
+  const v=n.map(x=>Number(x.replace(/,/g,''))).filter(x=>x>0);
+  if(!v.length) return 0;
+  return Math.round(v.reduce((a,b)=>a+b,0)/v.length);
+}
+function pct(a,b){ return b?Math.round(a/b*100):0; }
+</script>
+
+<script>
+/* ================= HOME ANALYTICS ================= */
+function barsHTML(entries,emptyText){
+  const shown=entries.filter(e=>e.count>0);
+  if(!shown.length) return `<div class="empty-note">${esc(emptyText||'Nothing here yet.')}</div>`;
+  const max=Math.max(...shown.map(e=>e.count));
+  const total=shown.reduce((a,e)=>a+e.count,0);
+  return shown.map(e=>`
+    <div class="bar ${e.filter?'clickable':''}" ${e.filter?`data-barfilter='${esc(JSON.stringify(e.filter))}'`:''}>
+      <div class="bar-top">
+        <span class="bar-name">${esc(e.label)}</span>
+        <span class="bar-val">${e.count}<em>${pct(e.count,total)}%</em></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,e.count/max*100)}%;background:${e.color||'var(--blue)'}"></div></div>
+      ${e.sub?`<div class="bar-sub">${esc(e.sub)}</div>`:''}
+    </div>`).join('');
+}
+
+function renderTopStats(){
+  document.getElementById('statTotal').textContent=leads.length;
+  const t=todayStr();
+  document.getElementById('statToday').textContent=leads.filter(l=>l.followUpAt===t&&!CLOSED_DISPOSITIONS.includes(l.disposition)).length;
+  document.getElementById('statConverted').textContent=leads.filter(l=>l.stage==='Disbursed'||l.disposition==='Disbursed').length;
+}
+
+function totals(){
+  const disbursed=leads.filter(l=>l.disbursal&&l.disbursal.amount);
+  const sanctioned=leads.filter(l=>l.sanction&&l.sanction.amount);
+  const disbAmt=disbursed.reduce((a,l)=>a+Number(l.disbursal.amount||0),0);
+  const sancAmt=sanctioned.reduce((a,l)=>a+Number(l.sanction.amount||0),0);
+  const commGot=leads.filter(l=>l.commission&&l.commission.amount).reduce((a,l)=>a+Number(l.commission.amount||0),0);
+  const active=leads.filter(l=>!TERMINAL_STAGES.includes(l.stage)&&l.stage!=='Disbursed');
+  const pipelineAmt=active.reduce((a,l)=>a+Number(l.amount||0),0);
+  return {disbursed,sanctioned,disbAmt,sancAmt,commGot,active,pipelineAmt};
+}
+
+function renderKPI(){
+  const T=totals();
+  const conv=pct(T.disbursed.length,leads.length);
+  const avg=T.disbursed.length?Math.round(T.disbAmt/T.disbursed.length):0;
+  const notEl=leads.filter(l=>l.stage==='Not Eligible').length;
+  const kpis=[
+    {lbl:'Live pipeline',num:T.active.length,sub:`${money(T.pipelineAmt)} being worked on`,c:'var(--blue)'},
+    {lbl:'Disbursed value',num:money(T.disbAmt),sub:`${T.disbursed.length} file${T.disbursed.length===1?'':'s'} closed out`,c:'var(--green)'},
+    {lbl:'Commission received',num:money(T.commGot),sub:T.disbAmt?`${(T.commGot/T.disbAmt*100).toFixed(2)}% of disbursed`:'No payout yet',c:'var(--gold)'},
+    {lbl:'Lead to disbursal',num:conv+'%',sub:avg?`Avg ticket ${money(avg)}`:`${notEl} marked not eligible`,c:'var(--purple)'}
+  ];
+  document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`
+    <div class="kpi" style="--accent:${k.c}">
+      <div class="k-lbl">${k.lbl}</div>
+      <div class="k-num">${esc(String(k.num))}</div>
+      <div class="k-sub">${esc(k.sub)}</div>
+    </div>`).join('');
+  const sanctionedPending=T.sancAmt-T.disbAmt;
+  document.getElementById('snapNote').textContent=sanctionedPending>0?money(sanctionedPending)+' sanctioned, not yet disbursed':leads.length+' leads on record';
+}
+
+function renderFollowStrip(){
+  const o=leads.filter(l=>followBucket(l)==='overdue').length;
+  const t=leads.filter(l=>followBucket(l)==='today').length;
+  const u=leads.filter(l=>followBucket(l)==='upcoming').length;
+  const items=[
+    {n:o,l:'Overdue',bg:'var(--danger-bg)',fg:'var(--danger)',f:'overdue'},
+    {n:t,l:'Due today',bg:'var(--warn-bg)',fg:'#8A5A14',f:'today'},
+    {n:u,l:'Upcoming',bg:'var(--info-bg)',fg:'var(--blue-dark)',f:'upcoming'}
+  ];
+  document.getElementById('followStrip').innerHTML=items.map(i=>`
+    <div class="strip-item" style="background:${i.bg};color:${i.fg}" data-follow="${i.f}">
+      <div class="n">${i.n}</div><div class="l">${i.l}</div>
+    </div>`).join('');
+}
+
+function renderFunnel(){
+  const counts=STAGE_KEYS.map(k=>leads.filter(l=>l.stage===k).length);
+  const max=Math.max(1,...counts);
+  document.getElementById('funnelNote').textContent=leads.length?leads.filter(l=>!TERMINAL_STAGES.includes(l.stage)).length+' active':'';
+  const rows=STAGES.map((s,i)=>`
+    <div class="funnel-row" data-stagefilter="${esc(s.k)}">
+      <span class="fn-dot" style="background:${s.c}"></span>
+      <span class="fn-name">${esc(s.k)}</span>
+      <span class="fn-bar"><i style="width:${counts[i]/max*100}%;background:${s.c}"></i></span>
+      <span class="fn-count">${counts[i]}</span>
+    </div>`).join('');
+  document.getElementById('funnelCard').innerHTML=leads.length?rows:'<div class="empty-note">Add your first lead to see the funnel.</div>';
+}
+
+function renderMoney(){
+  const T=totals();
+  const pendingComm=leads.filter(l=>l.disbursal&&(!l.commission||!l.commission.amount)).length;
+  const rows=[
+    ['In pipeline (requested)',money(T.pipelineAmt),T.active.length+' leads'],
+    ['Sanctioned',money(T.sancAmt),T.sanctioned.length+' files'],
+    ['Disbursed',money(T.disbAmt),T.disbursed.length+' files'],
+    ['Commission received',money(T.commGot),pendingComm+' payout pending']
+  ];
+  document.getElementById('moneyCard').innerHTML=`<table class="mtable">
+    <tr><th>Stage of money</th><th class="num">Amount</th></tr>
+    ${rows.map(r=>`<tr><td><span class="tname">${r[0]}</span><br><span style="color:var(--muted);font-size:11px">${r[2]}</span></td><td class="num">${r[1]}</td></tr>`).join('')}
+  </table>`;
+}
+
+function renderTrend(){
+  const now=new Date(); const buckets=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    const nx=new Date(now.getFullYear(),now.getMonth()-i+1,1);
+    buckets.push({label:d.toLocaleDateString('en-IN',{month:'short'}),count:leads.filter(l=>l.createdAt>=d.getTime()&&l.createdAt<nx.getTime()).length});
+  }
+  const max=Math.max(1,...buckets.map(b=>b.count));
+  document.getElementById('trendChart').innerHTML=buckets.map(b=>`
+    <div class="colwrap">
+      <span class="colnum">${b.count||''}</span>
+      <div class="colbar" style="height:${b.count?Math.max(6,b.count/max*78):2}px"></div>
+      <span class="collbl">${b.label}</span>
+    </div>`).join('');
+}
+
+function renderLoanTypeBars(){
+  const entries=LOAN_TYPES.map((t,i)=>{
+    const ls=leads.filter(l=>l.loanType===t);
+    const amt=ls.reduce((a,l)=>a+Number(l.amount||0),0);
+    return {label:t,count:ls.length,color:LOANTYPE_COLORS[t]||PALETTE[i%PALETTE.length],sub:amt?money(amt)+' requested':'',filter:{loanType:t}};
+  }).sort((a,b)=>b.count-a.count);
+  document.getElementById('loanTypeBars').innerHTML=barsHTML(entries,'No leads yet.');
+}
+function renderDispoBars(){
+  const entries=DISPOSITIONS.map(d=>({label:d,count:leads.filter(l=>l.disposition===d).length,color:DISPO_COLORS[d],filter:{disposition:d}}));
+  document.getElementById('dispoBars').innerHTML=barsHTML(entries,'No calls logged yet.');
+}
+function renderSourceBars(){
+  const map={}; leads.forEach(l=>{ map[l.source]=(map[l.source]||0)+1; });
+  const entries=Object.keys(map).map((k,i)=>({label:k,count:map[k],color:PALETTE[i%PALETTE.length],filter:{source:k}})).sort((a,b)=>b.count-a.count);
+  document.getElementById('sourceBars').innerHTML=barsHTML(entries,'Source is captured in the basic details form.');
+}
+function renderCibilBars(){
+  const entries=CIBIL_BANDS.map((b,i)=>({label:b,count:leads.filter(l=>(l.profile&&l.profile.cibilScore)===b).length,color:PALETTE[i%PALETTE.length]}));
+  document.getElementById('cibilBars').innerHTML=barsHTML(entries,'CIBIL band is captured in the basic details form.');
+}
+
+function renderLenderPerf(){
+  const map={};
+  function row(id){ if(!map[id]) map[id]={logins:0,sanc:0,disb:0,amt:0,comm:0}; return map[id]; }
+  leads.forEach(l=>{
+    (l.logins||[]).forEach(lg=>{ const p=productByKey(lg.key); if(p) row(p.lender.id).logins++; });
+    if(l.sanction&&l.sanction.key){ const p=productByKey(l.sanction.key); if(p) row(p.lender.id).sanc++; }
+    if(l.disbursal&&l.disbursal.amount){
+      const k=(l.sanction&&l.sanction.key)||((l.logins||[])[0]||{}).key;
+      const p=k&&productByKey(k);
+      if(p){ const r=row(p.lender.id); r.disb++; r.amt+=Number(l.disbursal.amount||0); r.comm+=Number((l.commission||{}).amount||0); }
+    }
+  });
+  const rows=Object.keys(map).map(id=>({name:(lenderById(id)||{name:id}).name,...map[id]}))
+    .sort((a,b)=>b.disb-a.disb||b.logins-a.logins).slice(0,8);
+  if(!rows.length){ document.getElementById('lenderPerf').innerHTML='<div class="empty-note">Login a file with a lender and performance shows up here.</div>'; return; }
+  document.getElementById('lenderPerf').innerHTML=`<table class="mtable">
+    <tr><th>Lender</th><th class="num">Login</th><th class="num">Disb</th><th class="num">Value</th></tr>
+    ${rows.map(r=>`<tr><td class="tname">${esc(r.name)}</td><td class="num">${r.logins}</td><td class="num">${r.disb}</td><td class="num">${money(r.amt)}</td></tr>`).join('')}
+  </table>`;
+}
+
+function renderHome(){
+  renderKPI(); renderFollowStrip(); renderFunnel(); renderMoney(); renderTrend();
+  renderLoanTypeBars(); renderDispoBars(); renderLenderPerf(); renderSourceBars(); renderCibilBars();
+}
+</script>
+
+<script>
+/* ================= LIST STATE ================= */
+let fStage='all',fDispo='all',fLoan='all',fSource='all',fFollow='all',fDate='all',fFrom=null,fTo=null;
+let searchQ='',sortNew=true,currentTab='home';
+
+function activeFilterCount(){
+  let n=0; [fStage,fDispo,fLoan,fSource,fFollow,fDate].forEach(v=>{ if(v!=='all') n++; });
+  return n;
+}
+function filteredLeads(){
+  let out=leads.slice();
+  if(searchQ){ const q=searchQ.toLowerCase(); out=out.filter(l=>l.name.toLowerCase().includes(q)||l.phone.includes(q)); }
+  if(fStage!=='all') out=out.filter(l=>l.stage===fStage);
+  if(fDispo!=='all') out=out.filter(l=>l.disposition===fDispo);
+  if(fLoan!=='all') out=out.filter(l=>l.loanType===fLoan);
+  if(fSource!=='all') out=out.filter(l=>l.source===fSource);
+  if(fFollow!=='all') out=out.filter(l=>followBucket(l)===fFollow);
+  if(fDate==='week'){ const c=Date.now()-7*864e5; out=out.filter(l=>l.createdAt>=c); }
+  else if(fDate==='month'){ const d=new Date(); const c=new Date(d.getFullYear(),d.getMonth(),1).getTime(); out=out.filter(l=>l.createdAt>=c); }
+  else if(fDate==='custom'){
+    if(fFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(fFrom));
+    if(fTo) out=out.filter(l=>new Date(l.createdAt)<=new Date(fTo+'T23:59:59'));
+  }
+  out.sort((a,b)=>sortNew?b.createdAt-a.createdAt:a.createdAt-b.createdAt);
+  return out;
+}
+
+function pipeDots(lead){
+  if(lead.stage==='Not Eligible') return `<div class="pipe-dots">${FLOW_STAGES.map(()=>'<i style="background:#F2CFCB"></i>').join('')}</div>`;
+  const idx=stageIndex(lead.stage);
+  return `<div class="pipe-dots">${FLOW_STAGES.map((s,i)=>`<i class="${i<idx?'on':i===idx?'cur':''}"></i>`).join('')}</div>`;
+}
+function leadCardHTML(l){
+  const b=followBucket(l);
+  const fuTxt=!l.followUpAt?'No follow-up set':b==='overdue'?'Overdue · '+fmtDate(l.followUpAt):b==='today'?'Follow up today':b==='upcoming'?'Follow up '+fmtDate(l.followUpAt):'Closed file';
+  const stg=STAGES.find(s=>s.k===l.stage)||STAGES[0];
+  return `<div class="lead-card" data-id="${l.id}">
+    <div class="lc-top">
+      <div class="avatar">${esc(initials(l.name))}</div>
+      <div style="flex:1;min-width:0">
+        <div class="lc-name">${esc(l.name)}</div>
+        <div class="lc-meta">${esc(l.phone||'No number')}${l.city?' · '+esc(l.city):''}</div>
+      </div>
+      <div class="lc-amt">${money(l.amount)}<small>${esc(l.loanType.replace(' (LAP)',''))}</small></div>
+    </div>
+    ${pipeDots(l)}
+    <div class="lc-tags">
+      <span class="tag" style="background:${stg.c}1A;color:${stg.c}">${esc(l.stage)}</span>
+      <span class="tag" style="background:${DISPO_COLORS[l.disposition]}1A;color:${DISPO_COLORS[l.disposition]}">${esc(l.disposition)}</span>
+      ${l.customerType?`<span class="tag">${esc(l.customerType)}</span>`:''}
+    </div>
+    <div class="lc-foot">
+      <span class="fu ${b||''}">${esc(fuTxt)}</span>
+      <span class="mini-acts">
+        <button class="mini-btn" data-call="${esc(l.phone)}" title="Call">📞</button>
+        <button class="mini-btn" data-wa="${esc(l.phone)}" title="WhatsApp">💬</button>
+      </span>
+    </div>
+  </div>`;
+}
+function renderList(){
+  const list=filteredLeads();
+  document.getElementById('listTitle').textContent=activeFilterCount()||searchQ?`${list.length} match${list.length===1?'':'es'}`:`All leads (${list.length})`;
+  document.getElementById('sortBtn').textContent=sortNew?'Newest first':'Oldest first';
+  const badge=document.getElementById('filterCountBadge');
+  const n=activeFilterCount();
+  badge.textContent=n; badge.classList.toggle('hidden',n===0);
+  document.getElementById('leadList').innerHTML=list.length?list.map(leadCardHTML).join('')
+    :`<div class="card"><div class="empty-note">No leads match this view.<br>Tap + to add one.</div></div>`;
+  renderFilterPills();
+}
+function renderFilterPills(){
+  const row=document.getElementById('activeFiltersRow'); const pills=[];
+  if(fStage!=='all') pills.push(['stage',fStage]);
+  if(fDispo!=='all') pills.push(['dispo',fDispo]);
+  if(fLoan!=='all') pills.push(['loan',fLoan]);
+  if(fSource!=='all') pills.push(['source',fSource]);
+  if(fFollow!=='all') pills.push(['follow',{overdue:'Overdue',today:'Due today',upcoming:'Upcoming'}[fFollow]]);
+  if(fDate!=='all') pills.push(['date',fDate==='week'?'Last 7 days':fDate==='month'?'This month':`${fFrom||'…'} to ${fTo||'…'}`]);
+  if(!pills.length){ row.classList.add('hidden'); row.innerHTML=''; return; }
+  row.classList.remove('hidden');
+  row.innerHTML=pills.map(p=>`<span class="fpill">${esc(p[1])}<span data-clearf="${p[0]}">✕</span></span>`).join('')+'<button class="clear-all-link" id="clearAllF">Clear all</button>';
+}
+function clearFilter(k){
+  if(k==='stage')fStage='all'; if(k==='dispo')fDispo='all'; if(k==='loan')fLoan='all';
+  if(k==='source')fSource='all'; if(k==='follow')fFollow='all'; if(k==='date'){fDate='all';fFrom=fTo=null;}
+  renderList();
+}
+function clearAllFilters(){ fStage=fDispo=fLoan=fSource=fFollow=fDate='all'; fFrom=fTo=null; renderList(); }
+
+/* ---- Filter sheet ---- */
+function openFilters(){
+  const chips=(arr,cur,attr)=>`<div class="chip-row wrap" data-fgroup="${attr}">
+    <div class="chip ${cur==='all'?'active':''}" data-v="all">All</div>
+    ${arr.map(a=>`<div class="chip ${cur===a.v?'active':''}" data-v="${esc(a.v)}">${esc(a.l)}</div>`).join('')}</div>`;
+  document.getElementById('filterBody').innerHTML=`
+    <div class="filter-label">Stage</div>${chips(STAGE_KEYS.map(s=>({v:s,l:s})),fStage,'stage')}
+    <div class="filter-label">Disposition</div>${chips(DISPOSITIONS.map(s=>({v:s,l:s})),fDispo,'dispo')}
+    <div class="filter-label">Loan type</div>${chips(LOAN_TYPES.map(s=>({v:s,l:s.replace(' (LAP)','')})),fLoan,'loan')}
+    <div class="filter-label">Lead source</div>${chips(LEAD_SOURCES.map(s=>({v:s,l:s})),fSource,'source')}
+    <div class="filter-label">Follow-up</div>${chips([{v:'overdue',l:'Overdue'},{v:'today',l:'Due today'},{v:'upcoming',l:'Upcoming'}],fFollow,'follow')}
+    <div class="filter-label">Added</div>${chips([{v:'week',l:'Last 7 days'},{v:'month',l:'This month'},{v:'custom',l:'Custom range'}],fDate,'date')}
+    <div class="field-row ${fDate==='custom'?'':'hidden'}" id="customRange" style="margin-top:10px">
+      <div class="field"><label>From</label><input type="date" id="fFromI" value="${fFrom||''}"></div>
+      <div class="field"><label>To</label><input type="date" id="fToI" value="${fTo||''}"></div>
+    </div>
+    <div class="btn-row" style="margin-top:6px">
+      <button class="btn btn-ghost" id="clearFiltersBtn">Clear all</button>
+      <button class="btn btn-gold" id="applyFiltersBtn">Show results</button>
+    </div>`;
+  const body=document.getElementById('filterBody');
+  body.querySelectorAll('[data-fgroup]').forEach(g=>{
+    g.addEventListener('click',e=>{
+      const c=e.target.closest('.chip'); if(!c) return;
+      g.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active');
+      const v=c.dataset.v,k=g.dataset.fgroup;
+      if(k==='stage')fStage=v; if(k==='dispo')fDispo=v; if(k==='loan')fLoan=v;
+      if(k==='source')fSource=v; if(k==='follow')fFollow=v;
+      if(k==='date'){ fDate=v; document.getElementById('customRange').classList.toggle('hidden',v!=='custom'); }
+    });
+  });
+  body.querySelector('#clearFiltersBtn').onclick=()=>{ clearAllFilters(); closeSheet('filterOverlay'); };
+  body.querySelector('#applyFiltersBtn').onclick=()=>{
+    if(fDate==='custom'){ fFrom=document.getElementById('fFromI').value||null; fTo=document.getElementById('fToI').value||null; }
+    renderList(); closeSheet('filterOverlay'); switchTab('leads');
+  };
+  openSheet('filterOverlay');
+}
+
+/* ================= STAGE BOARD ================= */
+function renderBoard(){
+  const html=STAGES.map(s=>{
+    const items=leads.filter(l=>l.stage===s.k);
+    const amt=items.reduce((a,l)=>a+Number(l.amount||0),0);
+    return `<div class="set-item" data-stagefilter="${esc(s.k)}">
+      <div class="si-l">
+        <div class="set-ico" style="background:${s.c}1A;color:${s.c}">${items.length}</div>
+        <div><div class="si-title">${esc(s.k)}</div><div class="si-sub">${esc(s.d)}</div></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0"><div style="font-family:Sora;font-weight:700;font-size:13px">${money(amt)}</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('boardList').innerHTML=html;
+}
+
+/* ================= LENDER DIRECTORY ================= */
+let lenderTypeFilter='all',lenderQ='';
+function renderLenderChips(){
+  const types=['all',...LOAN_TYPES];
+  document.getElementById('lenderTypeChips').innerHTML=types.map(t=>
+    `<div class="chip ${lenderTypeFilter===t?'active':''}" data-ltype="${esc(t)}">${t==='all'?'All products':esc(t.replace(' (LAP)',''))}</div>`).join('');
+}
+function productCardHTML(o,opts){
+  opts=opts||{};
+  const p=o.product,l=o.lender;
+  const fit=opts.amount?rangeFit(p.range,opts.amount):null;
+  return `<div class="lender-card ${opts.selected?'sel':''}" data-pkey="${esc(o.key)}">
+    <div class="lh">
+      <div style="min-width:0">
+        <div class="lh-name">${esc(l.name)}</div>
+        <div class="lh-prod">${esc(p.type)}${p.name&&p.name!==p.type?' · '+esc(p.name):''}</div>
+      </div>
+      ${fit===null?'':`<span class="fit ${fit?'ok':'no'}">${fit?'Amount fits':'Out of range'}</span>`}
+    </div>
+    <div class="lgrid">
+      <div>Interest<b>${esc(p.roi||'—')}</b></div>
+      <div>Loan range<b>${esc(p.range||'—')}</b></div>
+      <div>Tenure<b>${esc(p.tenure||'—')}</b></div>
+      <div>Processing fee<b>${esc(p.pf||'—')}</b></div>
+      <div>Min CIBIL<b>${esc(p.cibil||'—')}</b></div>
+      <div>Age<b>${esc(p.age||'—')}</b></div>
+      <div>Our payout<b>${esc(p.payout||'—')}</b></div>
+      <div>Login TAT<b>${esc(l.loginTat||'—')}</b></div>
+    </div>
+    ${opts.full?`<div class="lender-more">
+      ${p.income?`<div><b>Income need:</b> ${esc(p.income)}</div>`:''}
+      ${p.foir?`<div><b>FOIR:</b> ${esc(p.foir)}</div>`:''}
+      ${p.dpd?`<div><b>DPD / bounce rule:</b> ${esc(p.dpd)}</div>`:''}
+      ${p.experience?`<div><b>Experience / vintage:</b> ${esc(p.experience)}</div>`:''}
+      ${p.kyc||p.incomeProof||p.otherDocs?`<div><b>Docs:</b> ${esc([p.kyc,p.incomeProof,p.otherDocs].filter(Boolean).join(' | '))}</div>`:''}
+      ${p.foreclosure?`<div><b>Foreclosure:</b> ${esc(p.foreclosure)}</div>`:''}
+      ${p.partPay?`<div><b>Part payment:</b> ${esc(p.partPay)}</div>`:''}
+      ${p.insurance?`<div><b>Insurance:</b> ${esc(p.insurance)}</div>`:''}
+      ${p.otherCharges?`<div><b>Other charges:</b> ${esc(p.otherCharges)}</div>`:''}
+      ${p.topup?`<div><b>Top-up:</b> ${esc(p.topup)}</div>`:''}
+      ${l.serviceArea?`<div><b>Service area:</b> ${esc(l.serviceArea)}</div>`:''}
+      ${l.negatives?`<div><b>Avoid profiles:</b> ${esc(l.negatives)}</div>`:''}
+      ${l.target?`<div><b>Best fit:</b> ${esc(l.target)}</div>`:''}
+      ${l.payoutCycle?`<div><b>Payout cycle:</b> ${esc(l.payoutCycle)}</div>`:''}
+      ${l.clawback?`<div><b>Clawback:</b> ${esc(l.clawback)}</div>`:''}
+      ${l.branch?`<div><b>Branch:</b> ${esc(l.branch)}</div>`:''}
+      ${(p.rm||l.rm)?`<div><b>RM:</b> ${esc(p.rm||l.rm)} ${esc(p.rmContact||l.rmContact||'')}</div>`:''}
+    </div>`:''}
+    ${opts.actions||''}
+  </div>`;
+}
+function renderLenderDirectory(){
+  renderLenderChips();
+  let list=[];
+  lenders.forEach(l=>l.products.forEach((p,i)=>list.push({lender:l,product:p,key:productKey(l.id,i)})));
+  if(lenderTypeFilter!=='all') list=list.filter(o=>o.product.type===lenderTypeFilter);
+  if(lenderQ){ const q=lenderQ.toLowerCase(); list=list.filter(o=>o.lender.name.toLowerCase().includes(q)||(o.lender.rm||'').toLowerCase().includes(q)||(o.product.rm||'').toLowerCase().includes(q)); }
+  document.getElementById('lenderDirectory').innerHTML=list.length?list.map(o=>productCardHTML(o,{full:true,actions:
+    `<div class="lender-acts">
+      <button class="btn btn-ghost btn-sm" data-callrm="${esc(o.product.rmContact||o.lender.rmContact||'')}">Call RM</button>
+      <button class="btn btn-ghost btn-sm" data-editlender="${esc(o.lender.id)}">Edit</button>
+    </div>`})).join('')
+    :'<div class="card"><div class="empty-note">No lender matches this product. Add one from Settings.</div></div>';
+}
+</script>
+
+<script>
+/* ================= LEAD DETAIL ================= */
+const ACTION_LABELS={'Basic Details':'Fill the basic details form','Docs Collection':'Open document checklist',
+ 'Lenders Suggestion':'See lenders for this loan','Eligible Lenders':'Shortlist eligible lenders',
+ 'Logined':'Record a lender login','Sanctioned':'Enter sanction details','Commission Got':'Record the payout',
+ 'Disbursed':'Mark as disbursed','Closed':'Close this file','Not Eligible':'Mark not eligible'};
+let openLeadId=null, openBlocks={};
+function leadById(id){ return leads.find(l=>l.id===id); }
+
+function stepperHTML(l){
+  const idx=stageIndex(l.stage);
+  if(l.stage==='Not Eligible') return `<div class="stepper"><span class="step bad">Not eligible</span>${FLOW_STAGES.map(s=>`<span class="step">${esc(s)}</span>`).join('')}</div>`;
+  return `<div class="stepper">${FLOW_STAGES.map((s,i)=>`<span class="step ${i<idx?'done':i===idx?'cur':''}">${esc(s)}</span>`).join('')}</div>`;
+}
+function nextStageOf(l){
+  if(TERMINAL_STAGES.includes(l.stage)) return null;
+  const i=stageIndex(l.stage);
+  return i>=0&&i<FLOW_STAGES.length-1?FLOW_STAGES[i+1]:null;
+}
+function blockHTML(id,title,badge,body,openDefault){
+  const open=openBlocks[id]!==undefined?openBlocks[id]:!!openDefault;
+  return `<div class="blk"><div class="blk-head" data-blk="${id}">
+      <div class="bh-l"><h4>${esc(title)}</h4>${badge?`<span class="blk-badge">${esc(badge)}</span>`:''}</div>
+      <span style="color:var(--muted);font-size:12px">${open?'Hide':'Show'}</span>
+    </div>${open?`<div class="blk-body">${body}</div>`:''}</div>`;
+}
+function kv(k,v){ return `<div class="kv"><span class="k">${esc(k)}</span><span class="v">${esc(v||'—')}</span></div>`; }
+
+function openDetail(id){
+  openLeadId=id; const l=leadById(id); if(!l) return;
+  document.getElementById('detailTitle').textContent=l.name;
+  renderDetail(); openSheet('detailOverlay');
+}
+function renderDetail(){
+  const l=leadById(openLeadId); if(!l) return;
+  const nxt=nextStageOf(l);
+  const nxtDef=nxt?STAGES.find(s=>s.k===nxt):null;
+  const docs=docChecklistFor(l); const allDocs=docs.reduce((a,g)=>a.concat(g.items),[]);
+  const doneDocs=allDocs.filter(d=>l.docs[d]).length;
+
+  const action=l.stage==='Not Eligible'
+    ? `<div class="stage-action" style="background:linear-gradient(135deg,#8C2F2F,#C0463C)">
+        <div class="sa-lbl">Current stage</div><div class="sa-title">Not eligible</div>
+        <div class="sa-desc">${esc((l.notEligible&&l.notEligible.reason)||'No reason recorded yet.')}</div>
+        <button class="btn btn-ghost" data-stageform="Not Eligible">Edit reason</button>
+        <button class="btn btn-ghost" style="margin-top:8px" data-reopen="1">Reopen this lead</button>
+      </div>`
+    : l.stage==='Closed'
+    ? `<div class="stage-action" style="background:linear-gradient(135deg,var(--green-dark),var(--green))">
+        <div class="sa-lbl">Current stage</div><div class="sa-title">File closed</div>
+        <div class="sa-desc">${esc((l.closure&&l.closure.reason)||'Closed and archived.')}</div>
+        <button class="btn btn-ghost" data-reopen="1">Reopen this lead</button>
+      </div>`
+    : `<div class="stage-action">
+        <div class="sa-lbl">Now at · ${esc(l.stage)}</div>
+        <div class="sa-title">${esc(nxt||l.stage)}</div>
+        <div class="sa-desc">${esc(nxtDef?nxtDef.d:'')}</div>
+        <button class="btn btn-gold" data-stageform="${esc(nxt||'')}">${esc(ACTION_LABELS[nxt]||'Continue')}</button>
+      </div>`;
+
+  const body=`
+    <div class="card" style="margin-bottom:12px">
+      <div class="lc-top">
+        <div class="avatar">${esc(initials(l.name))}</div>
+        <div style="flex:1;min-width:0">
+          <div class="lc-name">${esc(l.name)}</div>
+          <div class="lc-meta">${esc(l.phone||'No number')}${l.city?' · '+esc(l.city):''}</div>
+        </div>
+        <div class="lc-amt">${money(l.amount)}<small>${esc(l.loanType.replace(' (LAP)',''))}</small></div>
+      </div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn btn-ghost btn-sm" data-call="${esc(l.phone)}">📞 Call</button>
+        <button class="btn btn-ghost btn-sm" data-wa="${esc(l.phone)}">💬 WhatsApp</button>
+        <button class="btn btn-ghost btn-sm" data-editlead="1">Edit</button>
+      </div>
+    </div>
+
+    ${stepperHTML(l)}
+    ${action}
+
+    <div class="card" style="margin-bottom:12px">
+      <div class="field" style="margin-bottom:10px">
+        <label>Disposition</label>
+        <div class="chip-row wrap" id="dispoPick">
+          ${DISPOSITIONS.map(d=>`<div class="chip ${l.disposition===d?'active':''}" data-dispo="${esc(d)}">${esc(d)}</div>`).join('')}
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field" style="margin-bottom:0"><label>Next follow-up</label><input type="date" id="fuDate" value="${l.followUpAt||''}"></div>
+        <div class="field" style="margin-bottom:0"><label>Stage</label>
+          <select id="stagePick">${STAGE_KEYS.map(s=>`<option ${l.stage===s?'selected':''}>${esc(s)}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div class="field" style="margin:12px 0 0"><label>Add a note</label><textarea id="noteBox" placeholder="What did the customer say?"></textarea>
+        <button class="btn btn-ghost btn-sm" id="addNoteBtn" style="margin-top:8px;width:100%">Save note</button>
+      </div>
+    </div>
+
+    ${blockHTML('basic','Basic details',Object.keys(l.profile).length?'Filled':'Pending',basicBlockHTML(l))}
+    ${blockHTML('docs','Documents',`${doneDocs}/${allDocs.length}`,docsBlockHTML(l,docs,allDocs,doneDocs))}
+    ${blockHTML('sugg','Suggested lenders',String(l.suggested.length),listBlockHTML(l.suggested,'No lenders suggested yet.'))}
+    ${blockHTML('elig','Eligible lenders',String(l.eligible.length),listBlockHTML(l.eligible,'No lender shortlisted yet.'))}
+    ${blockHTML('login','Logins',String(l.logins.length),loginBlockHTML(l))}
+    ${blockHTML('sanc','Sanction',l.sanction?money(l.sanction.amount):'—',sancBlockHTML(l))}
+    ${blockHTML('comm','Commission',l.commission?money(l.commission.amount):'—',commBlockHTML(l))}
+    ${blockHTML('disb','Disbursal',l.disbursal?money(l.disbursal.amount):'—',disbBlockHTML(l))}
+    ${blockHTML('tl','Activity',String(l.timeline.length),timelineHTML(l))}
+
+    <button class="btn btn-danger" id="deleteLeadBtn" style="margin-top:6px">Delete this lead</button>`;
+  document.getElementById('detailBody').innerHTML=body;
+  bindDetail(l);
+}
+
+function basicBlockHTML(l){
+  const p=l.profile;
+  if(!Object.keys(p).length) return `<div class="empty-note">Basic details not collected yet.</div>
+    <button class="btn btn-ghost btn-sm" data-stageform="Basic Details" style="width:100%">Fill the form</button>`;
+  const rows=[
+    ['Employment',p.employmentType],['Age / DOB',p.ageDob],['Address',p.address],
+    ['Company / business',p.employerName||p.bizName||p.blBusinessName],
+    ['Monthly income',p.monthlyIncome||p.seMonthlyIncome?money(p.monthlyIncome||p.seMonthlyIncome):''],
+    ['Income mode',p.incomeMode||p.seIncomeMode],['Work experience',p.workExperience||p.vintage],
+    ['Required amount',p.requiredLoanAmount],['Purpose',p.purposeOfLoan],['Urgency',p.loanUrgency],
+    ['CIBIL',p.cibilScore],['Existing EMI',p.totalExistingEmi?money(p.totalExistingEmi):''],
+    ['Co-applicants',p.hasCoApplicants==='Yes'?(p.numCoApplicants||'Yes'):'No'],
+    ['Property',p.propertyType],['Property value',p.propertyValue?money(p.propertyValue):'']
+  ].filter(r=>r[1]);
+  return rows.map(r=>kv(r[0],r[1])).join('')+
+    `<button class="btn btn-ghost btn-sm" data-stageform="Basic Details" style="width:100%;margin-top:10px">Edit full form</button>`;
+}
+function docsBlockHTML(l,groups,all,done){
+  if(!all.length) return '<div class="empty-note">Set the loan type to build a checklist.</div>';
+  const pending=all.filter(d=>!l.docs[d]).slice(0,6);
+  return `<div class="doc-progress"><div class="dp-track"><div class="dp-fill" style="width:${pct(done,all.length)}%"></div></div><span class="dp-txt">${done}/${all.length}</span></div>
+    ${pending.length?`<div style="font-size:12px;color:var(--muted);line-height:1.7">Still pending: ${esc(pending.join(', '))}${all.filter(d=>!l.docs[d]).length>6?' …':''}</div>`:'<div style="font-size:12px;color:var(--green-dark);font-weight:600">All documents collected.</div>'}
+    <button class="btn btn-ghost btn-sm" data-stageform="Docs Collection" style="width:100%;margin-top:11px">Open checklist</button>`;
+}
+function listBlockHTML(keys,empty){
+  if(!keys.length) return `<div class="empty-note">${esc(empty)}</div>`;
+  return keys.map(k=>{ const o=productByKey(k); if(!o) return '';
+    return `<div class="kv"><span class="k">${esc(o.lender.name)}</span><span class="v">${esc(o.product.roi||o.product.type)}</span></div>`; }).join('');
+}
+function loginBlockHTML(l){
+  if(!l.logins.length) return '<div class="empty-note">No file logged in yet.</div>';
+  return l.logins.map((g,i)=>{ const o=productByKey(g.key);
+    return `<div class="kv"><span class="k">${esc(o?o.lender.name:'Lender')}<br><span style="font-size:10.5px">${esc(g.appNo||'')} ${esc(fmtDate(g.date))}</span></span>
+      <span class="v">${money(g.amount)}<br><span style="font-size:10.5px;color:var(--muted)">${esc(g.status||'')}</span></span></div>`; }).join('')
+    +`<button class="btn btn-ghost btn-sm" data-stageform="Logined" style="width:100%;margin-top:10px">Manage logins</button>`;
+}
+function sancBlockHTML(l){
+  if(!l.sanction) return '<div class="empty-note">Not sanctioned yet.</div>';
+  const o=productByKey(l.sanction.key);
+  return kv('Lender',o?o.lender.name:'—')+kv('Sanction amount',money(l.sanction.amount))+kv('Interest',l.sanction.roi)+
+    kv('Tenure',l.sanction.tenure)+kv('EMI',l.sanction.emi?money(l.sanction.emi):'')+kv('Sanction date',fmtDate(l.sanction.date))+
+    kv('Reference no',l.sanction.refNo)+(l.sanction.remark?kv('Remark',l.sanction.remark):'')+
+    `<button class="btn btn-ghost btn-sm" data-stageform="Sanctioned" style="width:100%;margin-top:10px">Edit sanction</button>`;
+}
+function commBlockHTML(l){
+  if(!l.commission) return '<div class="empty-note">No payout recorded.</div>';
+  return kv('Payout rate',l.commission.percent?l.commission.percent+'%':'')+kv('Amount',money(l.commission.amount))+
+    kv('Received on',fmtDate(l.commission.receivedOn))+kv('Mode',l.commission.mode)+(l.commission.remark?kv('Remark',l.commission.remark):'')+
+    `<button class="btn btn-ghost btn-sm" data-stageform="Commission Got" style="width:100%;margin-top:10px">Edit payout</button>`;
+}
+function disbBlockHTML(l){
+  if(!l.disbursal) return '<div class="empty-note">Not disbursed yet.</div>';
+  return kv('Disbursed amount',money(l.disbursal.amount))+kv('Date',fmtDate(l.disbursal.date))+kv('UTR / reference',l.disbursal.utr)+
+    (l.disbursal.remark?kv('Remark',l.disbursal.remark):'')+
+    `<button class="btn btn-ghost btn-sm" data-stageform="Disbursed" style="width:100%;margin-top:10px">Edit disbursal</button>`;
+}
+function timelineHTML(l){
+  if(!l.timeline.length) return '<div class="empty-note">Nothing logged yet.</div>';
+  return l.timeline.map(t=>`<div class="tl-item"><span class="tl-dot"></span><div><div class="tl-txt">${esc(t.text)}</div><div class="tl-time">${esc(fmtDateTime(t.at))}</div></div></div>`).join('');
+}
+
+function bindDetail(l){
+  const b=document.getElementById('detailBody');
+  b.querySelectorAll('[data-blk]').forEach(h=>h.onclick=()=>{ const k=h.dataset.blk; openBlocks[k]=!openBlocks[k]; renderDetail(); });
+  b.querySelectorAll('[data-stageform]').forEach(x=>x.onclick=()=>openStageForm(l,x.dataset.stageform));
+  const de=b.querySelector('#dispoPick');
+  if(de) de.onclick=e=>{ const c=e.target.closest('[data-dispo]'); if(!c) return; setDisposition(l,c.dataset.dispo); };
+  const fu=b.querySelector('#fuDate');
+  if(fu) fu.onchange=()=>{ l.followUpAt=fu.value||null; logEvent(l,'Follow-up set for '+fmtDate(fu.value)); commit(l,'Follow-up saved'); };
+  const sp=b.querySelector('#stagePick');
+  if(sp) sp.onchange=()=>{ setStage(l,sp.value,true); };
+  const nb=b.querySelector('#addNoteBtn');
+  if(nb) nb.onclick=()=>{ const t=b.querySelector('#noteBox').value.trim(); if(!t) return toast('Write something first'); logEvent(l,t); commit(l,'Note saved'); };
+  const dl=b.querySelector('#deleteLeadBtn');
+  if(dl) dl.onclick=()=>{ if(!confirm('Delete '+l.name+' permanently?')) return; leads=leads.filter(x=>x.id!==l.id); push('delete',{id:l.id}); closeSheet('detailOverlay'); renderAll(); toast('Lead deleted'); };
+  const el=b.querySelector('[data-editlead]');
+  if(el) el.onclick=()=>openEdit(l);
+  const ro=b.querySelector('[data-reopen]');
+  if(ro) ro.onclick=()=>{ l.stage='Basic Details'; l.disposition='Follow Up'; logEvent(l,'Lead reopened'); commit(l,'Lead reopened'); };
+}
+
+function commit(l,msg){
+  saveCache(); push('update',{lead:l});
+  renderAll(); if(openLeadId===l.id) renderDetail();
+  if(msg) toast(msg);
+}
+function setDisposition(l,d){
+  l.disposition=d; logEvent(l,'Disposition set to '+d);
+  if(d==='Not Eligible'&&l.stage!=='Not Eligible') l.stage='Not Eligible';
+  if(d==='Closed'&&l.stage!=='Closed') l.stage='Closed';
+  commit(l,'Disposition updated');
+}
+function setStage(l,stage,silent){
+  if(l.stage===stage) return;
+  l.stage=stage; logEvent(l,'Moved to '+stage);
+  if(stage==='Disbursed') l.disposition='Disbursed';
+  else if(stage==='Closed') l.disposition='Closed';
+  else if(stage==='Not Eligible') l.disposition='Not Eligible';
+  else if(l.disposition==='Not Connected'&&stage!=='New') l.disposition='Interested';
+  commit(l,silent?'Stage updated':null);
+}
+
+/* ================= STAGE FORMS ================= */
+function openStageForm(l,stage){
+  if(!stage) return;
+  if(stage==='Basic Details'){ startWizard(l); return; }
+  document.getElementById('stageTitle').textContent=stage;
+  const body=document.getElementById('stageBody');
+  const render={
+    'Docs Collection':docsForm,'Lenders Suggestion':suggestForm,'Eligible Lenders':eligibleForm,
+    'Logined':loginForm,'Sanctioned':sanctionForm,'Commission Got':commissionForm,
+    'Disbursed':disbursalForm,'Closed':closeForm,'Not Eligible':notEligibleForm
+  }[stage];
+  if(!render){ setStage(l,stage); return; }
+  render(l,body);
+  openSheet('stageOverlay');
+}
+function finishStage(l,stage,msg){
+  const cur=stageIndex(l.stage), tgt=stageIndex(stage);
+  if(tgt>cur||TERMINAL_STAGES.includes(stage)) setStage(l,stage);
+  else commit(l,null);
+  closeSheet('stageOverlay'); toast(msg||'Saved');
+}
+
+/* ---- Docs ---- */
+function docsForm(l,body){
+  function paint(){
+    const groups=docChecklistFor(l);
+    const all=groups.reduce((a,g)=>a.concat(g.items),[]);
+    const done=all.filter(d=>l.docs[d]).length;
+    body.innerHTML=`
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55">Checklist built for <b style="color:var(--ink)">${esc(l.loanType)}</b>${l.customerType?` · <b style="color:var(--ink)">${esc(l.customerType)}</b>`:''}. Tap each document once you have it.</div>
+      <div class="doc-progress"><div class="dp-track"><div class="dp-fill" style="width:${pct(done,all.length)}%"></div></div><span class="dp-txt">${done}/${all.length}</span></div>
+      ${groups.map(g=>`<div class="doc-group-title">${esc(g.title)}</div>
+        ${g.items.map(it=>`<div class="doc-item ${l.docs[it]?'on':''}" data-doc="${esc(it)}"><span class="doc-box">✓</span><span class="doc-name">${esc(it)}</span></div>`).join('')}`).join('')}
+      <div class="field" style="margin-top:16px"><label>Add another document</label>
+        <div class="field-row"><input type="text" id="newDoc" placeholder="e.g. Gram Panchayat NOC"><button class="btn btn-ghost btn-sm" id="addDocBtn">Add</button></div>
+      </div>
+      <button class="btn btn-gold" id="saveDocs">Save and move to lender suggestion</button>
+      <button class="btn btn-ghost" id="justSaveDocs" style="margin-top:9px">Save only</button>`;
+    body.querySelectorAll('[data-doc]').forEach(d=>d.onclick=()=>{
+      const k=d.dataset.doc; if(l.docs[k]) delete l.docs[k]; else l.docs[k]=Date.now(); saveCache(); paint();
+    });
+    body.querySelector('#addDocBtn').onclick=()=>{
+      const v=body.querySelector('#newDoc').value.trim(); if(!v) return;
+      l.customDocs.push(v); saveCache(); paint();
+    };
+    body.querySelector('#saveDocs').onclick=()=>{ logEvent(l,`Documents ${done}/${all.length} collected`); finishStage(l,'Lenders Suggestion','Documents saved'); };
+    body.querySelector('#justSaveDocs').onclick=()=>{ logEvent(l,`Documents ${done}/${all.length} collected`); commit(l,null); closeSheet('stageOverlay'); toast('Documents saved'); };
+  }
+  paint();
+}
+
+/* ---- Lenders suggestion ---- */
+function suggestForm(l,body){
+  const opts=lenderOptionsFor(l.loanType);
+  function paint(){
+    body.innerHTML=`
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55">${opts.length} lender product${opts.length===1?'':'s'} fund <b style="color:var(--ink)">${esc(l.loanType)}</b>. Tap the ones worth pitching to ${esc(l.name.split(' ')[0])}.</div>
+      ${opts.length?opts.map(o=>productCardHTML(o,{full:true,amount:l.amount,selected:l.suggested.includes(o.key)})).join(''):'<div class="card"><div class="empty-note">No lender for this product yet. Add one from Settings → Lenders.</div></div>'}
+      <button class="btn btn-gold" id="saveSugg" style="margin-top:6px">Save ${l.suggested.length} suggested</button>`;
+    body.querySelectorAll('[data-pkey]').forEach(c=>c.onclick=e=>{
+      if(e.target.closest('button')) return;
+      const k=c.dataset.pkey; const i=l.suggested.indexOf(k);
+      if(i>-1) l.suggested.splice(i,1); else l.suggested.push(k);
+      saveCache(); paint();
+    });
+    body.querySelector('#saveSugg').onclick=()=>{
+      if(!l.suggested.length) return toast('Pick at least one lender');
+      logEvent(l,l.suggested.length+' lenders suggested');
+      finishStage(l,'Eligible Lenders','Suggestions saved');
+    };
+  }
+  paint();
+}
+
+/* ---- Eligible lenders ---- */
+function eligibleForm(l,body){
+  const pool=(l.suggested.length?l.suggested:lenderOptionsFor(l.loanType).map(o=>o.key)).map(productByKey).filter(Boolean);
+  function paint(){
+    body.innerHTML=`
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55">Check income, CIBIL and area rules on each card, then select the lenders this customer actually qualifies for.</div>
+      ${pool.length?pool.map(o=>productCardHTML(o,{full:true,amount:l.amount,selected:l.eligible.includes(o.key)})).join(''):'<div class="card"><div class="empty-note">Nothing suggested yet.</div></div>'}
+      <button class="btn btn-gold" id="saveElig" style="margin-top:6px">Save ${l.eligible.length} eligible</button>
+      <button class="btn btn-danger" id="noneElig" style="margin-top:9px">No lender fits — mark not eligible</button>`;
+    body.querySelectorAll('[data-pkey]').forEach(c=>c.onclick=e=>{
+      if(e.target.closest('button')) return;
+      const k=c.dataset.pkey; const i=l.eligible.indexOf(k);
+      if(i>-1) l.eligible.splice(i,1); else l.eligible.push(k);
+      saveCache(); paint();
+    });
+    body.querySelector('#saveElig').onclick=()=>{
+      if(!l.eligible.length) return toast('Select at least one lender');
+      logEvent(l,l.eligible.length+' lenders marked eligible');
+      finishStage(l,'Logined','Eligible lenders saved');
+    };
+    body.querySelector('#noneElig').onclick=()=>{ closeSheet('stageOverlay'); openStageForm(l,'Not Eligible'); };
+  }
+  paint();
+}
+
+/* ---- Logins ---- */
+function loginForm(l,body){
+  const pool=(l.eligible.length?l.eligible:l.suggested.length?l.suggested:lenderOptionsFor(l.loanType).map(o=>o.key));
+  function paint(){
+    body.innerHTML=`
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55">Record every lender the file is logged in with. Eligible lenders are listed first.</div>
+      ${l.logins.length?`<div class="card" style="margin-bottom:14px">${l.logins.map((g,i)=>{const o=productByKey(g.key);
+        return `<div class="kv"><span class="k">${esc(o?o.lender.name:'Lender')}<br><span style="font-size:10.5px">${esc(g.appNo||'No app no')} · ${esc(fmtDate(g.date))}</span></span>
+        <span class="v">${money(g.amount)}<br><span style="font-size:10.5px;color:var(--muted)">${esc(g.status||'')}</span> <button class="link-btn" data-rmlogin="${i}" style="color:var(--danger)">Remove</button></span></div>`;}).join('')}</div>`:''}
+      <div class="card">
+        <div class="field"><label>Lender <span class="req">*</span></label>
+          <select id="lgKey"><option value="">Select lender</option>
+            ${pool.map(k=>{const o=productByKey(k); return o?`<option value="${esc(k)}">${esc(o.lender.name)} — ${esc(o.product.type)}</option>`:'';}).join('')}
+          </select></div>
+        <div class="field-row">
+          <div class="field"><label>Login date</label><input type="date" id="lgDate" value="${todayStr()}"></div>
+          <div class="field"><label>Applied amount</label><input type="number" id="lgAmt" value="${l.amount||''}"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Application no</label><input type="text" id="lgApp" placeholder="Lender file / LAN"></div>
+          <div class="field"><label>Status</label><select id="lgStatus"><option>Logged in</option><option>Under process</option><option>Query raised</option><option>Approved</option><option>Rejected</option></select></div>
+        </div>
+        <div class="field"><label>Remark</label><textarea id="lgRemark" placeholder="Anything the RM said"></textarea></div>
+        <button class="btn btn-navy" id="addLogin">Add login</button>
+      </div>
+      <button class="btn btn-gold" id="saveLogin" style="margin-top:12px">Save and move to sanction</button>`;
+    body.querySelectorAll('[data-rmlogin]').forEach(x=>x.onclick=()=>{ l.logins.splice(Number(x.dataset.rmlogin),1); saveCache(); paint(); });
+    body.querySelector('#addLogin').onclick=()=>{
+      const k=body.querySelector('#lgKey').value; if(!k) return toast('Select a lender');
+      l.logins.push({key:k,date:body.querySelector('#lgDate').value,amount:Number(body.querySelector('#lgAmt').value)||0,
+        appNo:body.querySelector('#lgApp').value.trim(),status:body.querySelector('#lgStatus').value,remark:body.querySelector('#lgRemark').value.trim()});
+      const o=productByKey(k); logEvent(l,'Logged in with '+(o?o.lender.name:'lender'));
+      saveCache(); paint(); toast('Login added');
+      if(l.stage!=='Logined'&&stageIndex(l.stage)<stageIndex('Logined')) setStage(l,'Logined',true);
+    };
+    body.querySelector('#saveLogin').onclick=()=>{
+      if(!l.logins.length) return toast('Add at least one login');
+      finishStage(l,'Sanctioned','Logins saved');
+    };
+  }
+  paint();
+}
+
+/* ---- Sanction ---- */
+function sanctionForm(l,body){
+  const s=l.sanction||{};
+  const pool=l.logins.length?l.logins.map(g=>g.key):(l.eligible.length?l.eligible:lenderOptionsFor(l.loanType).map(o=>o.key));
+  body.innerHTML=`
+    <div class="field"><label>Sanctioning lender <span class="req">*</span></label>
+      <select id="scKey"><option value="">Select lender</option>
+        ${pool.map(k=>{const o=productByKey(k); return o?`<option value="${esc(k)}" ${s.key===k?'selected':''}>${esc(o.lender.name)} — ${esc(o.product.type)}</option>`:'';}).join('')}
+      </select></div>
+    <div class="field-row">
+      <div class="field"><label>Sanction amount <span class="req">*</span></label><input type="number" id="scAmt" value="${s.amount||l.amount||''}"></div>
+      <div class="field"><label>Sanction date</label><input type="date" id="scDate" value="${s.date||todayStr()}"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Interest rate</label><input type="text" id="scRoi" value="${esc(s.roi||'')}" placeholder="e.g. 9.5%"></div>
+      <div class="field"><label>Tenure</label><input type="text" id="scTen" value="${esc(s.tenure||'')}" placeholder="e.g. 20 yr"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>EMI</label><input type="number" id="scEmi" value="${s.emi||''}"></div>
+      <div class="field"><label>Sanction / ref no</label><input type="text" id="scRef" value="${esc(s.refNo||'')}"></div>
+    </div>
+    <div class="field"><label>Conditions or remark</label><textarea id="scRem" placeholder="Any condition put by the lender">${esc(s.remark||'')}</textarea></div>
+    <button class="btn btn-gold" id="saveSanc">Save sanction</button>`;
+  body.querySelector('#saveSanc').onclick=()=>{
+    const key=body.querySelector('#scKey').value, amt=Number(body.querySelector('#scAmt').value)||0;
+    if(!key) return toast('Select the sanctioning lender');
+    if(!amt) return toast('Enter the sanction amount');
+    l.sanction={key,amount:amt,date:body.querySelector('#scDate').value,roi:body.querySelector('#scRoi').value.trim(),
+      tenure:body.querySelector('#scTen').value.trim(),emi:Number(body.querySelector('#scEmi').value)||0,
+      refNo:body.querySelector('#scRef').value.trim(),remark:body.querySelector('#scRem').value.trim()};
+    const o=productByKey(key);
+    logEvent(l,`Sanctioned ${money(amt)} by ${o?o.lender.name:'lender'}`);
+    finishStage(l,'Commission Got','Sanction saved');
+  };
+}
+
+/* ---- Commission ---- */
+function commissionForm(l,body){
+  const c=l.commission||{};
+  const key=(l.sanction&&l.sanction.key)||((l.logins[0]||{}).key);
+  const o=key&&productByKey(key);
+  const base=(l.disbursal&&l.disbursal.amount)||(l.sanction&&l.sanction.amount)||l.amount||0;
+  body.innerHTML=`
+    ${o?`<div class="card" style="margin-bottom:13px"><div class="kv"><span class="k">Lender</span><span class="v">${esc(o.lender.name)}</span></div>
+      <div class="kv"><span class="k">Agreed payout</span><span class="v">${esc(o.product.payout||'—')}</span></div>
+      <div class="kv"><span class="k">Payout cycle</span><span class="v">${esc(o.lender.payoutCycle||'—')}</span></div>
+      <div class="kv"><span class="k">Clawback rule</span><span class="v">${esc(o.lender.clawback||'—')}</span></div></div>`:''}
+    <div class="field-row">
+      <div class="field"><label>Payout rate (%)</label><input type="number" step="0.01" id="cmPct" value="${c.percent||''}" placeholder="e.g. 0.6"></div>
+      <div class="field"><label>Amount received <span class="req">*</span></label><input type="number" id="cmAmt" value="${c.amount||''}"></div>
+    </div>
+    <div class="field"><button class="btn btn-ghost btn-sm" id="calcComm" style="width:100%">Calculate from ${money(base)}</button></div>
+    <div class="field-row">
+      <div class="field"><label>Received on</label><input type="date" id="cmDate" value="${c.receivedOn||todayStr()}"></div>
+      <div class="field"><label>Mode</label><select id="cmMode">${['Bank transfer','Cheque','Cash','Adjusted','Pending'].map(m=>`<option ${c.mode===m?'selected':''}>${m}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><label>Remark</label><textarea id="cmRem">${esc(c.remark||'')}</textarea></div>
+    <button class="btn btn-gold" id="saveComm">Save payout</button>`;
+  body.querySelector('#calcComm').onclick=()=>{
+    const p=Number(body.querySelector('#cmPct').value)||0;
+    if(!p) return toast('Enter the payout rate first');
+    body.querySelector('#cmAmt').value=Math.round(base*p/100);
+  };
+  body.querySelector('#saveComm').onclick=()=>{
+    const amt=Number(body.querySelector('#cmAmt').value)||0;
+    if(!amt) return toast('Enter the amount received');
+    l.commission={percent:Number(body.querySelector('#cmPct').value)||0,amount:amt,receivedOn:body.querySelector('#cmDate').value,
+      mode:body.querySelector('#cmMode').value,remark:body.querySelector('#cmRem').value.trim()};
+    logEvent(l,'Commission received '+money(amt));
+    finishStage(l,'Disbursed','Payout saved');
+  };
+}
+
+/* ---- Disbursal ---- */
+function disbursalForm(l,body){
+  const d=l.disbursal||{};
+  body.innerHTML=`
+    <div class="field-row">
+      <div class="field"><label>Disbursed amount <span class="req">*</span></label><input type="number" id="dbAmt" value="${d.amount||(l.sanction&&l.sanction.amount)||''}"></div>
+      <div class="field"><label>Disbursal date</label><input type="date" id="dbDate" value="${d.date||todayStr()}"></div>
+    </div>
+    <div class="field"><label>UTR / cheque reference</label><input type="text" id="dbUtr" value="${esc(d.utr||'')}"></div>
+    <div class="field"><label>Remark</label><textarea id="dbRem" placeholder="Part disbursal, next tranche date, etc.">${esc(d.remark||'')}</textarea></div>
+    <button class="btn btn-green" id="saveDisb">Mark disbursed</button>`;
+  body.querySelector('#saveDisb').onclick=()=>{
+    const amt=Number(body.querySelector('#dbAmt').value)||0;
+    if(!amt) return toast('Enter the disbursed amount');
+    l.disbursal={amount:amt,date:body.querySelector('#dbDate').value,utr:body.querySelector('#dbUtr').value.trim(),remark:body.querySelector('#dbRem').value.trim()};
+    logEvent(l,'Disbursed '+money(amt));
+    finishStage(l,'Disbursed','Disbursal saved');
+  };
+}
+
+/* ---- Close ---- */
+function closeForm(l,body){
+  const c=l.closure||{};
+  body.innerHTML=`
+    <div class="field"><label>Closing reason <span class="req">*</span></label>
+      <select id="clReason">${['Loan disbursed and file complete','Customer took loan elsewhere','Customer dropped the plan','Lender rejected','Documents not available','Other'].map(r=>`<option ${c.reason===r?'selected':''}>${r}</option>`).join('')}</select></div>
+    <div class="field"><label>Closing date</label><input type="date" id="clDate" value="${c.date||todayStr()}"></div>
+    <div class="field"><label>Remark</label><textarea id="clRem">${esc(c.remark||'')}</textarea></div>
+    <button class="btn btn-navy" id="saveClose">Close this file</button>`;
+  body.querySelector('#saveClose').onclick=()=>{
+    l.closure={reason:body.querySelector('#clReason').value,date:body.querySelector('#clDate').value,remark:body.querySelector('#clRem').value.trim()};
+    logEvent(l,'File closed — '+l.closure.reason);
+    finishStage(l,'Closed','File closed');
+  };
+}
+
+/* ---- Not eligible ---- */
+function notEligibleForm(l,body){
+  const n=l.notEligible||{};
+  body.innerHTML=`
+    <div class="field"><label>Why is the customer not eligible? <span class="req">*</span></label>
+      <select id="neReason">${['Low CIBIL score','No income proof','Income too low for this amount','FOIR crossed / too many EMIs','Property papers not clear','Area not serviceable','Negative profile for all lenders','Recent DPD or bounce','No lender funds this profile','Other'].map(r=>`<option ${n.reason===r?'selected':''}>${r}</option>`).join('')}</select></div>
+    <div class="field"><label>Detail</label><textarea id="neRem" placeholder="What exactly blocked the file">${esc(n.remark||'')}</textarea></div>
+    <div class="field"><label>Can we try again later?</label>
+      <div class="chip-row wrap" id="neRetry">${['Yes after 6 months','Yes after 1 year','No'].map(r=>`<div class="chip ${n.retry===r?'active':''}" data-v="${esc(r)}">${esc(r)}</div>`).join('')}</div></div>
+    <button class="btn btn-danger" id="saveNE">Mark not eligible</button>`;
+  let retry=n.retry||'';
+  body.querySelector('#neRetry').onclick=e=>{ const c=e.target.closest('.chip'); if(!c) return;
+    body.querySelectorAll('#neRetry .chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); retry=c.dataset.v; };
+  body.querySelector('#saveNE').onclick=()=>{
+    l.notEligible={reason:body.querySelector('#neReason').value,remark:body.querySelector('#neRem').value.trim(),retry};
+    logEvent(l,'Marked not eligible — '+l.notEligible.reason);
+    finishStage(l,'Not Eligible','Marked not eligible');
+  };
+}
+</script>
+
+<script>
+/* ================= QUICK ADD (Stage: New) ================= */
+function openQuickAdd(){
+  document.getElementById('quickBody').innerHTML=`
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.55">Just the four things you get on the first call. The full form comes at the next stage.</div>
+    <div class="field"><label>Customer name <span class="req">*</span></label><input type="text" id="qName" placeholder="e.g. Ramesh Suthar"></div>
+    <div class="field"><label>Mobile number <span class="req">*</span></label><input type="tel" id="qPhone" maxlength="10" inputmode="numeric" placeholder="10-digit number" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
+    <div class="field"><label>Loan amount needed <span class="req">*</span></label><input type="number" id="qAmt" placeholder="e.g. 1500000"></div>
+    <div class="field"><label>Loan type <span class="req">*</span></label>
+      <div class="chip-row wrap" id="qType">${LOAN_TYPES.map((t,i)=>`<div class="chip ${i===0?'active':''}" data-v="${esc(t)}">${esc(t.replace(' (LAP)',''))}</div>`).join('')}</div></div>
+    <div class="field"><label>Where did this lead come from?</label>
+      <select id="qSource">${LEAD_SOURCES.map(s=>`<option>${esc(s)}</option>`).join('')}</select></div>
+    <button class="btn btn-gold" id="qSave">Save lead</button>`;
+  let type=LOAN_TYPES[0];
+  const b=document.getElementById('quickBody');
+  b.querySelector('#qType').onclick=e=>{ const c=e.target.closest('.chip'); if(!c) return;
+    b.querySelectorAll('#qType .chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); type=c.dataset.v; };
+  b.querySelector('#qSave').onclick=()=>{
+    const name=b.querySelector('#qName').value.trim(), phone=b.querySelector('#qPhone').value.trim(), amt=Number(b.querySelector('#qAmt').value)||0;
+    if(!name) return toast('Enter the customer name');
+    if(phone.length!==10) return toast('Enter a valid 10-digit number');
+    if(!amt) return toast('Enter the loan amount');
+    const lead=normalizeLead({name,phone,amount:amt,loanType:type,source:b.querySelector('#qSource').value,stage:'New',disposition:'Not Connected',createdAt:Date.now()});
+    logEvent(lead,'Lead added');
+    leads.unshift(lead); saveCache(); push('create',{lead});
+    closeSheet('quickOverlay'); renderAll(); toast('Lead saved');
+    openDetail(lead.id);
+  };
+  openSheet('quickOverlay');
+}
+
+/* ================= EDIT ================= */
+function openEdit(l){
+  document.getElementById('editBody').innerHTML=`
+    <div class="field"><label>Name</label><input type="text" id="eName" value="${esc(l.name)}"></div>
+    <div class="field"><label>Mobile</label><input type="tel" id="ePhone" maxlength="10" value="${esc(l.phone)}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
+    <div class="field-row">
+      <div class="field"><label>Loan type</label><select id="eType">${LOAN_TYPES.map(t=>`<option ${l.loanType===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+      <div class="field"><label>Amount</label><input type="number" id="eAmt" value="${l.amount||''}"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Customer type</label><select id="eCust"><option value="">Not set</option>${CUSTOMER_TYPES.map(t=>`<option ${l.customerType===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+      <div class="field"><label>City / area</label><input type="text" id="eCity" value="${esc(l.city)}"></div>
+    </div>
+    <div class="field"><label>Lead source</label><select id="eSrc">${LEAD_SOURCES.map(s=>`<option ${l.source===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+    <button class="btn btn-gold" id="eSave">Save changes</button>`;
+  const b=document.getElementById('editBody');
+  b.querySelector('#eSave').onclick=()=>{
+    l.name=b.querySelector('#eName').value.trim()||l.name;
+    l.phone=b.querySelector('#ePhone').value.trim();
+    l.loanType=b.querySelector('#eType').value; l.amount=Number(b.querySelector('#eAmt').value)||0;
+    l.customerType=b.querySelector('#eCust').value; l.city=b.querySelector('#eCity').value.trim();
+    l.source=b.querySelector('#eSrc').value;
+    logEvent(l,'Lead details edited');
+    closeSheet('editOverlay');
+    document.getElementById('detailTitle').textContent=l.name;
+    commit(l,'Lead updated');
+  };
+  openSheet('editOverlay');
+}
+
+/* ================= FULL INTAKE WIZARD ================= */
+let wf={},wizHistory=[],wizScreen='basic',wizLeadId=null;
+function fval(f){ return wf[f.key]!==undefined?wf[f.key]:(f.type==='multiselect'?[]:''); }
+function fieldHTML(f){
+  const v=fval(f), req=f.required?' <span class="req">*</span>':'';
+  let inner='';
+  const opts=typeof f.options==='function'?f.options(wf):f.options;
+  if(['text','tel','number','date'].includes(f.type)){
+    inner=`<input type="${f.type}" data-key="${f.key}" placeholder="${esc(f.placeholder||'')}" value="${esc(v)}" ${f.type==='tel'?'maxlength="10" inputmode="numeric"':''}>`;
+  } else if(f.type==='textarea'){ inner=`<textarea data-key="${f.key}" placeholder="${esc(f.placeholder||'')}">${esc(v)}</textarea>`; }
+  else if(f.type==='select'){
+    inner=`<select data-key="${f.key}" ${f.trigger?'data-trigger="1"':''}><option value="">${esc(f.placeholder||'Select')}</option>
+      ${opts.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  } else if(f.type==='radio'){
+    inner=`<div class="chip-row wrap field-chip-row" data-key="${f.key}" data-mode="single" ${f.trigger?'data-trigger="1"':''}>
+      ${opts.map(o=>`<div class="chip ${o===v?'active':''}" data-v="${esc(o)}">${esc(o)}</div>`).join('')}</div>`;
+  } else if(f.type==='multiselect'){
+    const arr=Array.isArray(v)?v:[];
+    inner=`<div class="chip-row wrap field-chip-row" data-key="${f.key}" data-mode="multi">
+      ${opts.map(o=>`<div class="chip ${arr.includes(o)?'active':''}" data-v="${esc(o)}">${esc(o)}</div>`).join('')}</div>`;
+  }
+  return `<div class="field">${f.label?`<label>${esc(f.label)}${req}</label>`:''}${inner}${f.hint?`<div class="hint">${esc(f.hint)}</div>`:''}</div>`;
+}
+const LT_OPTS=[...LOAN_TYPES,'Customer Denied'];
+function afterLoanType(s){
+  const t=s.loanTypeFinal;
+  if(t==='Customer Denied') return 'review';
+  if(t==='Home Loan'||t==='Loan Against Property (LAP)') return 'property';
+  if(t==='Business Loan'||t==='Shop Loan') return 'business';
+  if(t==='Vehicle Loan') return 'vehicle';
+  return s.employmentType==='Salaried'?'salaryjob':'business';
+}
+const SCREENS={
+  basic:{title:'Lead source and applicant',fields:[
+    {key:'leadSource',label:'Lead source',type:'radio',required:true,trigger:true,options:LEAD_SOURCES},
+    {key:'referralDetails',label:'Referral / existing customer details',type:'text',required:true,placeholder:'Name and number of the person who referred',showIf:s=>s.leadSource==='Referral'||s.leadSource==='Existing Customer'},
+    {key:'applicantName',label:'Applicant full name',type:'text',required:true},
+    {key:'mobile',label:'Mobile number',type:'tel',required:true},
+    {key:'isWhatsapp',label:'Is this the WhatsApp number?',type:'radio',required:true,trigger:true,options:['Yes','No']},
+    {key:'whatsappNumber',label:'WhatsApp number',type:'tel',required:true,showIf:s=>s.isWhatsapp==='No'},
+    {key:'ageDob',label:'Age or date of birth',type:'text',required:true,placeholder:'e.g. 34 or 12-05-1990'},
+    {key:'address',label:'Address (area, city, district)',type:'textarea',required:true},
+    {key:'ownProperty',label:'What does the customer own?',type:'multiselect',options:['House','Plot','Commercial property','Farm land','Nothing']},
+    {key:'employmentType',label:'Employment type',type:'radio',required:true,trigger:true,options:CUSTOMER_TYPES}
+  ],next:s=>s.employmentType==='Salaried'?'salaried':'selfemp'},
+
+  salaried:{title:'Salaried income',fields:[
+    {key:'employerName',label:'Company / factory / employer name',type:'text',required:true},
+    {key:'role',label:'Role or position',type:'text',required:true},
+    {key:'workExperience',label:'Work experience',type:'text',required:true,placeholder:'e.g. 2Y 6M'},
+    {key:'monthlyIncome',label:'Monthly in-hand income (₹)',type:'number',required:true},
+    {key:'incomeMode',label:'How is salary paid?',type:'radio',required:true,options:['Bank Transfer','Cash','Mixed']},
+    {key:'bankIncome20k',label:'Is ₹20k+ credited in bank every month?',type:'radio',required:true,options:['Yes','No']},
+    {key:'loanTypeFinal',label:'Loan type',type:'select',required:true,trigger:true,options:LT_OPTS}
+  ],next:afterLoanType},
+
+  selfemp:{title:'Self-employed / business income',fields:[
+    {key:'bizWorkType',label:'Business or work type',type:'text',required:true,placeholder:'e.g. kirana shop, plumber, dairy'},
+    {key:'bizName',label:'Business name',type:'text',required:true},
+    {key:'vintage',label:'Business vintage',type:'text',required:true,placeholder:'e.g. 3Y'},
+    {key:'seMonthlyIncome',label:'Monthly net income (₹)',type:'number',required:true},
+    {key:'itrFiling',label:'Filing ITR?',type:'radio',required:true,trigger:true,options:['Yes','No']},
+    {key:'itrYears',label:'ITR filed since how many years',type:'text',showIf:s=>s.itrFiling==='Yes'},
+    {key:'itrAmount',label:'Last ITR amount',type:'text',showIf:s=>s.itrFiling==='Yes'},
+    {key:'seIncomeMode',label:'Income mode',type:'radio',required:true,options:['Bank Transfer','Cash','Mixed']},
+    {key:'bankAccountType',label:'Bank account held',type:'select',required:true,options:['Savings','Current','Both','None']},
+    {key:'ownShop',label:'Owns the shop / work place?',type:'radio',required:true,trigger:true,options:['Yes','No']},
+    {key:'avgBalance5k',label:'Average bank balance ₹5k+?',type:'radio',options:['Yes','No'],showIf:s=>s.ownShop==='No'},
+    {key:'loanTypeFinal',label:'Loan type',type:'select',required:true,trigger:true,options:LT_OPTS}
+  ],next:afterLoanType},
+
+  property:{title:'Property details',fields:[
+    {key:'propertyType',label:'Property type',type:'select',trigger:true,options:['Residential house','Residential plot','Commercial shop','Commercial building','Agricultural land','Industrial','Other']},
+    {key:'otherPropertyName',label:'Other property type',type:'text',showIf:s=>s.propertyType==='Other'},
+    {key:'propertyCondition',label:'Property condition',type:'text',placeholder:'e.g. fully furnished / plaster pending'},
+    {key:'propertyLocation',label:'Property location',type:'text'},
+    {key:'propertySize',label:'Property size (approx)',type:'text'},
+    {key:'propertyValue',label:'Property value (approx ₹)',type:'number'},
+    {key:'propertyPapers',label:'Papers available',type:'multiselect',options:['Patta','Registry','Nakal / Khatoni','Approved map','NOC','Chain documents','None']},
+    {key:'remark',label:'Remark',type:'textarea'}
+  ],next:()=>'requirement'},
+
+  business:{title:'Business details',fields:[
+    {key:'blBusinessName',label:'Business name',type:'text',required:true},
+    {key:'annualTurnover',label:'Annual turnover (₹)',type:'number'},
+    {key:'udhyamAadhar',label:'Udhyam Aadhaar available?',type:'radio',options:['Yes','No']},
+    {key:'businessPlace',label:'Business place',type:'radio',options:['Owned','Rented']},
+    {key:'blRemark',label:'Remark',type:'textarea'}
+  ],next:()=>'requirement'},
+
+  salaryjob:{title:'Employment details',fields:[
+    {key:'employerType',label:'Employer type',type:'select',trigger:true,options:['Government','Big private factory','Small factory / firm','Other']},
+    {key:'otherEmployerName',label:'Other employer type',type:'text',showIf:s=>s.employerType==='Other'},
+    {key:'companyLocation',label:'Company / firm location',type:'text'},
+    {key:'jobStatus',label:'Job status',type:'select',options:['Permanent','Contract','Probation','Freelancer']},
+    {key:'documentsAvailable',label:'Documents available',type:'multiselect',options:['Salary slips','Form 16','Bank statement','Offer letter','PF statement','ID card']},
+    {key:'salaryBankAccountName',label:'Salary bank name',type:'text'}
+  ],next:()=>'requirement'},
+
+  vehicle:{title:'Vehicle details',fields:[
+    {key:'vehicleType',label:'Vehicle type',type:'select',trigger:true,options:['Car','Tractor','Truck','JCB','Commercial vehicle','Two wheeler','Other']},
+    {key:'otherVehicleType',label:'Other vehicle type',type:'text',showIf:s=>s.vehicleType==='Other'},
+    {key:'vehicleLoanType',label:'Loan type',type:'radio',required:true,trigger:true,options:['New vehicle','Used vehicle','Refinance','Balance transfer']},
+    {key:'oldVehicleYear',label:'Vehicle year model',type:'text',showIf:s=>s.vehicleLoanType&&s.vehicleLoanType!=='New vehicle'},
+    {key:'vehicleBrandVariant',label:'Brand and variant',type:'text'}
+  ],next:()=>'requirement'},
+
+  requirement:{title:'Loan requirement',fields:[
+    {key:'requiredLoanAmount',label:'Required loan amount',type:'text',required:true,placeholder:'Range, e.g. 350000-480000'},
+    {key:'loanUseCaseBreakup',label:'What is the money for? (amount-wise)',type:'textarea',required:true},
+    {key:'wantCondition',label:'Customer conditions for this loan',type:'textarea'},
+    {key:'purposeOfLoan',label:'Purpose of loan',type:'select',required:true,options:['Home purchase','Home construction','Purchase + construction','Home renovation','Balance transfer','Business working capital','New business','Business expansion','Shop purchase','Vehicle purchase','Education','Marriage','Medical','Debt consolidation','Personal use','Other']},
+    {key:'loanUrgency',label:'How urgent is it?',type:'radio',required:true,options:['Immediate','Within 30 days','Future requirement','Just checking']}
+  ],next:()=>'credit'},
+
+  credit:{title:'Credit and risk',fields:[
+    {key:'cibilScore',label:'CIBIL score',type:'select',required:true,options:CIBIL_BANDS},
+    {key:'ntcCustomer',label:'New to credit (no loan history)?',type:'radio',required:true,options:['Yes','No',"Don't know"]},
+    {key:'totalExistingEmi',label:'Total running EMI (₹)',type:'number',required:true},
+    {key:'emiBounceHistory',label:'EMI bounce history',type:'select',options:['No bounce','Yes — last 3 months','Yes — last 6 months','Yes — older']},
+    {key:'defaultHistory',label:'Default / settlement / write-off history',type:'radio',options:['No','Yes',"Don't know"]},
+    {key:'recentLoanApp',label:'Applied anywhere in last 3 months?',type:'radio',required:true,trigger:true,options:['Yes','No']},
+    {key:'recentLenderStatus',label:'Which lender and what happened',type:'text',showIf:s=>s.recentLoanApp==='Yes'}
+  ],next:()=>'coapp'},
+
+  coapp:{title:'Co-applicants',fields:[
+    {key:'hasCoApplicants',label:'Co-applicant available?',type:'radio',required:true,trigger:true,options:['Yes','No']},
+    {key:'numCoApplicants',label:'How many co-applicants',type:'number',showIf:s=>s.hasCoApplicants==='Yes'}
+  ],next:s=>s.hasCoApplicants==='Yes'?'coapp1':'review'}
+};
+[1,2,3].forEach(n=>{
+  const p='co'+n+'_';
+  SCREENS['coapp'+n]={title:'Co-applicant '+n,fields:[
+    {key:p+'name',label:'Full name',type:'text',required:n===1},
+    {key:p+'mobile',label:'Mobile number',type:'tel',required:n===1},
+    {key:p+'relation',label:'Relation with applicant',type:'text'},
+    {key:p+'age',label:'Age',type:'text'},
+    {key:p+'occupation',label:'Company / business / occupation',type:'text'},
+    {key:p+'income',label:'Monthly income (₹)',type:'number'},
+    {key:p+'incomeMode',label:'Income mode',type:'radio',options:['Bank Transfer','Cash','Mixed']},
+    {key:p+'obligation',label:'Running EMI (₹)',type:'number'},
+    {key:p+'more',label:'Any other co-applicant?',type:'radio',trigger:true,options:['Yes','No'],showIf:()=>n<3}
+  ],next:s=>(n<3&&s[p+'more']==='Yes')?'coapp'+(n+1):'review'};
+});
+
+function startWizard(lead){
+  wizLeadId=lead?lead.id:null;
+  wf=lead?Object.assign({},lead.profile):{};
+  if(lead){
+    wf.applicantName=wf.applicantName||lead.name; wf.mobile=wf.mobile||lead.phone;
+    wf.loanTypeFinal=wf.loanTypeFinal||lead.loanType; wf.leadSource=wf.leadSource||lead.source;
+    wf.employmentType=wf.employmentType||lead.customerType;
+  }
+  wizHistory=[]; wizScreen='basic';
+  document.getElementById('wizHeaderTitle').textContent='Basic details collection';
+  renderWizard(); openSheet('wizOverlay');
+}
+function renderWizard(){
+  const body=document.getElementById('wizBody');
+  if(wizScreen==='review') return renderWizReview();
+  const sc=SCREENS[wizScreen];
+  const visible=sc.fields.filter(f=>!f.showIf||f.showIf(wf));
+  const step=wizHistory.length+1;
+  body.innerHTML=`
+    <div class="wiz-progress-wrap">
+      <div class="wiz-progress-top"><span class="wp-title">${esc(sc.title)}</span><span>Step ${step}</span></div>
+      <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:${Math.min(94,step/8*100)}%"></div></div>
+    </div>
+    ${visible.map(fieldHTML).join('')}
+    <div class="wiz-nav-row">
+      ${wizHistory.length?'<button class="btn btn-ghost" id="wizBack">Back</button>':''}
+      <button class="btn btn-gold" id="wizNext">Next</button>
+    </div>`;
+  bindWizFields(body);
+  if(wizHistory.length) body.querySelector('#wizBack').onclick=()=>{ wizScreen=wizHistory.pop(); renderWizard(); };
+  body.querySelector('#wizNext').onclick=wizNext;
+}
+function bindWizFields(body){
+  body.querySelectorAll('input[data-key],textarea[data-key]').forEach(el=>el.addEventListener('input',()=>{
+    if(el.type==='tel') el.value=el.value.replace(/\D/g,'').slice(0,10);
+    wf[el.dataset.key]=el.value;
+  }));
+  body.querySelectorAll('select[data-key]').forEach(el=>el.addEventListener('change',()=>{
+    wf[el.dataset.key]=el.value; if(el.dataset.trigger) renderWizard();
+  }));
+  body.querySelectorAll('.field-chip-row').forEach(row=>row.addEventListener('click',e=>{
+    const chip=e.target.closest('.chip'); if(!chip) return;
+    const k=row.dataset.key;
+    if(row.dataset.mode==='single'){
+      wf[k]=chip.dataset.v;
+      if(row.dataset.trigger==='1'){ renderWizard(); return; }
+      row.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); chip.classList.add('active');
+    } else {
+      const arr=Array.isArray(wf[k])?wf[k].slice():[];
+      const i=arr.indexOf(chip.dataset.v); if(i>-1) arr.splice(i,1); else arr.push(chip.dataset.v);
+      wf[k]=arr; chip.classList.toggle('active');
+    }
+  }));
+}
+function wizNext(){
+  const sc=SCREENS[wizScreen];
+  for(const f of sc.fields){
+    if(f.showIf&&!f.showIf(wf)) continue;
+    if(f.required){
+      const v=wf[f.key];
+      const empty=f.type==='multiselect'?(!v||!v.length):(v===undefined||v===null||String(v).trim()==='');
+      if(empty) return toast('Please fill: '+f.label);
+    }
+    if(f.type==='tel'&&wf[f.key]&&String(wf[f.key]).length!==10) return toast('Enter a valid 10-digit number');
+  }
+  wizHistory.push(wizScreen); wizScreen=sc.next(wf); renderWizard();
+}
+function renderWizReview(){
+  const denied=wf.loanTypeFinal==='Customer Denied';
+  const lt=denied?'Home Loan':(wf.loanTypeFinal||'Home Loan');
+  const amt=parseAmountRange(wf.requiredLoanAmount);
+  document.getElementById('wizBody').innerHTML=`
+    <div class="wiz-progress-wrap">
+      <div class="wiz-progress-top"><span class="wp-title">Review and save</span><span>Last step</span></div>
+      <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:100%"></div></div>
+    </div>
+    ${denied?'<div class="wiz-denied-banner">Customer declined during the eligibility check. Saving will mark this lead as not eligible.</div>':''}
+    <div class="review-block"><div class="rb-title">What gets saved</div>
+      <div class="review-row"><span class="rk">Name</span><span class="rv">${esc(wf.applicantName||'—')}</span></div>
+      <div class="review-row"><span class="rk">Mobile</span><span class="rv">${esc(wf.mobile||'—')}</span></div>
+      <div class="review-row"><span class="rk">Employment</span><span class="rv">${esc(wf.employmentType||'—')}</span></div>
+      <div class="review-row"><span class="rk">Loan type</span><span class="rv">${esc(wf.loanTypeFinal||'—')}</span></div>
+      <div class="review-row"><span class="rk">Required</span><span class="rv">${esc(wf.requiredLoanAmount||'—')}${amt?` (${money(amt)})`:''}</span></div>
+      <div class="review-row"><span class="rk">CIBIL</span><span class="rv">${esc(wf.cibilScore||'—')}</span></div>
+    </div>
+    <div class="field"><label>City / area</label><input type="text" id="wzCity" value="${esc(wf.city||'')}" placeholder="e.g. Nimbahera"></div>
+    <div class="field"><label>Next follow-up</label><input type="date" id="wzFu" value="${esc(wf.followUpAt||'')}"></div>
+    <div class="wiz-nav-row">
+      <button class="btn btn-ghost" id="wizBack">Back</button>
+      <button class="btn btn-gold" id="wizSave">Save details</button>
+    </div>`;
+  document.getElementById('wizBack').onclick=()=>{ wizScreen=wizHistory.pop(); renderWizard(); };
+  document.getElementById('wizSave').onclick=()=>{
+    const city=document.getElementById('wzCity').value.trim(), fu=document.getElementById('wzFu').value||null;
+    let lead=wizLeadId?leadById(wizLeadId):null;
+    const isNew=!lead;
+    if(!lead){ lead=normalizeLead({createdAt:Date.now()}); leads.unshift(lead); }
+    lead.profile=Object.assign({},wf);
+    lead.name=wf.applicantName||lead.name; lead.phone=wf.mobile||lead.phone;
+    lead.customerType=wf.employmentType||lead.customerType;
+    lead.source=wf.leadSource||lead.source;
+    if(!denied) lead.loanType=lt;
+    if(amt) lead.amount=amt;
+    if(city) lead.city=city;
+    if(fu) lead.followUpAt=fu;
+    logEvent(lead,isNew?'Lead added with full details':'Basic details collected');
+    closeSheet('wizOverlay');
+    if(denied){ lead.notEligible={reason:'Customer denied during eligibility check',remark:'',retry:''}; setStage(lead,'Not Eligible'); }
+    else if(stageIndex(lead.stage)<stageIndex('Docs Collection')) setStage(lead,'Docs Collection');
+    else commit(lead,null);
+    push(isNew?'create':'update',{lead});
+    toast('Details saved');
+    openDetail(lead.id);
+  };
+}
+</script>
+
+<script>
+/* ================= SETTINGS ================= */
+function openSettings(){
+  document.getElementById('setTitle').textContent='Settings';
+  document.getElementById('settingsBody').innerHTML=`
+    <div class="set-item" data-set="lenders">
+      <div class="si-l"><div class="set-ico" style="background:var(--info-bg);color:var(--blue)">🏦</div>
+        <div><div class="si-title">Lenders and products</div><div class="si-sub">${lenders.length} lenders · ${lenders.reduce((a,l)=>a+l.products.length,0)} products</div></div></div>
+      <span style="color:var(--muted)">›</span>
+    </div>
+    <div class="set-item" data-set="reports">
+      <div class="si-l"><div class="set-ico" style="background:var(--success-bg);color:var(--green)">📊</div>
+        <div><div class="si-title">Reports and downloads</div><div class="si-sub">Export leads, payouts and pipeline as CSV</div></div></div>
+      <span style="color:var(--muted)">›</span>
+    </div>
+    <div class="set-item" data-set="sync">
+      <div class="si-l"><div class="set-ico" style="background:var(--warn-bg);color:var(--warn)">☁️</div>
+        <div><div class="si-title">Google Sheet sync</div><div class="si-sub">${config.url?'Connected':'Not connected'}</div></div></div>
+      <span style="color:var(--muted)">›</span>
+    </div>
+    <div class="set-item" data-set="backup">
+      <div class="si-l"><div class="set-ico" style="background:var(--purple-bg);color:var(--purple)">💾</div>
+        <div><div class="si-title">Backup and restore</div><div class="si-sub">Save or load everything as one file</div></div></div>
+      <span style="color:var(--muted)">›</span>
+    </div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:18px;line-height:1.6">Chittorgarh Loans DSA CRM<br>Leads stay on this device unless you connect a sheet.</div>`;
+  document.getElementById('settingsBody').querySelectorAll('[data-set]').forEach(x=>x.onclick=()=>{
+    ({lenders:lenderManager,reports:reportsPanel,sync:syncPanel,backup:backupPanel})[x.dataset.set]();
+  });
+  openSheet('settingsOverlay');
+}
+function setBack(){ return `<button class="link-btn" id="setBackBtn" style="margin-bottom:14px">← Settings</button>`; }
+function bindBack(){ const b=document.getElementById('setBackBtn'); if(b) b.onclick=openSettings; }
+
+/* ---- Sync panel ---- */
+function syncPanel(){
+  document.getElementById('setTitle').textContent='Google Sheet sync';
+  document.getElementById('settingsBody').innerHTML=`${setBack()}
+    <div class="setup-banner"><b>How it works</b>Deploy the Apps Script web app on your Google Sheet, paste the /exec URL here, and every lead saves to the sheet as well as this phone.</div>
+    <div class="field"><label>Web app URL</label><input type="text" id="cfgUrl" value="${esc(config.url)}" placeholder="https://script.google.com/macros/s/.../exec"></div>
+    <div class="field"><label>Secret key (optional)</label><input type="text" id="cfgKey" value="${esc(config.key)}"></div>
+    <button class="btn btn-gold" id="cfgSave">Save and sync now</button>
+    <button class="btn btn-ghost" id="cfgClear" style="margin-top:10px">Disconnect sheet</button>`;
+  bindBack();
+  document.getElementById('cfgSave').onclick=()=>{
+    config={url:document.getElementById('cfgUrl').value.trim(),key:document.getElementById('cfgKey').value.trim()};
+    saveConfig(config); closeSheet('settingsOverlay'); toast('Saved — syncing'); fullSync();
+  };
+  document.getElementById('cfgClear').onclick=()=>{ config={url:'',key:''}; saveConfig(config); setSyncStatus('off','Saved on this device'); document.getElementById('setupBanner').classList.remove('hidden'); openSettings(); toast('Sheet disconnected'); };
+}
+
+/* ---- Backup ---- */
+function backupPanel(){
+  document.getElementById('setTitle').textContent='Backup and restore';
+  document.getElementById('settingsBody').innerHTML=`${setBack()}
+    <div class="setup-banner"><b>Keep a copy</b>The backup file holds every lead and your lender list. Save it somewhere safe once a week.</div>
+    <button class="btn btn-navy" id="bkDown">Download backup file</button>
+    <div class="field" style="margin-top:18px"><label>Restore from a backup file</label><input type="file" id="bkFile" accept=".json"></div>
+    <button class="btn btn-ghost" id="bkRestore">Restore</button>
+    <button class="btn btn-danger" id="bkReset" style="margin-top:22px">Reset lenders to the original list</button>`;
+  bindBack();
+  document.getElementById('bkDown').onclick=()=>saveFile('chittorgarh-crm-backup-'+todayStr()+'.json',JSON.stringify({leads,lenders,config},null,1),'application/json');
+  document.getElementById('bkRestore').onclick=()=>{
+    const f=document.getElementById('bkFile').files[0]; if(!f) return toast('Choose a backup file first');
+    const r=new FileReader();
+    r.onload=()=>{ try{
+      const d=JSON.parse(r.result);
+      if(Array.isArray(d.leads)) leads=d.leads.map(normalizeLead);
+      if(Array.isArray(d.lenders)&&d.lenders.length) lenders=d.lenders;
+      saveCache(); saveLenders(); renderAll(); closeSheet('settingsOverlay'); toast('Backup restored');
+    }catch(e){ toast('That file could not be read'); } };
+    r.readAsText(f);
+  };
+  document.getElementById('bkReset').onclick=()=>{
+    if(!confirm('Replace your lender list with the original master list?')) return;
+    lenders=JSON.parse(JSON.stringify(LENDER_SEED)); saveLenders(); renderAll(); toast('Lender list reset');
+  };
+}
+
+/* ---- Lender manager ---- */
+function lenderManager(){
+  document.getElementById('setTitle').textContent='Lenders and products';
+  document.getElementById('settingsBody').innerHTML=`${setBack()}
+    <button class="btn btn-gold" id="addLenderBtn" style="margin-bottom:14px">Add a lender</button>
+    ${lenders.map(l=>`<div class="set-item" data-lid="${esc(l.id)}">
+      <div class="si-l"><div class="set-ico" style="background:var(--slate-bg);color:var(--navy)">${esc(initials(l.name))}</div>
+        <div style="min-width:0"><div class="si-title">${esc(l.name)}</div>
+        <div class="si-sub">${esc(l.products.map(p=>p.type.replace(' (LAP)','')).join(', ')||'No product')}${l.rm?' · '+esc(l.rm):''}</div></div></div>
+      <span style="color:var(--muted)">›</span></div>`).join('')}`;
+  bindBack();
+  document.getElementById('addLenderBtn').onclick=()=>lenderForm(null);
+  document.getElementById('settingsBody').querySelectorAll('[data-lid]').forEach(x=>x.onclick=()=>lenderForm(lenderById(x.dataset.lid)));
+}
+const LENDER_TEXT_FIELDS=[
+  ['branch','Branch address'],['rm','RM name'],['rmContact','RM contact'],['regStatus','DSA registration status'],
+  ['loginMethod','Login method'],['loginTat','Login TAT'],['serviceArea','Service area / distance rule'],
+  ['target','Best fit profiles'],['negatives','Profiles to avoid'],['payoutMode','Payout mode'],
+  ['payoutCycle','Payout cycle'],['clawback','Clawback rule'],['escalation','Escalation contact'],
+  ['support','Support email'],['portal','Portal / app'],['offers','Running offers']
+];
+const PROD_TEXT_FIELDS=[
+  ['name','Product name'],['range','Loan range'],['roi','Interest rate'],['tenure','Tenure'],['pf','Processing fee'],
+  ['cibil','Minimum CIBIL'],['age','Age criteria'],['income','Income criteria'],['employment','Employment accepted'],
+  ['experience','Experience / vintage'],['foir','FOIR'],['dpd','DPD / bounce rule'],['ltv','LTV / calculation'],
+  ['payout','Our payout'],['kyc','KYC documents'],['incomeProof','Income proof'],['otherDocs','Other documents'],
+  ['foreclosure','Foreclosure'],['lockin','Lock-in'],['partPay','Part payment'],['insurance','Insurance rule'],
+  ['otherCharges','Other charges'],['topup','Top-up'],['rm','Product RM'],['rmContact','Product RM contact']
+];
+let draftLender=null;
+function lenderForm(l){
+  draftLender=l?JSON.parse(JSON.stringify(l)):{id:'ln'+Date.now().toString(36),name:'',products:[]};
+  paintLenderForm(!!l);
+}
+function paintLenderForm(isEdit){
+  document.getElementById('setTitle').textContent=isEdit?'Edit lender':'Add lender';
+  const d=draftLender;
+  document.getElementById('settingsBody').innerHTML=`
+    <button class="link-btn" id="lfBack" style="margin-bottom:14px">← Lenders</button>
+    <div class="field"><label>Lender name <span class="req">*</span></label><input type="text" data-lf="name" value="${esc(d.name)}"></div>
+    ${LENDER_TEXT_FIELDS.map(f=>`<div class="field"><label>${esc(f[1])}</label><input type="text" data-lf="${f[0]}" value="${esc(d[f[0]]||'')}"></div>`).join('')}
+    <div class="sec-head" style="margin-top:20px"><h2>Products</h2><button class="link-btn" id="lfAddProd">Add product</button></div>
+    ${d.products.map((p,i)=>`<div class="prod-edit">
+      <div class="prod-edit-head"><b>Product ${i+1}</b><button class="link-btn" style="color:var(--danger)" data-rmprod="${i}">Remove</button></div>
+      <div class="field"><label>Loan type</label><select data-pf="type" data-pi="${i}">${LOAN_TYPES.map(t=>`<option ${p.type===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+      ${PROD_TEXT_FIELDS.map(f=>`<div class="field"><label>${esc(f[1])}</label><input type="text" data-pf="${f[0]}" data-pi="${i}" value="${esc(p[f[0]]||'')}"></div>`).join('')}
+    </div>`).join('')}
+    <button class="btn btn-gold" id="lfSave" style="margin-top:8px">Save lender</button>
+    ${isEdit?'<button class="btn btn-danger" id="lfDelete" style="margin-top:10px">Delete this lender</button>':''}`;
+  const b=document.getElementById('settingsBody');
+  b.querySelector('#lfBack').onclick=lenderManager;
+  b.querySelectorAll('[data-lf]').forEach(el=>el.addEventListener('input',()=>{ d[el.dataset.lf]=el.value; }));
+  b.querySelectorAll('[data-pf]').forEach(el=>el.addEventListener('input',()=>{ d.products[el.dataset.pi][el.dataset.pf]=el.value; }));
+  b.querySelectorAll('select[data-pf]').forEach(el=>el.addEventListener('change',()=>{ d.products[el.dataset.pi][el.dataset.pf]=el.value; }));
+  b.querySelector('#lfAddProd').onclick=()=>{ d.products.push({type:LOAN_TYPES[0],name:''}); paintLenderForm(isEdit); };
+  b.querySelectorAll('[data-rmprod]').forEach(x=>x.onclick=()=>{ d.products.splice(Number(x.dataset.rmprod),1); paintLenderForm(isEdit); });
+  b.querySelector('#lfSave').onclick=()=>{
+    if(!d.name.trim()) return toast('Enter the lender name');
+    const i=lenders.findIndex(x=>x.id===d.id);
+    if(i>-1) lenders[i]=d; else lenders.push(d);
+    saveLenders(); renderAll(); lenderManager(); toast('Lender saved');
+  };
+  const del=b.querySelector('#lfDelete');
+  if(del) del.onclick=()=>{ if(!confirm('Delete '+d.name+'?')) return; lenders=lenders.filter(x=>x.id!==d.id); saveLenders(); renderAll(); lenderManager(); toast('Lender deleted'); };
+}
+
+/* ================= REPORTS ================= */
+let repFrom='',repTo='';
+function reportsPanel(){
+  document.getElementById('setTitle').textContent='Reports and downloads';
+  const reports=[
+    ['leads','All leads','Every field, one row per lead'],
+    ['pipeline','Pipeline by stage','Count and value at each stage'],
+    ['followup','Follow-up list','Overdue, today and upcoming'],
+    ['lender','Lender performance','Logins, sanctions, disbursals per lender'],
+    ['commission','Commission register','Payout received and pending'],
+    ['docs','Document status','What is still pending per lead'],
+    ['noteligible','Not eligible reasons','Why files were dropped'],
+    ['master','Lender master','Your full lender and product list']
+  ];
+  document.getElementById('settingsBody').innerHTML=`${setBack()}
+    <div class="field-row">
+      <div class="field"><label>From date</label><input type="date" id="repFrom" value="${repFrom}"></div>
+      <div class="field"><label>To date</label><input type="date" id="repTo" value="${repTo}"></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--muted);margin-bottom:14px">Leave dates empty to include everything. Files download as CSV and open in Excel or Google Sheets.</div>
+    ${reports.map(r=>`<div class="set-item" data-rep="${r[0]}">
+      <div class="si-l"><div class="set-ico" style="background:var(--success-bg);color:var(--green)">⬇</div>
+        <div><div class="si-title">${esc(r[1])}</div><div class="si-sub">${esc(r[2])}</div></div></div>
+      <span style="color:var(--muted)">CSV</span></div>`).join('')}`;
+  bindBack();
+  const b=document.getElementById('settingsBody');
+  b.querySelector('#repFrom').onchange=e=>repFrom=e.target.value;
+  b.querySelector('#repTo').onchange=e=>repTo=e.target.value;
+  b.querySelectorAll('[data-rep]').forEach(x=>x.onclick=()=>buildReport(x.dataset.rep));
+}
+function repLeads(){
+  let out=leads.slice();
+  if(repFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(repFrom));
+  if(repTo) out=out.filter(l=>new Date(l.createdAt)<=new Date(repTo+'T23:59:59'));
+  return out;
+}
+function csvCell(v){ const s=(v===undefined||v===null)?'':String(v); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+function toCSV(rows){ return rows.map(r=>r.map(csvCell).join(',')).join('\n'); }
+function lenderNameOf(key){ const o=key&&productByKey(key); return o?o.lender.name:''; }
+function buildReport(kind){
+  const L=repLeads(); let rows=[],fname='report';
+  if(kind==='leads'){
+    fname='all-leads';
+    rows=[['Name','Mobile','Loan type','Amount','Customer type','City','Stage','Disposition','Source','Follow-up','Added on',
+      'Employment','Monthly income','CIBIL','Existing EMI','Required amount','Purpose','Urgency','Docs done','Docs total',
+      'Suggested lenders','Eligible lenders','Logins','Sanction lender','Sanction amount','Disbursed amount','Disbursed on','Commission','Not eligible reason']];
+    L.forEach(l=>{
+      const g=docChecklistFor(l), all=g.reduce((a,x)=>a.concat(x.items),[]);
+      const p=l.profile||{};
+      rows.push([l.name,l.phone,l.loanType,l.amount,l.customerType,l.city,l.stage,l.disposition,l.source,l.followUpAt||'',fmtDate(l.createdAt),
+        p.employmentType||'',p.monthlyIncome||p.seMonthlyIncome||'',p.cibilScore||'',p.totalExistingEmi||'',p.requiredLoanAmount||'',p.purposeOfLoan||'',p.loanUrgency||'',
+        all.filter(d=>l.docs[d]).length,all.length,
+        l.suggested.map(lenderNameOf).join(' | '),l.eligible.map(lenderNameOf).join(' | '),
+        l.logins.map(x=>lenderNameOf(x.key)+' '+(x.status||'')).join(' | '),
+        l.sanction?lenderNameOf(l.sanction.key):'',l.sanction?l.sanction.amount:'',
+        l.disbursal?l.disbursal.amount:'',l.disbursal?l.disbursal.date:'',
+        l.commission?l.commission.amount:'',l.notEligible?l.notEligible.reason:'']);
+    });
+  } else if(kind==='pipeline'){
+    fname='pipeline-by-stage';
+    rows=[['Stage','Leads','Total requested','Share %']];
+    STAGE_KEYS.forEach(s=>{ const ls=L.filter(l=>l.stage===s);
+      rows.push([s,ls.length,ls.reduce((a,l)=>a+Number(l.amount||0),0),pct(ls.length,L.length)]); });
+    rows.push(['Total',L.length,L.reduce((a,l)=>a+Number(l.amount||0),0),100]);
+  } else if(kind==='followup'){
+    fname='follow-up-list';
+    rows=[['Bucket','Name','Mobile','Loan type','Amount','Stage','Disposition','Follow-up date','Last note']];
+    L.filter(l=>followBucket(l)).sort((a,b)=>(a.followUpAt>b.followUpAt?1:-1)).forEach(l=>
+      rows.push([followBucket(l),l.name,l.phone,l.loanType,l.amount,l.stage,l.disposition,l.followUpAt,(l.timeline[0]||{}).text||'']));
+  } else if(kind==='lender'){
+    fname='lender-performance';
+    const map={};
+    const touch=id=>{ if(!map[id]) map[id]={logins:0,sanc:0,sancAmt:0,disb:0,disbAmt:0,comm:0}; return map[id]; };
+    L.forEach(l=>{
+      (l.logins||[]).forEach(g=>{ const o=productByKey(g.key); if(o) touch(o.lender.id).logins++; });
+      if(l.sanction&&l.sanction.key){ const o=productByKey(l.sanction.key); if(o){ const r=touch(o.lender.id); r.sanc++; r.sancAmt+=Number(l.sanction.amount||0); } }
+      if(l.disbursal&&l.disbursal.amount){ const k=(l.sanction&&l.sanction.key)||((l.logins[0]||{}).key); const o=k&&productByKey(k);
+        if(o){ const r=touch(o.lender.id); r.disb++; r.disbAmt+=Number(l.disbursal.amount||0); r.comm+=Number((l.commission||{}).amount||0); } }
+    });
+    rows=[['Lender','RM','RM contact','Logins','Sanctioned','Sanctioned value','Disbursed','Disbursed value','Commission','Conversion %']];
+    Object.keys(map).forEach(id=>{ const l=lenderById(id)||{}; const r=map[id];
+      rows.push([l.name||id,l.rm||'',l.rmContact||'',r.logins,r.sanc,r.sancAmt,r.disb,r.disbAmt,r.comm,pct(r.disb,r.logins)]); });
+    if(rows.length===1) rows.push(['No login recorded yet']);
+  } else if(kind==='commission'){
+    fname='commission-register';
+    rows=[['Name','Mobile','Lender','Disbursed amount','Disbursed on','Payout %','Commission amount','Received on','Mode','Status','Remark']];
+    L.filter(l=>l.disbursal||l.commission).forEach(l=>{
+      const k=(l.sanction&&l.sanction.key)||((l.logins[0]||{}).key); const c=l.commission||{};
+      rows.push([l.name,l.phone,lenderNameOf(k),(l.disbursal||{}).amount||'',(l.disbursal||{}).date||'',
+        c.percent||'',c.amount||'',c.receivedOn||'',c.mode||'',c.amount?'Received':'Pending',c.remark||'']);
+    });
+    const got=L.reduce((a,l)=>a+Number((l.commission||{}).amount||0),0);
+    rows.push([]); rows.push(['Total commission received','','','','','',got]);
+  } else if(kind==='docs'){
+    fname='document-status';
+    rows=[['Name','Mobile','Loan type','Customer type','Stage','Collected','Total','Pending documents']];
+    L.forEach(l=>{ const g=docChecklistFor(l), all=g.reduce((a,x)=>a.concat(x.items),[]);
+      const pend=all.filter(d=>!l.docs[d]);
+      rows.push([l.name,l.phone,l.loanType,l.customerType,l.stage,all.length-pend.length,all.length,pend.join(' | ')]); });
+  } else if(kind==='noteligible'){
+    fname='not-eligible';
+    rows=[['Name','Mobile','Loan type','Amount','Reason','Detail','Retry','Marked on']];
+    L.filter(l=>l.stage==='Not Eligible'||l.disposition==='Not Eligible').forEach(l=>{
+      const n=l.notEligible||{}; rows.push([l.name,l.phone,l.loanType,l.amount,n.reason||'',n.remark||'',n.retry||'',fmtDate(l.createdAt)]); });
+  } else if(kind==='master'){
+    fname='lender-master';
+    rows=[['Lender','Product type','Product','Loan range','Interest','Tenure','Processing fee','Min CIBIL','Age','Income','FOIR','DPD rule','Our payout','Payout cycle','Clawback','Login TAT','Service area','Avoid profiles','RM','RM contact','Branch']];
+    lenders.forEach(l=>{
+      if(!l.products.length) rows.push([l.name,'','','','','','','','','','','','',l.payoutCycle||'',l.clawback||'',l.loginTat||'',l.serviceArea||'',l.negatives||'',l.rm||'',l.rmContact||'',l.branch||'']);
+      l.products.forEach(p=>rows.push([l.name,p.type,p.name||'',p.range||'',p.roi||'',p.tenure||'',p.pf||'',p.cibil||'',p.age||'',p.income||'',p.foir||'',p.dpd||'',p.payout||'',l.payoutCycle||'',l.clawback||'',l.loginTat||'',l.serviceArea||'',l.negatives||'',p.rm||l.rm||'',p.rmContact||l.rmContact||'',l.branch||'']));
+    });
+  }
+  const suffix=(repFrom||repTo)?`-${repFrom||'start'}_${repTo||'today'}`:'';
+  saveFile(`${fname}${suffix}.csv`,'\ufeff'+toCSV(rows),'text/csv;charset=utf-8;');
+}
+function saveFile(name,text,mime){
+  try{
+    const blob=new Blob([text],{type:mime});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    toast('Downloaded '+name);
+  }catch(e){ showTextFallback(name,text); }
+}
+function showTextFallback(name,text){
+  document.getElementById('setTitle').textContent=name;
+  document.getElementById('settingsBody').innerHTML=`${setBack()}
+    <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Download is blocked here. Copy this and paste it into a sheet.</div>
+    <textarea id="fallbackTxt" style="width:100%;min-height:260px;font-size:11px">${esc(text)}</textarea>
+    <button class="btn btn-gold" id="copyTxt" style="margin-top:10px">Copy all</button>`;
+  bindBack();
+  document.getElementById('copyTxt').onclick=()=>{ const t=document.getElementById('fallbackTxt'); t.select(); document.execCommand('copy'); toast('Copied'); };
+}
+
+/* ================= SHEETS / TABS / EVENTS ================= */
+function openSheet(id){ document.getElementById(id).classList.add('show'); }
+function closeSheet(id){ document.getElementById(id).classList.remove('show'); }
+function switchTab(tab){
+  currentTab=tab;
+  ['home','leads','board','lenders'].forEach(t=>document.getElementById(t+'View').classList.toggle('hidden',t!==tab));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));
+  document.getElementById('mainScroll').scrollTop=0;
+  if(tab==='home') renderHome(); if(tab==='leads') renderList(); if(tab==='board') renderBoard(); if(tab==='lenders') renderLenderDirectory();
+}
+function renderAll(){ renderTopStats(); renderHome(); renderList(); renderBoard(); renderLenderDirectory(); }
+
+document.querySelectorAll('.nav-item').forEach(n=>n.onclick=()=>switchTab(n.dataset.tab));
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeSheet(b.dataset.close));
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('show'); }));
+document.getElementById('fabAdd').onclick=openQuickAdd;
+document.getElementById('settingsBtn').onclick=openSettings;
+document.getElementById('openFilterBtn').onclick=openFilters;
+document.getElementById('sortBtn').onclick=()=>{ sortNew=!sortNew; renderList(); };
+document.getElementById('searchInput').addEventListener('input',e=>{ searchQ=e.target.value.trim(); renderList(); });
+document.getElementById('lenderSearch').addEventListener('input',e=>{ lenderQ=e.target.value.trim(); renderLenderDirectory(); });
+
+document.getElementById('lenderTypeChips').addEventListener('click',e=>{
+  const c=e.target.closest('[data-ltype]'); if(!c) return;
+  lenderTypeFilter=c.dataset.ltype; renderLenderDirectory();
+});
+document.getElementById('lenderDirectory').addEventListener('click',e=>{
+  const rm=e.target.closest('[data-callrm]'); if(rm){ const n=rm.dataset.callrm; if(n) location.href='tel:'+n; else toast('No RM number saved'); return; }
+  const ed=e.target.closest('[data-editlender]'); if(ed){ openSettings(); lenderForm(lenderById(ed.dataset.editlender)); }
+});
+
+document.getElementById('leadList').addEventListener('click',e=>{
+  const call=e.target.closest('[data-call]'); if(call){ e.stopPropagation(); const n=call.dataset.call; if(n) location.href='tel:'+n; else toast('No number saved'); return; }
+  const wa=e.target.closest('[data-wa]'); if(wa){ e.stopPropagation(); const n=wa.dataset.wa; if(n) window.open('https://wa.me/91'+n,'_blank'); else toast('No number saved'); return; }
+  const card=e.target.closest('.lead-card'); if(card) openDetail(card.dataset.id);
+});
+document.getElementById('detailBody').addEventListener('click',e=>{
+  const call=e.target.closest('[data-call]'); if(call){ const n=call.dataset.call; if(n) location.href='tel:'+n; return; }
+  const wa=e.target.closest('[data-wa]'); if(wa){ const n=wa.dataset.wa; if(n) window.open('https://wa.me/91'+n,'_blank'); }
+});
+document.getElementById('homeView').addEventListener('click',e=>{
+  const s=e.target.closest('[data-stagefilter]');
+  if(s){ clearAllFilters(); fStage=s.dataset.stagefilter; switchTab('leads'); renderList(); return; }
+  const f=e.target.closest('[data-follow]');
+  if(f){ clearAllFilters(); fFollow=f.dataset.follow; switchTab('leads'); renderList(); return; }
+  const b=e.target.closest('[data-barfilter]');
+  if(b){ const flt=JSON.parse(b.dataset.barfilter); clearAllFilters();
+    if(flt.loanType) fLoan=flt.loanType; if(flt.disposition) fDispo=flt.disposition; if(flt.source) fSource=flt.source;
+    switchTab('leads'); renderList(); }
+});
+document.getElementById('boardList').addEventListener('click',e=>{
+  const s=e.target.closest('[data-stagefilter]');
+  if(s){ clearAllFilters(); fStage=s.dataset.stagefilter; switchTab('leads'); renderList(); }
+});
+document.getElementById('activeFiltersRow').addEventListener('click',e=>{
+  const c=e.target.closest('[data-clearf]'); if(c) return clearFilter(c.dataset.clearf);
+  if(e.target.id==='clearAllF') clearAllFilters();
+});
+
+/* ================= BOOT ================= */
+renderAll();
+fullSync();
+</script>
+</body>
+</html>
