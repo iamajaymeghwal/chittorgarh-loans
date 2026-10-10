@@ -32,12 +32,211 @@
 <meta name="theme-color" content="#0A2540">
 
 <link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://widgets.sociablekit.com">
+<link rel="preload" as="image" href="images/hero-fort.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link rel="dns-prefetch" href="//www.googletagmanager.com">
-<link rel="dns-prefetch" href="//widgets.sociablekit.com">
   
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2a55; --green:#0d6b3a; --gold:#98650b; --ink:#1d2433; --muted:#566074;
+  --cream:#fdf6e9; --card:#fff; --line:#e8e1d2;
+  /* Images live in /images (one file per picture, used on mobile AND desktop) */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+h1,h2,.serif{font-family:"DM Serif Display",Georgia,serif;font-weight:400}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+img{max-width:100%;height:auto}
+[lang="hi"],.logo small{font-family:"Noto Sans Devanagari",Inter,sans-serif}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 1px 10px rgba(0,0,0,.07)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.logo b{display:block;font-family:"DM Serif Display",serif;font-weight:400;font-size:22px;color:var(--navy);line-height:1}
+.logo small{font-size:12px;color:var(--muted)}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14px;font-weight:500}
+nav a:hover{color:var(--green)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;border:0;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.b-green{background:var(--green);color:#fff}.b-navy{background:var(--navy);color:#fff}
+.b-gold{background:var(--gold);color:#fff}.b-white{background:#fff;color:var(--green);border:1px solid #cfe3d6}
+.menu-btn{display:none;background:none;border:0;font-size:26px;color:var(--navy)}
+
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;min-height:540px;display:flex;align-items:center;color:var(--ink);background:linear-gradient(135deg,#f3c77a,#7aa36b 60%,#2e6f6a)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 40%;z-index:-2}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(253,246,233,.96) 0%,rgba(253,246,233,.82) 40%,rgba(253,246,233,0) 70%)}
+.hero .wrap{width:100%;padding-top:50px;padding-bottom:110px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.hero h1{font-size:clamp(40px,6vw,66px);line-height:1.05;color:var(--navy);margin:10px 0 16px}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero p{max-width:520px;font-size:17px}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin:26px 0}
+.pills{display:flex;gap:26px;flex-wrap:wrap;font-size:14px;font-weight:600;color:var(--navy)}
+.pills span{display:flex;align-items:center;gap:8px}
+.pills i{font-style:normal;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.tag{position:absolute;right:5%;top:40px;text-align:center;color:var(--navy)}
+.tag .serif{font-size:34px;font-style:italic}.tag small{font-size:12px;letter-spacing:.12em}
+.stats{margin:-48px auto 0;position:relative;z-index:5;max-width:1100px;background:#fff;border-radius:22px;box-shadow:0 10px 40px rgba(0,0,0,.12);display:grid;grid-template-columns:repeat(4,1fr);padding:22px}
+.stat{display:flex;align-items:center;gap:14px;justify-content:center;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat i{font-style:normal;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:#e8eefb}
+.stat b{display:block;font-size:22px;color:var(--navy);line-height:1.1}.stat small{color:var(--muted);font-size:13px}
+
+/* sections */
+section{padding:72px 0}
+.head{text-align:center;max-width:760px;margin:0 auto 38px}
+.head h2{font-size:clamp(30px,4vw,44px);color:var(--navy);margin:6px 0 10px}
+.head h2 em{font-style:normal;color:var(--green)}
+.head p{color:var(--muted)}
+.cream{background:linear-gradient(#fff,var(--cream) 30%,#fff)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:var(--card);border-radius:18px;box-shadow:0 6px 24px rgba(40,30,10,.1);overflow:hidden;display:flex;flex-direction:column}
+.card .img{aspect-ratio:16/10;background:var(--g,#d8c7a0);overflow:hidden}
+.card .img img{width:100%;height:100%;object-fit:cover;display:block}
+.card .body{padding:0 20px 22px;display:flex;flex-direction:column;flex:1}
+.ico{width:52px;height:52px;border-radius:50%;margin:-26px 0 10px;display:grid;place-items:center;color:#fff;font-size:22px;border:3px solid #fff}
+.card h3{font-size:20px;color:var(--navy);margin-bottom:8px}
+.card p{font-size:14px;color:var(--muted);flex:1;margin-bottom:16px}
+.card .btn{align-self:flex-start;padding:10px 18px;font-size:14px}
+
+/* why */
+.why{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#d9a35b,#f1d9a8)}
+.why .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;z-index:-2}
+.why::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(253,246,233,0) 0,rgba(253,246,233,.92) 45%)}
+.why .grid{margin-left:auto;max-width:720px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat{display:flex;gap:12px;font-size:13px;color:var(--muted)}
+.feat i{font-style:normal;flex:none;width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.feat b{display:block;color:var(--navy);font-size:14px;margin-bottom:2px}
+.why .head{text-align:left;margin-left:auto;max-width:720px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;counter-reset:s}
+.step{background:#fff;border-radius:16px;padding:22px 16px;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.08);font-size:14px;color:var(--muted);position:relative}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:30px;height:30px;margin:0 auto 10px;border-radius:50%;background:var(--gold);color:#fff;font-weight:700;font-size:14px}
+.step b{display:block;color:var(--navy);font-size:16px;margin-bottom:6px}
+
+/* partners */
+.partners{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.partners div{background:#fff;border:1px solid var(--line);border-radius:12px;min-height:64px;display:grid;place-items:center;font-weight:700;font-size:14px;line-height:1.25;color:var(--navy);text-align:center;padding:6px;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.partners img{max-height:38px;max-width:90%}
+.badge{display:inline-block;border:1px solid var(--line);background:#fffaf0;border-radius:12px;padding:8px 18px;text-align:center;margin-top:20px;font-size:13px;color:var(--muted)}
+.badge b{display:block;font-size:22px;color:var(--navy)}
+
+/* reviews */
+.reviews{background:linear-gradient(180deg,#fff,var(--cream))}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev{background:#fff;border-radius:16px;padding:22px;box-shadow:0 6px 24px rgba(0,0,0,.09)}
+.stars{color:#f0a500;letter-spacing:3px;margin-bottom:8px}
+.rev p{font-size:15px;margin-bottom:16px}
+.who{display:flex;align-items:center;gap:12px;font-size:14px}
+.who i{font-style:normal;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}
+.who small{display:block;color:var(--muted)}
+
+/* areas */
+.areas{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(#f7e6c4,#e9cf9a)}
+.areas .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.areas::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(253,246,233,.86)}
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:800px;margin:0 auto}
+.chips span{background:#fff;border-radius:10px;padding:10px 18px;font-weight:600;font-size:14px;box-shadow:0 3px 10px rgba(0,0,0,.1);color:var(--navy)}
+.chips span::before{content:"📍 "}
+
+/* cta */
+.cta-band{background:var(--navy);border-radius:22px;color:#fff;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:28px;align-items:center;padding:30px;overflow:hidden}
+.cta-band .pic{height:170px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#d9a35b,#7a5a2a)}
+.cta-band .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.cta-band h2{font-size:34px;line-height:1.15;margin:6px 0 8px}
+.cta-band p{font-size:14px;opacity:.85}
+.cta-band .btns{display:grid;gap:12px}.cta-band .btn{justify-content:center}
+.trust{display:flex;gap:16px;font-size:12px;opacity:.85;margin-top:12px;flex-wrap:wrap}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;max-width:960px;margin:0 auto}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"⌄";color:var(--green)}
+details[open] summary::after{content:"⌃"}
+details p{margin-top:10px;font-size:14px;color:var(--muted)}
+
+/* footer */
+footer{background:#0a2447;color:#cfd8e8;padding:50px 0 20px;font-size:14px}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.3fr 1fr;gap:28px}
+footer h4{color:#fff;margin-bottom:12px;font-size:15px}
+footer ul{list-style:none;display:grid;gap:7px}
+footer a:hover{color:#fff}
+.flogo b{font-family:"DM Serif Display",serif;font-weight:400;font-size:26px;color:#fff;display:block}
+.flogo em{color:#e6b95a;font-style:normal;font-size:13px;display:block;margin-top:8px}
+.soc{display:flex;gap:10px}.soc a{width:34px;height:34px;border-radius:8px;background:#1d4a85;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
+.copy{border-top:1px solid #1d3a66;margin-top:30px;padding-top:16px;display:flex;justify-content:space-between;font-size:13px;flex-wrap:wrap;gap:8px}
+.float-wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+
+/* responsive */
+@media(max-width:980px){
+  nav{display:none;position:absolute;top:68px;left:0;right:0;background:#fff;padding:6px 20px 16px;box-shadow:0 10px 20px rgba(0,0,0,.1)}
+  nav.is-open{display:block}
+  nav ul{flex-direction:column;gap:0}
+  nav a{display:block;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .menu-btn{display:grid;place-items:center;width:44px;height:44px}
+  .nav>.b-green{margin-left:auto;padding:9px 14px;font-size:14px;white-space:nowrap;flex-shrink:0}
+  .nav{gap:10px}.logo{min-width:0}.logo b{white-space:nowrap}
+  .grid4,.steps{grid-template-columns:repeat(2,1fr)}
+  .partners{grid-template-columns:repeat(3,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr);gap:16px;margin:-30px 0 0}.stat{border:0;justify-content:flex-start}
+  .why .grid{grid-template-columns:repeat(2,1fr)}
+  .grid3,.faq-grid,.cta-band{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr 1fr}.fgrid>*{min-width:0;overflow-wrap:anywhere}.fgrid>:first-child,.fgrid>:nth-child(4),.fgrid>:nth-child(5){grid-column:1/-1}
+  .tag{display:none}
+  .hero::before{background:linear-gradient(90deg,rgba(253,246,233,.95),rgba(253,246,233,.78) 60%,rgba(253,246,233,.25))}
+  .why{background:var(--cream)}
+  .why::before{display:none}
+  .why .bgimg{position:static;display:block;height:clamp(180px,46vw,280px)}
+  .why .wrap{padding-top:36px}.why{padding-top:0}
+  .why .head{margin:0 0 24px;max-width:none}
+  .why .grid{margin:0;max-width:none}
+}
+@media(max-width:700px){
+  .hero{display:block;min-height:0;background:linear-gradient(var(--cream),#fff)}
+  .hero::before{display:none}
+  .hero-img{position:static;display:block;z-index:auto;height:clamp(200px,54vw,300px);object-position:68% 35%}
+  .hero .wrap{padding-top:26px;padding-bottom:84px}
+  .cta-band .pic{height:140px}
+}
+@media(max-width:520px){
+  section{padding:48px 0}
+  .logo b{font-size:20px}.logo img{width:40px;height:40px}
+  .why .grid,.grid4{grid-template-columns:1fr}
+  .hero .cta .btn,.card .btn,.cta-band .btn,form .btn{width:100%;justify-content:center}
+  .cta{flex-direction:column}
+  .pills{gap:14px 18px;font-size:13px}
+  .cta-band{padding:22px}.cta-band h2{font-size:28px}
+  .chips span{padding:8px 14px;font-size:13px}
+  .stat b{font-size:20px}.stat i{width:42px;height:42px}
+  .float-wa{width:52px;height:52px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:400px){.logo small{display:none}.logo b{font-size:19px}.partners{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+label{display:grid;gap:6px;font-weight:600;font-size:14px;color:var(--navy)}
+input,select{font:inherit;padding:12px 14px;border:1px solid #cfc8b8;border-radius:10px;background:#fff;color:var(--ink)}
+footer .copy a:hover{text-decoration:underline}
+
+.carousel{position:relative}
+.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;scrollbar-width:thin}
+.track .rev{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start}
+.arrows{display:flex;gap:10px;justify-content:center;margin-top:6px}
+.arrows button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer;color:var(--navy)}
+.rev small.t{display:block;color:var(--muted);font-size:12px;margin-top:10px}
+.hero-badge{display:inline-block;background:#fff;border:1px solid var(--line);color:var(--navy);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:6px}
+@media(max-width:980px){.track .rev{flex-basis:calc((100% - 20px)/2)}}
+@media(max-width:620px){.track .rev{flex-basis:88%}}
+</style>
   
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2XTETBKN0S"></script>
@@ -96,718 +295,251 @@
 <!-- FAQ Schema -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How much loan can I get in Chittorgarh?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Loan eligibility depends on your income, CIBIL score, existing obligations and the lender's policies. Contact us for a free eligibility check."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What documents are required for a loan?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Typically: Aadhaar Card, PAN Card, income proof (salary slips or ITR), last 6 months bank statements, and property documents if applicable."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I get a loan with a low CIBIL score?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Approval depends on lender policies and your overall financial profile. We work with lenders who consider applicants with lower CIBIL scores. Consult us to explore options."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does loan approval take?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Timelines vary by lender and loan type. Personal loans can be approved in 1–3 days; home loans typically take 7–15 working days after document submission."
-      }
-    }
-  ]
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How much loan can I get in Chittorgarh?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Loan eligibility depends on your monthly income, CIBIL score, existing loan obligations and the lender's policies. Generally, lenders approve EMI up to 40–50% of your monthly income. Contact us for a free eligibility check."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What documents are required for a loan?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Typically required: Aadhaar Card, PAN Card, income proof (salary slips or ITR for 2 years), last 6 months bank statements, and property documents if applying for a home loan or LAP."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I get a loan with a low CIBIL score?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Approval depends on the lender's policies and your overall financial profile. Some NBFCs and fintech lenders do consider applicants with lower CIBIL scores. We can help identify suitable options for your situation."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does loan approval take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Personal loans from digital lenders can be approved in 1–3 working days. Home loans and business loans typically take 7–15 working days after complete document submission, depending on the lender."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is your consultation service free?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. Our initial consultation is completely free. We help you understand your options and guide you through the process at no upfront cost."
+   }
+  }
+ ]
 }
 </script>
   
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header class="site-header" role="banner">
-  <div class="container nav-wrap">
-    <a href="#home" class="brand" aria-label="Chittorgarh Loans – Home">
-      <img src="Chittorgarh_Loans_logo.webp"
-alt="Chittorgarh Loans - Loan Consultant in Chittorgarh Rajasthan"
-class="logo"
-width="60"
-height="60">
-      <div class="brand-text">
-        <span class="brand-name">Chittorgarh Loans</span>
-        <span class="brand-tagline">Trusted Loan Consultancy</span>
-      </div>
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="logo" aria-label="Chittorgarh Loans – Home">
+      <img src="Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans logo" width="46" height="46">
+      <span><b>Chittorgarh Loans</b><small>आपका लोन, आपके हिसाब से।</small></span>
     </a>
-
-    <button class="nav-toggle" id="navToggle" aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation menu">
-      <span class="toggle-icon">&#9776;</span> Menu
-    </button>
-
-    <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#why">Why Us</a>
-      <a href="#banks">Banks</a>
-      <a href="#process">Process</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact" class="nav-cta">Contact</a>
+    <nav id="mainNav" aria-label="Main navigation">
+      <ul>
+        <li><a href="#home">Home</a></li><li><a href="#services">Services</a></li><li><a href="#why">Why Us</a></li>
+        <li><a href="#banks">Banks</a></li><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
+    <a class="btn b-green" href="tel:+916376007997">📞 Call Now</a>
+    <button class="menu-btn" id="navToggle" aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation menu">☰</button>
   </div>
 </header>
 
-<!-- HERO -->
 <main id="main-content">
-<section id="home" class="hero" aria-label="Hero section">
-  <div class="container hero-inner">
-    <div class="hero-badge" role="img" aria-label="Trusted Loan Consultant In Chittorgarh">
-      🏆 Trusted Loan Consultant In Chittorgarh
+<div class="hero" id="home">
+  <img class="hero-img" src="images/hero-fort.jpg" alt="Chittorgarh Fort and Vijay Stambh, Rajasthan" width="1600" height="900" fetchpriority="high" decoding="async" onerror="this.remove()">
+  <div class="tag"><div class="serif">Chittorgarh</div><small>FORT OF PRIDE<br>CITY OF OPPORTUNITIES</small></div>
+  <div class="wrap">
+    <div class="hero-badge">🏆 Trusted Loan Consultant In Chittorgarh</div>
+    <h1>Loan Consultant<br>in <em>Chittorgarh</em></h1>
+    <p>Expert Home Loan, Personal Loan, Business Loan &amp; LAP consultation in Chittorgarh. Compare multiple banks &amp; NBFCs with free expert guidance.</p>
+    <div class="cta">
+      <a class="btn b-navy" href="tel:+916376007997">📞 Call Now – Free →</a>
+      <a class="btn b-green" href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation." target="_blank" rel="noopener">💬 WhatsApp Us →</a>
     </div>
-    <h1>Loan Consultant in Chittorgarh</h1>
-   <p class="hero-sub">
-Expert Home Loan, Personal Loan, Business Loan & LAP Consultation in Chittorgarh.<br>
-Compare Multiple Banks & NBFCs with Free Expert Guidance.
-</p>
-
-    <div class="hero-actions">
-      <a href="tel:+916376007997" class="btn btn-primary">
-        <span aria-hidden="true">📞</span> Call Now – Free
-      </a>
-      <a href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation." class="btn btn-gold" target="_blank" rel="noopener">
-        <span aria-hidden="true">💬</span> WhatsApp Us
-      </a>
-    </div>
-
-    <ul class="trust-strip" aria-label="Key benefits">
-      <li>✅ Free Consultation</li>
-      <li>✅ Multiple Lender Comparison</li>
-      <li>✅ Fast Processing</li>
-      <li>✅ Personalized Guidance</li>
-    </ul>
-  </div>
-</section>
-
-<!-- STATS / HIGHLIGHTS -->
-<section class="highlights" aria-label="Key highlights">
-  <div class="container stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon" aria-hidden="true">🏦</div>
-      <strong>50+</strong>
-      <span>Banks &amp; NBFCs</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" aria-hidden="true">⚡</div>
-      <strong>Fast</strong>
-      <span>Processing Support</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" aria-hidden="true">✅</div>
-      <strong>Free</strong>
-      <span>Consultation</span>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" aria-hidden="true">📍</div>
-      <strong>Local</strong>
-      <span>Chittorgarh Service</span>
+    <div class="pills">
+      <span><i>🛡️</i>Free<br>Consultation</span><span><i>👥</i>Multiple Lender<br>Comparison</span>
+      <span><i>⚡</i>Fast<br>Processing</span><span><i>🎧</i>Personalized<br>Guidance</span>
     </div>
   </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" aria-labelledby="services-heading">
-  <div class="container">
-    <h2 id="services-heading" class="section-title">Our Loan Services</h2>
-    <p class="section-sub">Home Loan, Personal Loan, Business Loan and Loan Against Property consultation services in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.</p>
-    <div class="services-grid">
-      <article class="service-card">
-        <div class="svc-icon" aria-hidden="true">🏠</div>
-        <h3>Home Loan</h3>
-        <p>Home Loan consultation in Chittorgarh for home purchase, construction, balance transfer and top-up loans for salaried and self-employed applicants.</p>
-        <a href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Home%20Loan." class="svc-link" target="_blank" rel="noopener">Enquire Now →</a>
-      </article>
-      <article class="service-card">
-        <div class="svc-icon" aria-hidden="true">💰</div>
-        <h3>Personal Loan</h3>
-        <p>Personal Loan consultation in Chittorgarh for medical, education, travel, wedding and emergency financial requirements with multiple lender options.</p>
-        <a href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Personal%20Loan." class="svc-link" target="_blank" rel="noopener">Enquire Now →</a>
-      </article>
-      <article class="service-card">
-        <div class="svc-icon" aria-hidden="true">🏢</div>
-        <h3>Business Loan</h3>
-        <p>Business Loan consultation in Chittorgarh for working capital, machinery purchase, business expansion and MSME funding requirements.</p>
-        <a href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Business%20Loan." class="svc-link" target="_blank" rel="noopener">Enquire Now →</a>
-      </article>
-      <article class="service-card">
-        <div class="svc-icon" aria-hidden="true">🏡</div>
-        <h3>Loan Against Property</h3>
-        <p>Loan Against Property consultation in Chittorgarh for residential and commercial properties with competitive lender comparison.</p>
-        <a href="https://wa.me/916376007997?text=I%20am%20interested%20in%20Loan%20Against%20Property." class="svc-link" target="_blank" rel="noopener">Enquire Now →</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- WHY CHOOSE US -->
-<section id="why" class="why-section" aria-labelledby="why-heading">
-  <div class="container">
-    <h2 id="why-heading" class="section-title">Why Choose Chittorgarh Loans?</h2>
-    <p class="section-sub">Chittorgarh Loans helps customers compare multiple banks and NBFCs, understand loan options and receive transparent guidance throughout the loan process.</p>
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">🏦</div>
-        <h3>Multiple Bank Comparison</h3>
-        <p>Compare loan options from 50+ Banks & NBFCs based on your eligibility, interest rates, processing fees and repayment terms to choose a suitable lender.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">⚡</div>
-        <h3>Fast Processing</h3>
-        <p>Quick support for documentation, application filing and follow-ups with lenders.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">📉</div>
-        <h3>EMI Optimization</h3>
-        <p>Guidance to select suitable EMI amount, tenure and prepayment options for your budget.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">📊</div>
-        <h3>Low CIBIL Assistance</h3>
-        <p>We identify lenders who can consider applicants with challenging credit profiles.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">🤝</div>
-        <h3>Personalized Consultation</h3>
-        <p>Every customer is different. We match loan options to your income, profile and goals.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon" aria-hidden="true">🔍</div>
-        <h3>Transparent Process</h3>
-        <p>No hidden charges, no confusion. Clear guidance at every stage – from application to disbursal.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BANKS -->
-<section id="banks" aria-labelledby="banks-heading">
-  <div class="container">
-    <h2 id="banks-heading" class="section-title">Banks &amp; NBFC Partners</h2>
-    <p class="section-sub">We help you compare options from leading lenders across India.</p>
-    <div class="banks-grid">
-      <div class="bank-card">SBI</div>
-      <div class="bank-card">HDFC Bank</div>
-      <div class="bank-card">ICICI Bank</div>
-      <div class="bank-card">Axis Bank</div>
-      <div class="bank-card">Bank of Baroda</div>
-      <div class="bank-card">PNB</div>
-      <div class="bank-card">AU Small Finance Bank</div>
-      <div class="bank-card">Kotak Mahindra Bank</div>
-      <div class="bank-card">IDFC FIRST Bank</div>
-      <div class="bank-card">Bajaj Finserv</div>
-      <div class="bank-card">Tata Capital</div>
-      <div class="bank-card">Piramal Finance</div>
-      <div class="bank-card">Aditya Birla Finance</div>
-      <div class="bank-card">L&amp;T Finance</div>
-      <div class="bank-card">MoneyView</div>
-      <div class="bank-card">Navi</div>
-      <div class="bank-card">Fibe</div>
-      <div class="bank-card">KreditBee</div>
-    </div>
-    <p class="disclaimer">* Loan availability subject to lender eligibility criteria, policies and documentation requirements.</p>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process" class="process-section" aria-labelledby="process-heading">
-  <div class="container">
-    <h2 id="process-heading" class="section-title">Simple 6-Step Loan Process</h2>
-    <p class="section-sub">From your first call to loan disbursal – we guide you at every step.</p>
-    <ol class="process-list" aria-label="Loan process steps">
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">1</div>
-        <h3>Contact Us</h3>
-        <p>Call, WhatsApp or fill the form below.</p>
-      </li>
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">2</div>
-        <h3>Profile Assessment</h3>
-        <p>We review your income, CIBIL and requirements.</p>
-      </li>
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">3</div>
-        <h3>Document Collection</h3>
-        <p>We guide you on which documents to prepare.</p>
-      </li>
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">4</div>
-        <h3>Lender Comparison</h3>
-        <p>We present the best options from multiple banks.</p>
-      </li>
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">5</div>
-        <h3>Application &amp; Approval</h3>
-        <p>We submit and follow up on your application.</p>
-      </li>
-      <li class="process-step">
-        <div class="step-num" aria-hidden="true">6</div>
-        <h3>Loan Disbursement</h3>
-        <p>Funds are transferred to your account.</p>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<!-- ===================== REVIEWS SECTION START ===================== -->
-<section id="reviews" class="cl-reviews" aria-labelledby="cl-reviews-heading">
-  <div class="cl-reviews__container">
-
-    <div class="cl-reviews__header">
-      <p class="cl-reviews__eyebrow">Customer Trust</p>
-      <h2 id="cl-reviews-heading" class="cl-reviews__title">Verified Google Reviews</h2>
-      <p class="cl-reviews__subtitle">Real reviews from our customers.</p>
-
-      <div class="cl-reviews__summary">
-        <div class="cl-reviews__rating">
-          <span class="cl-reviews__score">5.0</span>
-          <span class="cl-reviews__stars" aria-label="Rated 5 out of 5 stars">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6 5.9 21l1.5-6.8-5.2-4.7 6.9-.7L12 2.5z" fill="currentColor"/></svg>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6 5.9 21l1.5-6.8-5.2-4.7 6.9-.7L12 2.5z" fill="currentColor"/></svg>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6 5.9 21l1.5-6.8-5.2-4.7 6.9-.7L12 2.5z" fill="currentColor"/></svg>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6 5.9 21l1.5-6.8-5.2-4.7 6.9-.7L12 2.5z" fill="currentColor"/></svg>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6 5.9 21l1.5-6.8-5.2-4.7 6.9-.7L12 2.5z" fill="currentColor"/></svg>
-          </span>
-        </div>
-        <div class="cl-reviews__divider" aria-hidden="true"></div>
-        <div class="cl-reviews__google">
-          <svg class="cl-reviews__glogo" viewBox="0 0 48 48" width="22" height="22" aria-hidden="true">
-            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-            <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-          </svg>
-          <span class="cl-reviews__count">59 Google Reviews</span>
-        </div>
-      </div>
-
-      <div class="cl-reviews__cta">
-        <a class="cl-btn cl-btn--primary" href="https://www.google.com/search?sca_esv=9e14c540528a302f&rlz=1C1CHBD_enIN1173IN1173&cs=0&output=search&q=Chittorgarh+Loans&ludocid=1256315956919071666&lsig=AB86z5XlM6I7CAZAFqwE4WTfMIhP&sa=X&ved=2ahUKEwj958jAra-VAxWlTGwGHQFNKLQQj9IGegQIFhAG&biw=1280&bih=585&dpr=1.5#mpd=~15489645388053883934/customers/reviews" target="_blank" rel="noopener noreferrer">Read All Google Reviews</a>
-        <a class="cl-btn cl-btn--secondary" href="https://g.page/r/CbLz0OG0VG8REAE/review" target="_blank" rel="noopener noreferrer">Write a Google Review</a>
-      </div>
-    </div>
-
-    <div class="cl-carousel" id="clCarousel">
-      <button type="button" class="cl-carousel__arrow cl-carousel__arrow--prev" aria-label="Previous review">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-
-      <div class="cl-carousel__viewport" id="clViewport">
-        <ul class="cl-carousel__track" id="clTrack">
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">NS</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Nisha Sharma</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">Best loan company in Chittaurgarh. Kam interest rate par loan mil gaya aur paperwork bhi fast tha. Thanks team. I would recommend this to all.</p>
-              <span class="cl-card__time">1 week ago</span>
-            </article>
-          </li>
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">RM</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Rakesh Meghwal</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">Best Consultant in Chittorgarh. I got Home Loan easily in my expected amount and interest rate.</p>
-              <span class="cl-card__time">2 weeks ago</span>
-            </article>
-          </li>
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">MR</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Mayank Regar</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">Do jagah se mera loan reject ho chuka tha. Team ne eligibility samjhai, documents arrange karvaye, aur mujhe loan mil gaya.</p>
-              <span class="cl-card__time">2 weeks ago</span>
-            </article>
-          </li>
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">KV</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Krishna Vyas</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">Koi unnecessary pressure nahi diya gaya. Requirement samajhkar genuine options bataye gaye.</p>
-              <span class="cl-card__time">2 weeks ago</span>
-            </article>
-          </li>
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">LL</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Ladu Lal</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">CIBIL score aur eligibility ko simple language mein explain kiya aur best option suggest kiya.</p>
-              <span class="cl-card__time">2 weeks ago</span>
-            </article>
-          </li>
-
-          <li class="cl-card-slot">
-            <article class="cl-card">
-              <div class="cl-card__head">
-                <div class="cl-card__avatar" aria-hidden="true">SA</div>
-                <div class="cl-card__id">
-                  <h3 class="cl-card__name">Shahid Ahemad</h3>
-                  <span class="cl-card__badge">
-                    <svg viewBox="0 0 48 48" width="13" height="13" aria-hidden="true">
-                      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
-                      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-                      <path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 14-5.5l-6.5-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.6 5C9.6 39.6 16.2 44 24 44z"/>
-                      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C40.8 36.5 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
-                    </svg>
-                    Verified Google Review
-                  </span>
-                </div>
-              </div>
-              <div class="cl-card__stars" aria-label="Rated 5 out of 5 stars">★★★★★</div>
-              <p class="cl-card__text">Fast process, hassle-free loan, excellent staff behaviour, every step clearly explained.</p>
-              <span class="cl-card__time">2 weeks ago</span>
-            </article>
-          </li>
-
-        </ul>
-      </div>
-
-      <button type="button" class="cl-carousel__arrow cl-carousel__arrow--next" aria-label="Next review">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-
-    <div class="cl-carousel__dots" id="clDots" role="tablist" aria-label="Review navigation"></div>
-
-  </div>
-</section>
-<!-- ===================== REVIEWS SECTION END ===================== -->
-
-<!-- ABOUT -->
-<section id="about" aria-labelledby="about-heading">
-  <div class="container">
-    <h2 id="about-heading" class="section-title">About Chittorgarh Loans</h2>
-    <div class="about-grid">
-      <div class="about-block">
-        <h3>English</h3>
-        <p>Chittorgarh Loans is an independent loan consultancy helping customers in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas compare loan options from multiple Banks and NBFCs. We assist with Home Loans, Personal Loans, Business Loans and Loan Against Property. Our objective is to simplify the loan process and help customers make informed financial decisions.</p>
-      </div>
-      <div class="about-block">
-        <h3>हिंदी</h3>
-        <p>चित्तौड़गढ़ लोन्स एक विश्वसनीय लोन कंसल्टेंसी है जो ग्राहकों को विभिन्न बैंकों और NBFCs के लोन विकल्पों की तुलना करने में सहायता करती है। हम होम लोन, पर्सनल लोन, बिज़नेस लोन और लोन अगेंस्ट प्रॉपर्टी जैसी सेवाओं में मार्गदर्शन प्रदान करते हैं। <strong>हम ग्राहकों की प्रोफाइल के अनुसार उपयुक्त लोन विकल्प चुनने और पूरी प्रक्रिया में सहायता करने का प्रयास करते हैं।</strong></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEO CONTENT -->
-<section id="seo-content" class="seo-section" aria-label="About loan consultation in Chittorgarh">
-  <div class="container">
-    <h2 class="section-title">Why Choose a Loan Consultant in Chittorgarh?</h2>
-
-<div style="max-width:1000px;margin:0 auto;text-align:center;line-height:1.8;">
-
-<p>
-We provide Home Loan, Personal Loan, Business Loan and Loan Against Property consultation services in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.
-</p>
-
-<p>
-If you are looking for a <strong>Home Loan in Chittorgarh</strong>, a <strong>Personal Loan in Chittorgarh</strong>, a <strong>Business Loan in Chittorgarh</strong> or a <strong>Loan Against Property in Chittorgarh</strong>, our team can help you compare multiple lenders and understand eligibility requirements.
-</p>
-
-<p>
-Chittorgarh Loans is a trusted loan consultant in Chittorgarh providing transparent consultation, documentation assistance, lender comparison and personalized support to help customers choose suitable loan options according to their profile.
-</p>
-
-<p>
-Learn more about our - 
-<a href="/blog/home-loan-in-chittorgarh/">Home Loan in Chittorgarh</a>,
-<a href="/about">About Us</a>,
-<a href="/contact">Contact Page</a>,
-<a href="/privacy-policy">Privacy Policy</a>,
-<a href="/terms-and-conditions">Terms & Conditions and</a>
-<a href="/disclaimer">Disclaimer</a>.
-</p>
-  
 </div>
-  </div>
-</section>
 
-<!-- FAQ -->
-<section id="faq" aria-labelledby="faq-heading">
-  <div class="container">
-    <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
-    <p class="section-sub">Common questions about loans in Chittorgarh answered simply.</p>
-    <div class="faq-list">
-      <details class="faq-item">
-        <summary><h3>How much loan can I get in Chittorgarh?</h3></summary>
-        <div class="faq-answer">
-          <p>Loan eligibility depends on your monthly income, CIBIL score, existing loan obligations and the lender's policies. Generally, lenders approve EMI up to 40–50% of your monthly income. Contact us for a free eligibility check.</p>
-        </div>
-      </details>
-      <details class="faq-item">
-        <summary><h3>What documents are required for a loan?</h3></summary>
-        <div class="faq-answer">
-          <p>Typically required: Aadhaar Card, PAN Card, income proof (salary slips or ITR for 2 years), last 6 months bank statements, and property documents if applying for a home loan or LAP.</p>
-        </div>
-      </details>
-      <details class="faq-item">
-        <summary><h3>Can I get a loan with a low CIBIL score?</h3></summary>
-        <div class="faq-answer">
-          <p>Approval depends on the lender's policies and your overall financial profile. Some NBFCs and fintech lenders do consider applicants with lower CIBIL scores. We can help identify suitable options for your situation.</p>
-        </div>
-      </details>
-      <details class="faq-item">
-        <summary><h3>How long does loan approval take?</h3></summary>
-        <div class="faq-answer">
-          <p>Personal loans from digital lenders can be approved in 1–3 working days. Home loans and business loans typically take 7–15 working days after complete document submission, depending on the lender.</p>
-        </div>
-      </details>
-      <details class="faq-item">
-        <summary><h3>Is your consultation service free?</h3></summary>
-        <div class="faq-answer">
-          <p>Yes. Our initial consultation is completely free. We help you understand your options and guide you through the process at no upfront cost.</p>
-        </div>
-      </details>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><i>🏛️</i><div><b>50+</b><small>Banks &amp; NBFCs</small></div></div>
+    <div class="stat"><i style="background:#fdeee3">⚡</i><div><b>Fast</b><small>Processing Support</small></div></div>
+    <div class="stat"><i style="background:#e0f3e7">✅</i><div><b>Free</b><small>Consultation</small></div></div>
+    <div class="stat"><i style="background:#fde5e5">📍</i><div><b>Local</b><small>Chittorgarh Service</small></div></div>
+  </div>
+</div>
+
+<section id="services" class="cream">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Our Loan Services</div>
+      <h2>Your Financial Needs, <em>Our Solutions</em></h2>
+      <p>Home Loan, Personal Loan, Business Loan and Loan Against Property consultation services in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.</p>
+    </div>
+    <div class="grid4">
+      <article class="card"><div class="img" style="--g:linear-gradient(135deg,#9bb8d9,#e7dcc3)"><img src="images/home-loan.jpg" alt="Home loan in Chittorgarh – modern family house" width="800" height="500" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="body"><div class="ico" style="background:var(--navy)">🏠</div><h3>Home Loan</h3><p>Home Loan consultation in Chittorgarh for home purchase, construction, balance transfer and top-up loans for salaried and self-employed applicants.</p><a class="btn b-navy" href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Home%20Loan." target="_blank" rel="noopener">Enquire Now →</a></div></article>
+      <article class="card"><div class="img" style="--g:linear-gradient(135deg,#b7d6a2,#f0e3b5)"><img src="images/personal-loan.jpg" alt="Personal loan in Chittorgarh – cash in hand" width="800" height="500" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="body"><div class="ico" style="background:var(--green)">₹</div><h3>Personal Loan</h3><p>Personal Loan consultation in Chittorgarh for medical, education, travel, wedding and emergency financial requirements with multiple lender options.</p><a class="btn b-green" href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Personal%20Loan." target="_blank" rel="noopener">Enquire Now →</a></div></article>
+      <article class="card"><div class="img" style="--g:linear-gradient(135deg,#d9c39a,#b9cbe0)"><img src="images/business-loan.jpg" alt="Business loan in Chittorgarh – shop and commercial building" width="800" height="500" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="body"><div class="ico" style="background:var(--gold)">🏢</div><h3>Business Loan</h3><p>Business Loan consultation in Chittorgarh for working capital, machinery purchase, business expansion and MSME funding requirements.</p><a class="btn b-gold" href="https://wa.me/916376007997?text=I%20am%20interested%20in%20a%20Business%20Loan." target="_blank" rel="noopener">Enquire Now →</a></div></article>
+      <article class="card"><div class="img" style="--g:linear-gradient(135deg,#a9c4e4,#efe6d2)"><img src="images/lap.jpg" alt="Loan against property in Chittorgarh – residential property" width="800" height="500" loading="lazy" decoding="async" onerror="this.remove()"></div><div class="body"><div class="ico" style="background:var(--navy)">🏡</div><h3>Loan Against Property</h3><p>Loan Against Property consultation in Chittorgarh for residential and commercial properties with competitive lender comparison.</p><a class="btn b-navy" href="https://wa.me/916376007997?text=I%20am%20interested%20in%20Loan%20Against%20Property." target="_blank" rel="noopener">Enquire Now →</a></div></article>
     </div>
   </div>
 </section>
 
-<!-- LOAN ENQUIRY FORM -->
-<section id="lead-form" class="form-section" aria-labelledby="form-heading">
-  <div class="container">
-    <h2 id="form-heading" class="section-title">Apply for a Loan</h2>
-    <p class="section-sub">Fill in your details and we'll contact you on WhatsApp within minutes.</p>
-    <div class="form-wrap">
-      <div class="form-inner">
-        <div class="form-field">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" placeholder="Your full name" required autocomplete="name">
-        </div>
-        <div class="form-field">
-          <label for="mobile">Mobile Number</label>
-          <input type="tel" id="mobile" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" maxlength="10" required autocomplete="tel">
-        </div>
-        <div class="form-field">
-          <label for="loanType">Loan Type</label>
-          <select id="loanType" required>
-            <option value="" disabled selected>Select loan type</option>
-            <option value="Home Loan">Home Loan</option>
-            <option value="Personal Loan">Personal Loan</option>
-            <option value="Business Loan">Business Loan</option>
-            <option value="Loan Against Property">Loan Against Property</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="amount">Loan Amount Required</label>
-          <input type="text" id="amount" placeholder="e.g. ₹5,00,000" autocomplete="off">
-        </div>
-        <button type="button" class="btn btn-primary btn-full" onclick="sendWhatsApp()">
-          💬 Submit via WhatsApp
-        </button>
-        <p class="form-note">Your details will be sent securely via WhatsApp. We respond within minutes during business hours.</p>
-      </div>
+<section id="why" class="why">
+  <img class="bgimg" src="images/gate.jpg" alt="Historic gateway in Chittorgarh" width="1400" height="900" loading="lazy" decoding="async" onerror="this.remove()">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Why Choose Chittorgarh Loans?</div>
+      <h2>Local Expertise, <em>Better Loan Options</em></h2>
+      <p>We help customers compare multiple banks and NBFCs, understand loan options and receive transparent guidance throughout the loan process.</p>
+    </div>
+    <div class="grid">
+      <div class="feat"><i>🏛️</i><div><b>Multiple Bank Comparison</b>Compare loan options from 50+ banks &amp; NBFCs based on your eligibility, interest rates, processing fees and repayment terms.</div></div>
+      <div class="feat"><i>⚡</i><div><b>Fast Processing</b>Quick support for documentation, application filing and follow-ups with lenders.</div></div>
+      <div class="feat"><i>📊</i><div><b>EMI Optimization</b>Guidance to select suitable EMI amount, tenure and prepayment options for your budget.</div></div>
+      <div class="feat"><i>🎯</i><div><b>Low CIBIL Assistance</b>We identify lenders who can consider applicants with challenging credit profiles.</div></div>
+      <div class="feat"><i>👥</i><div><b>Personalized Consultation</b>Every customer is different. We match loan options to your income, profile and goals.</div></div>
+      <div class="feat"><i>📄</i><div><b>Transparent Process</b>No hidden charges, no confusion. Clear guidance at every stage – from application to disbursal.</div></div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="contact-section" aria-labelledby="contact-heading">
-  <div class="container">
-    <h2 id="contact-heading" class="section-title">
-Contact Chittorgarh Loans
-</h2>
+<section id="process" class="cream">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Simple 6-Step Loan Process</div><h2>How It Works?</h2><p>From your first call to loan disbursal – we guide you at every step.</p></div>
+    <div class="steps"><div class="step"><b>Contact Us</b>Call, WhatsApp or fill the form below.</div><div class="step"><b>Profile Assessment</b>We review your income, CIBIL and requirements.</div><div class="step"><b>Document Collection</b>We guide you on which documents to prepare.</div><div class="step"><b>Lender Comparison</b>We present the best options from multiple banks.</div><div class="step"><b>Application &amp; Approval</b>We submit and follow up on your application.</div><div class="step"><b>Loan Disbursement</b>Funds are transferred to your account.</div></div>
+  </div>
+</section>
 
-<p class="section-sub">
-Trusted Loan Consultancy in Chittorgarh, Rajasthan. We're available Monday to Sunday from 8:00 AM to 10:00 PM for loan consultation and support.
-</p>
-    <div class="contact-cards">
-      <div class="contact-card">
-        <div class="contact-icon" aria-hidden="true">📍</div>
-        <h3>Location</h3>
-        <p>
-Serving customers in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.
-</p>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon" aria-hidden="true">📞</div>
-        <h3>Phone</h3>
-        <a href="tel:+916376007997">+91 6376007997</a>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon" aria-hidden="true">📧</div>
-        <h3>Email</h3>
-        <a href="mailto:ChittorgarhLoans@gmail.com">ChittorgarhLoans@gmail.com</a>
-      </div>
-      <div class="contact-card">
-        <div class="contact-icon" aria-hidden="true">🕒</div>
-        <h3>Hours</h3>
-        <p>Mon – Sun &bull; 8:00 AM – 10:00 PM</p>
-      </div>
+<section id="banks">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Our Lending Partners</div><h2>50+ Banks &amp; <em>NBFC Partners</em></h2><p>We help you compare options from leading banks and NBFCs across India.</p><div class="badge"><b>50+</b>Banks &amp; NBFCs<br>Under One Platform</div></div>
+    <!-- Replace any text tile with <img src="images/banks/sbi.png" alt="SBI"> to show real logos -->
+    <div class="partners">
+      <div>SBI</div><div>HDFC Bank</div><div>ICICI Bank</div><div>Axis Bank</div><div>Bank of Baroda</div><div>PNB</div><div>AU Small Finance Bank</div><div>Kotak Mahindra Bank</div><div>IDFC FIRST Bank</div><div>Bajaj Finserv</div><div>Tata Capital</div><div>Piramal Finance</div><div>Aditya Birla Finance</div><div>L&amp;T Finance</div><div>MoneyView</div><div>Navi</div><div>Fibe</div><div>KreditBee</div>
     </div>
-    <div class="contact-cta">
-      <a href="https://wa.me/916376007997" class="btn btn-gold" target="_blank" rel="noopener">
-        💬 Chat on WhatsApp
-      </a>
-      <a href="tel:+916376007997" class="btn btn-outline">
-        📞 Call Now
-      </a>
-      <a href="https://www.google.com/maps/place/Chittorgarh+Loans/@24.890436,74.7928405,20258m/data=!3m1!1e3!4m10!1m2!2m1!1sChittorgarh+Loans!3m6!1s0xb420fad012a7851:0x116f54b4e1d0f3b2!8m2!3d24.890436!4d74.8690582!15sChFDaGl0dG9yZ2FyaCBMb2Fuc1oTIhFjaGl0dG9yZ2FyaCBsb2Fuc5IBFGZpbmFuY2lhbF9jb25zdWx0YW504AEA!16s%2Fg%2F11zfr557kd"
-   class="btn btn-outline"
-   target="_blank"
-   rel="noopener">
-   ⭐ View Google Reviews
-</a>
+    <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:16px">* Loan availability subject to lender eligibility criteria, policies and documentation requirements.</p>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Customer Trust</div><h2>Verified <em>Google Reviews</em></h2><p>Real reviews from our customers.</p>
+      <div class="badge" style="margin-top:14px"><b>5.0 <span style="color:#f0a500">★★★★★</span></b>59 Google Reviews</div>
+      <div class="cta" style="justify-content:center"><a class="btn b-navy" href="https://www.google.com/search?sca_esv=9e14c540528a302f&amp;rlz=1C1CHBD_enIN1173IN1173&amp;cs=0&amp;output=search&amp;q=Chittorgarh+Loans&amp;ludocid=1256315956919071666&amp;lsig=AB86z5XlM6I7CAZAFqwE4WTfMIhP&amp;sa=X&amp;ved=2ahUKEwj958jAra-VAxWlTGwGHQFNKLQQj9IGegQIFhAG&amp;biw=1280&amp;bih=585&amp;dpr=1.5#mpd=~15489645388053883934/customers/reviews" target="_blank" rel="noopener">Read All Google Reviews</a><a class="btn b-white" href="https://g.page/r/CbLz0OG0VG8REAE/review" target="_blank" rel="noopener">Write a Google Review</a></div></div>
+    <div class="carousel"><div class="track" id="track"><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best loan company in Chittaurgarh. Kam interest rate par loan mil gaya aur paperwork bhi fast tha. Thanks team. I would recommend this to all.”</p><div class="who"><i>NS</i><div><b>Nisha Sharma</b><small>Verified Google Review</small></div></div><small class="t">1 week ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best Consultant in Chittorgarh. I got Home Loan easily in my expected amount and interest rate.”</p><div class="who"><i>RM</i><div><b>Rakesh Meghwal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Do jagah se mera loan reject ho chuka tha. Team ne eligibility samjhai, documents arrange karvaye, aur mujhe loan mil gaya.”</p><div class="who"><i>MR</i><div><b>Mayank Regar</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Koi unnecessary pressure nahi diya gaya. Requirement samajhkar genuine options bataye gaye.”</p><div class="who"><i>KV</i><div><b>Krishna Vyas</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“CIBIL score aur eligibility ko simple language mein explain kiya aur best option suggest kiya.”</p><div class="who"><i>LL</i><div><b>Ladu Lal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Fast process, hassle-free loan, excellent staff behaviour, every step clearly explained.”</p><div class="who"><i>SA</i><div><b>Shahid Ahemad</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div></div><div class="arrows"><button type="button" id="prev" aria-label="Previous review">‹</button><button type="button" id="next" aria-label="Next review">›</button></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:900px">
+    <div class="head"><div class="eyebrow">About Chittorgarh Loans</div><h2>Independent Loan <em>Consultancy</em></h2></div>
+    <div class="grid3" style="grid-template-columns:1fr 1fr;gap:28px;font-size:15px;color:var(--muted)">
+      <p>Chittorgarh Loans is an independent loan consultancy helping customers in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas compare loan options from multiple Banks and NBFCs. We assist with Home Loans, Personal Loans, Business Loans and Loan Against Property. Our objective is to simplify the loan process and help customers make informed financial decisions.</p>
+      <p lang="hi">चित्तौड़गढ़ लोन्स एक विश्वसनीय लोन कंसल्टेंसी है जो ग्राहकों को विभिन्न बैंकों और NBFCs के लोन विकल्पों की तुलना करने में सहायता करती है। हम होम लोन, पर्सनल लोन, बिज़नेस लोन और लोन अगेंस्ट प्रॉपर्टी जैसी सेवाओं में मार्गदर्शन प्रदान करते हैं। हम ग्राहकों की प्रोफाइल के अनुसार उपयुक्त लोन विकल्प चुनने और पूरी प्रक्रिया में सहायता करने का प्रयास करते हैं।</p>
+    </div>
+    <div style="margin-top:36px;font-size:14px;color:var(--muted)">
+      <h3 class="serif" style="font-size:24px;color:var(--navy);margin-bottom:10px;font-weight:400">Why Choose a Loan Consultant in Chittorgarh?</h3>
+      <p style="margin-bottom:10px">We provide Home Loan, Personal Loan, Business Loan and Loan Against Property consultation services in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.</p>
+      <p style="margin-bottom:10px">If you are looking for a Home Loan in Chittorgarh, a Personal Loan in Chittorgarh, a Business Loan in Chittorgarh or a Loan Against Property in Chittorgarh, our team can help you compare multiple lenders and understand eligibility requirements.</p>
+      <p>Chittorgarh Loans is a trusted loan consultant in Chittorgarh providing transparent consultation, documentation assistance, lender comparison and personalized support. Learn more: <a href="/blog/home-loan-in-chittorgarh/" style="color:var(--green);font-weight:600">Home Loan in Chittorgarh</a>, <a href="/about" style="color:var(--green);font-weight:600">About Us</a>, <a href="/contact" style="color:var(--green);font-weight:600">Contact</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="areas">
+  <img class="bgimg" src="images/city-view.jpg" alt="View of Chittorgarh city" width="1600" height="700" loading="lazy" decoding="async" onerror="this.remove()">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Our Service Areas</div><h2>Serving <em>Chittorgarh</em> &amp; Nearby Areas</h2><p>We provide loan consultation services in Chittorgarh and surrounding areas.</p></div>
+    <div class="chips"><span>Chittorgarh</span><span>Nimbahera</span><span>Kapasan</span><span>Begun</span><span>Bhadesar</span><span>Rawatbhata</span><span>Gangrar</span><span>Rashmi</span><span>Bari Sadri</span><span>Nearby Areas</span></div>
+  </div>
+</section>
+
+<section id="apply" class="cream">
+  <div class="wrap" style="max-width:760px">
+    <div class="head"><div class="eyebrow">Apply for a Loan</div><h2>Tell Us What <em>You Need</em></h2><p>Fill in your details and we'll contact you on WhatsApp within minutes.</p></div>
+    <form id="lead" class="card" style="padding:26px;gap:14px" novalidate>
+      <label>Full Name<input id="name" type="text" required placeholder="Your full name" autocomplete="name"></label>
+      <label>Mobile Number<input id="mobile" type="tel" required inputmode="numeric" maxlength="10" placeholder="10-digit mobile number" autocomplete="tel-national"></label>
+      <label>Loan Type<select id="loanType" required><option value="">Select loan type</option><option>Home Loan</option><option>Personal Loan</option><option>Business Loan</option><option>Loan Against Property</option><option>Balance Transfer</option><option>Top-up Loan</option></select></label>
+      <label>Loan Amount Required<input id="amount" placeholder="e.g. ₹5,00,000"></label>
+      <button class="btn b-green" type="submit" style="justify-content:center">💬 Submit via WhatsApp</button>
+      <small style="color:var(--muted);text-align:center">Your details will be sent securely via WhatsApp. We respond within minutes during business hours.</small>
+    </form>
+  </div>
+</section>
+<section id="contact" style="padding-top:40px">
+  <div class="wrap">
+    <div class="cta-band">
+      <div class="pic"><img src="images/gate.jpg" alt="Chittorgarh heritage gate" width="600" height="400" loading="lazy" decoding="async" onerror="this.remove()"></div>
+      <div><div class="eyebrow" style="color:#e6b95a">Ready to get started?</div><h2>Let’s Find the Best Loan Option for You</h2><p>Get free consultation from our experts and compare the best loan offers from 50+ banks &amp; NBFCs.</p>
+        <div class="trust"><span>🔒 100% Secure</span><span>🚫 No Spam</span><span>🎧 Free Consultation</span></div></div>
+      <div class="btns"><a class="btn b-green" href="tel:+916376007997">📞 Call Now – Free →</a><a class="btn b-white" href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation." target="_blank" rel="noopener">💬 WhatsApp Us →</a></div>
+    </div>
+    <div class="grid4" style="margin-top:26px;text-align:center">
+      <div class="rev"><b>📍 Location</b><p style="margin:8px 0 0;font-size:14px;color:var(--muted)">Serving customers in Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.</p></div>
+      <div class="rev"><b>📞 Phone</b><p style="margin:8px 0 0"><a href="tel:+916376007997">+91 6376007997</a></p></div>
+      <div class="rev"><b>📧 Email</b><p style="margin:8px 0 0;word-break:break-all"><a href="mailto:ChittorgarhLoans@gmail.com">ChittorgarhLoans@gmail.com</a></p></div>
+      <div class="rev"><b>🕒 Hours</b><p style="margin:8px 0 0;font-size:14px;color:var(--muted)">Mon – Sun • 8:00 AM – 10:00 PM</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:30px">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Frequently Asked Questions</div><h2>Your Questions, <em>Our Answers</em></h2></div>
+    <div class="faq-grid">
+      <details><summary>How much loan can I get in Chittorgarh?</summary><p>Loan eligibility depends on your monthly income, CIBIL score, existing loan obligations and the lender's policies. Generally, lenders approve EMI up to 40–50% of your monthly income. Contact us for a free eligibility check.</p></details>
+      <details><summary>What documents are required for a loan?</summary><p>Typically required: Aadhaar Card, PAN Card, income proof (salary slips or ITR for 2 years), last 6 months bank statements, and property documents if applying for a home loan or LAP.</p></details>
+      <details><summary>Can I get a loan with a low CIBIL score?</summary><p>Approval depends on the lender's policies and your overall financial profile. Some NBFCs and fintech lenders do consider applicants with lower CIBIL scores. We can help identify suitable options for your situation.</p></details>
+      <details><summary>How long does loan approval take?</summary><p>Personal loans from digital lenders can be approved in 1–3 working days. Home loans and business loans typically take 7–15 working days after complete document submission, depending on the lender.</p></details>
+      <details><summary>Is your consultation service free?</summary><p>Yes. Our initial consultation is completely free. We help you understand your options and guide you through the process at no upfront cost.</p></details>
     </div>
   </div>
 </section>
 </main>
 
-<!-- FOOTER -->
-<footer class="site-footer" role="contentinfo">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-     <img src="Chittorgarh_Loans_logo.webp"
-alt="Chittorgarh Loans - Trusted Loan Consultant"
-width="44"
-height="44"
-loading="lazy">
-      <span>Chittorgarh Loans</span>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="flogo"><b>Chittorgarh Loans</b>आपका लोन, आपके हिसाब से।<em>Trusted Loan Consultancy in Chittorgarh</em></div>
+      <div><h4>Quick Links</h4><ul><li><a href="#top">Home</a></li><li><a href="#services">Services</a></li><li><a href="#why">Why Us</a></li><li><a href="#banks">Banks</a></li><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h4>Our Services</h4><ul><li>Home Loan</li><li>Personal Loan</li><li>Business Loan</li><li>Loan Against Property</li><li>Balance Transfer</li><li>Top-up Loan</li></ul></div>
+      <div><h4>Contact Us</h4><ul><li>📞 <a href="tel:+916376007997">+91 6376007997</a></li><li>✉️ <a href="mailto:ChittorgarhLoans@gmail.com">ChittorgarhLoans@gmail.com</a></li><li>📍 Chittorgarh, Rajasthan</li><li>🕘 Mon – Sun: 8:00 AM – 10:00 PM</li></ul></div>
+      <div><h4>Follow Us</h4><div class="soc"><a href="https://www.facebook.com/share/1DPY4HQJYk/" target="_blank" rel="noopener" aria-label="Facebook">f</a><a href="https://www.instagram.com/chittorgarh_loans" target="_blank" rel="noopener" aria-label="Instagram">ig</a><a href="https://www.google.com/maps/place/Chittorgarh+Loans/@24.890436,74.7928405,20258m/data=!3m1!1e3!4m10!1m2!2m1!1sChittorgarh+Loans!3m6!1s0xb420fad012a7851:0x116f54b4e1d0f3b2!8m2!3d24.890436!4d74.8690582!15sChFDaGl0dG9yZ2FyaCBMb2Fuc1oTIhFjaGl0dG9yZ2FyaCBsb2Fuc5IBFGZpbmFuY2lhbF9jb25zdWx0YW504AEA!16s%2Fg%2F11zfr557kd" target="_blank" rel="noopener" aria-label="Google Maps">📍</a></div></div>
     </div>
- <nav aria-label="Footer links" class="footer-links">
-  <a href="#services">Services</a>
-  <a href="#banks">Banks</a>
-  <a href="#process">Process</a>
-  <a href="#faq">FAQ</a>
-  <a href="#contact">Contact</a>
-
-  <a href="/about">About Us</a>
-  <a href="/contact">Contact Page</a>
-  <a href="/privacy-policy">Privacy Policy</a>
-  <a href="/terms-and-conditions">Terms & Conditions</a>
-  <a href="/disclaimer">Disclaimer</a>
-
-  <a href="/blog/home-loan-in-chittorgarh/">Home Loan in Chittorgarh</a>
-</nav>
-    <p class="footer-services">Home Loan &bull; Personal Loan &bull; Business Loan &bull; Loan Against Property</p>
-    <p class="footer-copy">&copy; 2026 Chittorgarh Loans. All Rights Reserved. | Chittorgarh, Rajasthan</p>
-    <p class="footer-disclaimer">We are a loan consultancy service and not a bank or NBFC. Loan approval is subject to the lender's eligibility criteria and policies.</p>
+    <div class="copy" style="flex-direction:column;align-items:center;text-align:center"><span><a href="/about">About Us</a> • <a href="/contact">Contact Page</a> • <a href="/privacy-policy">Privacy Policy</a> • <a href="/terms-and-conditions">Terms &amp; Conditions</a> • <a href="/disclaimer">Disclaimer</a></span><span>We are a loan consultancy service and not a bank or NBFC. Loan approval is subject to the lender's eligibility criteria and policies.</span><span>© 2026 Chittorgarh Loans. All Rights Reserved.</span><span>Designed with ❤ for Chittorgarh</span></div>
   </div>
 </footer>
 
-<!-- FLOATING WHATSAPP -->
-<a href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation."
-   class="whatsapp-float"
-   target="_blank"
-   rel="noopener"
-   aria-label="Chat on WhatsApp">
-  💬
-</a>
+<a class="float-wa" href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
+
 
 <script>
-  /* ---- Mobile Nav Toggle ---- */
-  const navToggle = document.getElementById('navToggle');
-  const mainNav = document.getElementById('mainNav');
-
-  navToggle.addEventListener('click', function () {
-    const isOpen = mainNav.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', isOpen);
-  });
-
-  /* Close nav when a link is clicked */
-  mainNav.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      mainNav.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-
+document.getElementById('navToggle').addEventListener('click',function(){var o=document.getElementById('mainNav').classList.toggle('is-open');this.setAttribute('aria-expanded',o)});
+document.querySelectorAll('#mainNav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('mainNav').classList.remove('is-open')})});
 /* ---- CRM Configuration ---- */
   var CRM_API_URL = 'https://script.google.com/macros/s/AKfycbyjorYQcPQxIVjbfebB-mDsPqqLg4LpcHbco0LzPsYCzUuCoAeJvexwsaZ-YukUD6xR/exec';
 
@@ -854,188 +586,16 @@ loading="lazy">
 
     window.open(
       'https://wa.me/916376007997?text=' + encodeURIComponent(message),
-      '_blank'
+      '_blank', 'noopener'
     );
   }
+
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('mainNav').classList.remove('is-open');document.getElementById('navToggle').setAttribute('aria-expanded','false')}});
+document.getElementById('lead').addEventListener('submit',function(e){e.preventDefault();sendWhatsApp();});
+(function(){var t=document.getElementById('track');if(!t)return;
+function step(){var c=t.querySelector('.rev');return c?c.offsetWidth+20:300}
+document.getElementById('prev').onclick=function(){t.scrollBy({left:-step(),behavior:'smooth'})};
+document.getElementById('next').onclick=function(){t.scrollBy({left:step(),behavior:'smooth'})};})();
 </script>
-
-<script src="https://widgets.sociablekit.com/google-reviews/widget.js" defer></script>
-
-<script>
-  (function () {
-  "use strict";
-
-  var carousel = document.getElementById("clCarousel");
-  if (!carousel) return;
-
-  var viewport = document.getElementById("clViewport");
-  var track = document.getElementById("clTrack");
-  var dotsWrap = document.getElementById("clDots");
-  var prevBtn = carousel.querySelector(".cl-carousel__arrow--prev");
-  var nextBtn = carousel.querySelector(".cl-carousel__arrow--next");
-  var slides = Array.prototype.slice.call(track.children);
-  var total = slides.length;
-
-  var perView = 3;
-  var index = 0;
-  var autoplayId = null;
-  var autoplayDelay = 6000;
-
-  function getPerView() {
-    var w = window.innerWidth;
-    if (w <= 680) return 1;
-    if (w <= 1024) return 2;
-    return 3;
-  }
-
-  function maxIndex() {
-    return Math.max(0, total - perView);
-  }
-
-  function buildDots() {
-    dotsWrap.innerHTML = "";
-    var count = maxIndex() + 1;
-    /* On desktop/tablet with few pages, still show one dot per page step */
-    for (var i = 0; i < count; i++) {
-      var dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "cl-dot";
-      dot.setAttribute("role", "tab");
-      dot.setAttribute("aria-label", "Go to review " + (i + 1));
-      dot.setAttribute("aria-selected", i === index ? "true" : "false");
-      (function (i) {
-        dot.addEventListener("click", function () {
-          goTo(i);
-          restartAutoplay();
-        });
-      })(i);
-      dotsWrap.appendChild(dot);
-    }
-  }
-
-  function updateDots() {
-    var dots = dotsWrap.querySelectorAll(".cl-dot");
-    dots.forEach(function (d, i) {
-      d.setAttribute("aria-selected", i === index ? "true" : "false");
-    });
-  }
-
-  function update() {
-    perView = getPerView();
-    var slotWidth = slides[0].getBoundingClientRect().width;
-    var gap = parseFloat(getComputedStyle(track).gap) || 0;
-    var offset = index * (slotWidth + gap);
-    track.style.transform = "translateX(-" + offset + "px)";
-  }
-
-  function clampIndex() {
-    var m = maxIndex();
-    if (index > m) index = m;
-    if (index < 0) index = 0;
-  }
-
-  function goTo(i) {
-    var m = maxIndex();
-    if (i < 0) i = m;
-    if (i > m) i = 0;
-    index = i;
-    update();
-    updateDots();
-  }
-
-  function next() {
-    goTo(index + 1);
-  }
-
-  function prev() {
-    goTo(index - 1);
-  }
-
-  function restartAutoplay() {
-    if (autoplayId) clearInterval(autoplayId);
-    autoplayId = setInterval(next, autoplayDelay);
-  }
-
-  function stopAutoplay() {
-    if (autoplayId) clearInterval(autoplayId);
-  }
-
-  nextBtn.addEventListener("click", function () {
-    next();
-    restartAutoplay();
-  });
-
-  prevBtn.addEventListener("click", function () {
-    prev();
-    restartAutoplay();
-  });
-
-  /* Touch swipe */
-  var touchStartX = 0;
-  var touchDeltaX = 0;
-  var isTouching = false;
-
-  viewport.addEventListener("touchstart", function (e) {
-    isTouching = true;
-    touchStartX = e.touches[0].clientX;
-    touchDeltaX = 0;
-    stopAutoplay();
-  }, { passive: true });
-
-  viewport.addEventListener("touchmove", function (e) {
-    if (!isTouching) return;
-    touchDeltaX = e.touches[0].clientX - touchStartX;
-  }, { passive: true });
-
-  viewport.addEventListener("touchend", function () {
-    if (!isTouching) return;
-    isTouching = false;
-    var threshold = 40;
-    if (touchDeltaX > threshold) {
-      prev();
-    } else if (touchDeltaX < -threshold) {
-      next();
-    }
-    restartAutoplay();
-  });
-
-  /* Keyboard navigation */
-  carousel.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowRight") {
-      next();
-      restartAutoplay();
-    } else if (e.key === "ArrowLeft") {
-      prev();
-      restartAutoplay();
-    }
-  });
-
-  /* Pause on hover (desktop) */
-  carousel.addEventListener("mouseenter", stopAutoplay);
-  carousel.addEventListener("mouseleave", restartAutoplay);
-
-  /* Resize handling */
-  var resizeTimer = null;
-  window.addEventListener("resize", function () {
-    if (resizeTimer) clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-      var prevPerView = perView;
-      perView = getPerView();
-      clampIndex();
-      if (prevPerView !== perView) {
-        buildDots();
-      }
-      update();
-      updateDots();
-    }, 150);
-  });
-
-  /* Init */
-  perView = getPerView();
-  buildDots();
-  update();
-  restartAutoplay();
-})();
-  </script>
 </body>
 </html>
