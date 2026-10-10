@@ -31,14 +31,13 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0A2540">
 
-<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="preload" as="image" href="images/hero-fort.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="dns-prefetch" href="//www.googletagmanager.com">
   
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap"></noscript>
 <style>
 :root{
   --navy:#0b2a55; --green:#0d6b3a; --gold:#98650b; --ink:#1d2433; --muted:#566074;
@@ -52,7 +51,7 @@ h1,h2,.serif{font-family:"DM Serif Display",Georgia,serif;font-weight:400}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 img{max-width:100%;height:auto}
-[lang="hi"],.logo small{font-family:"Noto Sans Devanagari",Inter,sans-serif}
+[lang="hi"],.logo small{font-family:Inter,"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
 /* header */
@@ -169,7 +168,7 @@ details p{margin-top:10px;font-size:14px;color:var(--muted)}
 /* footer */
 footer{background:#0a2447;color:#cfd8e8;padding:50px 0 20px;font-size:14px}
 .fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.3fr 1fr;gap:28px}
-footer h4{color:#fff;margin-bottom:12px;font-size:15px}
+footer h3{color:#fff;margin-bottom:12px;font-size:15px}
 footer ul{list-style:none;display:grid;gap:7px}
 footer a:hover{color:#fff}
 .flogo b{font-family:"DM Serif Display",serif;font-weight:400;font-size:26px;color:#fff;display:block}
@@ -236,16 +235,21 @@ footer .copy a:hover{text-decoration:underline}
 .hero-badge{display:inline-block;background:#fff;border:1px solid var(--line);color:var(--navy);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:6px}
 @media(max-width:980px){.track .rev{flex-basis:calc((100% - 20px)/2)}}
 @media(max-width:620px){.track .rev{flex-basis:88%}}
+footer ul{gap:2px}footer li a{display:inline-block;padding:7px 0}
+.soc a{width:44px;height:44px}.arrows button{width:46px;height:46px}
+.copy a{display:inline-block;padding:8px 4px}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:var(--navy);padding:10px 16px;z-index:100}.skip:focus{left:8px;top:8px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
   
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2XTETBKN0S"></script>
+<!-- Google tag (gtag.js) – loaded after page load so it never delays rendering -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2XTETBKN0S');
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('js',new Date());gtag('config','G-2XTETBKN0S');
+window.addEventListener('load',function(){
+  var l=function(){var t=document.createElement('script');t.async=true;t.src='https://www.googletagmanager.com/gtag/js?id=G-2XTETBKN0S';document.head.appendChild(t)};
+  if('requestIdleCallback' in window){requestIdleCallback(l,{timeout:3000})}else{setTimeout(l,2000)}
+});
 </script>
   
 <!-- Schema: FinancialService + LocalBusiness -->
@@ -345,9 +349,10 @@ footer .copy a:hover{text-decoration:underline}
 </head>
 <body>
 
+<a class="skip" href="#main-content">Skip to main content</a>
 <header>
   <div class="wrap nav">
-    <a href="#home" class="logo" aria-label="Chittorgarh Loans – Home">
+    <a href="#home" class="logo">
       <img src="Chittorgarh_Loans_logo.webp" alt="Chittorgarh Loans logo" width="46" height="46">
       <span><b>Chittorgarh Loans</b><small>आपका लोन, आपके हिसाब से।</small></span>
     </a>
@@ -375,15 +380,15 @@ footer .copy a:hover{text-decoration:underline}
       <a class="btn b-green" href="https://wa.me/916376007997?text=Hello%20Chittorgarh%20Loans%2C%20I%20need%20loan%20consultation." target="_blank" rel="noopener">💬 WhatsApp Us →</a>
     </div>
     <div class="pills">
-      <span><i>🛡️</i>Free<br>Consultation</span><span><i>👥</i>Multiple Lender<br>Comparison</span>
-      <span><i>⚡</i>Fast<br>Processing</span><span><i>🎧</i>Personalized<br>Guidance</span>
+      <span><i aria-hidden="true">🛡️</i>Free<br>Consultation</span><span><i aria-hidden="true">👥</i>Multiple Lender<br>Comparison</span>
+      <span><i aria-hidden="true">⚡</i>Fast<br>Processing</span><span><i aria-hidden="true">🎧</i>Personalized<br>Guidance</span>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <div class="stats">
-    <div class="stat"><i>🏛️</i><div><b>50+</b><small>Banks &amp; NBFCs</small></div></div>
+    <div class="stat"><i aria-hidden="true">🏛️</i><div><b>50+</b><small>Banks &amp; NBFCs</small></div></div>
     <div class="stat"><i style="background:#fdeee3">⚡</i><div><b>Fast</b><small>Processing Support</small></div></div>
     <div class="stat"><i style="background:#e0f3e7">✅</i><div><b>Free</b><small>Consultation</small></div></div>
     <div class="stat"><i style="background:#fde5e5">📍</i><div><b>Local</b><small>Chittorgarh Service</small></div></div>
@@ -415,12 +420,12 @@ footer .copy a:hover{text-decoration:underline}
       <p>We help customers compare multiple banks and NBFCs, understand loan options and receive transparent guidance throughout the loan process.</p>
     </div>
     <div class="grid">
-      <div class="feat"><i>🏛️</i><div><b>Multiple Bank Comparison</b>Compare loan options from 50+ banks &amp; NBFCs based on your eligibility, interest rates, processing fees and repayment terms.</div></div>
-      <div class="feat"><i>⚡</i><div><b>Fast Processing</b>Quick support for documentation, application filing and follow-ups with lenders.</div></div>
-      <div class="feat"><i>📊</i><div><b>EMI Optimization</b>Guidance to select suitable EMI amount, tenure and prepayment options for your budget.</div></div>
-      <div class="feat"><i>🎯</i><div><b>Low CIBIL Assistance</b>We identify lenders who can consider applicants with challenging credit profiles.</div></div>
-      <div class="feat"><i>👥</i><div><b>Personalized Consultation</b>Every customer is different. We match loan options to your income, profile and goals.</div></div>
-      <div class="feat"><i>📄</i><div><b>Transparent Process</b>No hidden charges, no confusion. Clear guidance at every stage – from application to disbursal.</div></div>
+      <div class="feat"><i aria-hidden="true">🏛️</i><div><b>Multiple Bank Comparison</b>Compare loan options from 50+ banks &amp; NBFCs based on your eligibility, interest rates, processing fees and repayment terms.</div></div>
+      <div class="feat"><i aria-hidden="true">⚡</i><div><b>Fast Processing</b>Quick support for documentation, application filing and follow-ups with lenders.</div></div>
+      <div class="feat"><i aria-hidden="true">📊</i><div><b>EMI Optimization</b>Guidance to select suitable EMI amount, tenure and prepayment options for your budget.</div></div>
+      <div class="feat"><i aria-hidden="true">🎯</i><div><b>Low CIBIL Assistance</b>We identify lenders who can consider applicants with challenging credit profiles.</div></div>
+      <div class="feat"><i aria-hidden="true">👥</i><div><b>Personalized Consultation</b>Every customer is different. We match loan options to your income, profile and goals.</div></div>
+      <div class="feat"><i aria-hidden="true">📄</i><div><b>Transparent Process</b>No hidden charges, no confusion. Clear guidance at every stage – from application to disbursal.</div></div>
     </div>
   </div>
 </section>
@@ -448,7 +453,7 @@ footer .copy a:hover{text-decoration:underline}
     <div class="head"><div class="eyebrow">Customer Trust</div><h2>Verified <em>Google Reviews</em></h2><p>Real reviews from our customers.</p>
       <div class="badge" style="margin-top:14px"><b>5.0 <span style="color:#f0a500">★★★★★</span></b>59 Google Reviews</div>
       <div class="cta" style="justify-content:center"><a class="btn b-navy" href="https://www.google.com/search?sca_esv=9e14c540528a302f&amp;rlz=1C1CHBD_enIN1173IN1173&amp;cs=0&amp;output=search&amp;q=Chittorgarh+Loans&amp;ludocid=1256315956919071666&amp;lsig=AB86z5XlM6I7CAZAFqwE4WTfMIhP&amp;sa=X&amp;ved=2ahUKEwj958jAra-VAxWlTGwGHQFNKLQQj9IGegQIFhAG&amp;biw=1280&amp;bih=585&amp;dpr=1.5#mpd=~15489645388053883934/customers/reviews" target="_blank" rel="noopener">Read All Google Reviews</a><a class="btn b-white" href="https://g.page/r/CbLz0OG0VG8REAE/review" target="_blank" rel="noopener">Write a Google Review</a></div></div>
-    <div class="carousel"><div class="track" id="track"><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best loan company in Chittaurgarh. Kam interest rate par loan mil gaya aur paperwork bhi fast tha. Thanks team. I would recommend this to all.”</p><div class="who"><i>NS</i><div><b>Nisha Sharma</b><small>Verified Google Review</small></div></div><small class="t">1 week ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best Consultant in Chittorgarh. I got Home Loan easily in my expected amount and interest rate.”</p><div class="who"><i>RM</i><div><b>Rakesh Meghwal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Do jagah se mera loan reject ho chuka tha. Team ne eligibility samjhai, documents arrange karvaye, aur mujhe loan mil gaya.”</p><div class="who"><i>MR</i><div><b>Mayank Regar</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Koi unnecessary pressure nahi diya gaya. Requirement samajhkar genuine options bataye gaye.”</p><div class="who"><i>KV</i><div><b>Krishna Vyas</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“CIBIL score aur eligibility ko simple language mein explain kiya aur best option suggest kiya.”</p><div class="who"><i>LL</i><div><b>Ladu Lal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Fast process, hassle-free loan, excellent staff behaviour, every step clearly explained.”</p><div class="who"><i>SA</i><div><b>Shahid Ahemad</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div></div><div class="arrows"><button type="button" id="prev" aria-label="Previous review">‹</button><button type="button" id="next" aria-label="Next review">›</button></div></div>
+    <div class="carousel"><div class="track" id="track"><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best loan company in Chittaurgarh. Kam interest rate par loan mil gaya aur paperwork bhi fast tha. Thanks team. I would recommend this to all.”</p><div class="who"><i aria-hidden="true">NS</i><div><b>Nisha Sharma</b><small>Verified Google Review</small></div></div><small class="t">1 week ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Best Consultant in Chittorgarh. I got Home Loan easily in my expected amount and interest rate.”</p><div class="who"><i aria-hidden="true">RM</i><div><b>Rakesh Meghwal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Do jagah se mera loan reject ho chuka tha. Team ne eligibility samjhai, documents arrange karvaye, aur mujhe loan mil gaya.”</p><div class="who"><i aria-hidden="true">MR</i><div><b>Mayank Regar</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Koi unnecessary pressure nahi diya gaya. Requirement samajhkar genuine options bataye gaye.”</p><div class="who"><i aria-hidden="true">KV</i><div><b>Krishna Vyas</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“CIBIL score aur eligibility ko simple language mein explain kiya aur best option suggest kiya.”</p><div class="who"><i aria-hidden="true">LL</i><div><b>Ladu Lal</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div><div class="rev"><div class="stars" aria-label="Rated 5 out of 5 stars">★★★★★</div><p>“Fast process, hassle-free loan, excellent staff behaviour, every step clearly explained.”</p><div class="who"><i aria-hidden="true">SA</i><div><b>Shahid Ahemad</b><small>Verified Google Review</small></div></div><small class="t">2 weeks ago</small></div></div><div class="arrows"><button type="button" id="prev" aria-label="Previous review">‹</button><button type="button" id="next" aria-label="Next review">›</button></div></div>
   </div>
 </section>
 
@@ -525,10 +530,10 @@ footer .copy a:hover{text-decoration:underline}
   <div class="wrap">
     <div class="fgrid">
       <div class="flogo"><b>Chittorgarh Loans</b>आपका लोन, आपके हिसाब से।<em>Trusted Loan Consultancy in Chittorgarh</em></div>
-      <div><h4>Quick Links</h4><ul><li><a href="#top">Home</a></li><li><a href="#services">Services</a></li><li><a href="#why">Why Us</a></li><li><a href="#banks">Banks</a></li><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li></ul></div>
-      <div><h4>Our Services</h4><ul><li>Home Loan</li><li>Personal Loan</li><li>Business Loan</li><li>Loan Against Property</li><li>Balance Transfer</li><li>Top-up Loan</li></ul></div>
-      <div><h4>Contact Us</h4><ul><li>📞 <a href="tel:+916376007997">+91 6376007997</a></li><li>✉️ <a href="mailto:ChittorgarhLoans@gmail.com">ChittorgarhLoans@gmail.com</a></li><li>📍 Chittorgarh, Rajasthan</li><li>🕘 Mon – Sun: 8:00 AM – 10:00 PM</li></ul></div>
-      <div><h4>Follow Us</h4><div class="soc"><a href="https://www.facebook.com/share/1DPY4HQJYk/" target="_blank" rel="noopener" aria-label="Facebook">f</a><a href="https://www.instagram.com/chittorgarh_loans" target="_blank" rel="noopener" aria-label="Instagram">ig</a><a href="https://www.google.com/maps/place/Chittorgarh+Loans/@24.890436,74.7928405,20258m/data=!3m1!1e3!4m10!1m2!2m1!1sChittorgarh+Loans!3m6!1s0xb420fad012a7851:0x116f54b4e1d0f3b2!8m2!3d24.890436!4d74.8690582!15sChFDaGl0dG9yZ2FyaCBMb2Fuc1oTIhFjaGl0dG9yZ2FyaCBsb2Fuc5IBFGZpbmFuY2lhbF9jb25zdWx0YW504AEA!16s%2Fg%2F11zfr557kd" target="_blank" rel="noopener" aria-label="Google Maps">📍</a></div></div>
+      <div><h3>Quick Links</h3><ul><li><a href="#top">Home</a></li><li><a href="#services">Services</a></li><li><a href="#why">Why Us</a></li><li><a href="#banks">Banks</a></li><li><a href="#process">Process</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h3>Our Services</h3><ul><li>Home Loan</li><li>Personal Loan</li><li>Business Loan</li><li>Loan Against Property</li><li>Balance Transfer</li><li>Top-up Loan</li></ul></div>
+      <div><h3>Contact Us</h3><ul><li>📞 <a href="tel:+916376007997">+91 6376007997</a></li><li>✉️ <a href="mailto:ChittorgarhLoans@gmail.com">ChittorgarhLoans@gmail.com</a></li><li>📍 Chittorgarh, Rajasthan</li><li>🕘 Mon – Sun: 8:00 AM – 10:00 PM</li></ul></div>
+      <div><h3>Follow Us</h3><div class="soc"><a href="https://www.facebook.com/share/1DPY4HQJYk/" target="_blank" rel="noopener"><span aria-hidden="true">f</span><span class="vh">Facebook</span></a><a href="https://www.instagram.com/chittorgarh_loans" target="_blank" rel="noopener"><span aria-hidden="true">ig</span><span class="vh">Instagram</span></a><a href="https://www.google.com/maps/place/Chittorgarh+Loans/@24.890436,74.7928405,20258m/data=!3m1!1e3!4m10!1m2!2m1!1sChittorgarh+Loans!3m6!1s0xb420fad012a7851:0x116f54b4e1d0f3b2!8m2!3d24.890436!4d74.8690582!15sChFDaGl0dG9yZ2FyaCBMb2Fuc1oTIhFjaGl0dG9yZ2FyaCBsb2Fuc5IBFGZpbmFuY2lhbF9jb25zdWx0YW504AEA!16s%2Fg%2F11zfr557kd" target="_blank" rel="noopener"><span aria-hidden="true">📍</span><span class="vh">Google Maps</span></a></div></div>
     </div>
     <div class="copy" style="flex-direction:column;align-items:center;text-align:center"><span><a href="/about">About Us</a> • <a href="/contact">Contact Page</a> • <a href="/privacy-policy">Privacy Policy</a> • <a href="/terms-and-conditions">Terms &amp; Conditions</a> • <a href="/disclaimer">Disclaimer</a></span><span>We are a loan consultancy service and not a bank or NBFC. Loan approval is subject to the lender's eligibility criteria and policies.</span><span>© 2026 Chittorgarh Loans. All Rights Reserved.</span><span>Designed with ❤ for Chittorgarh</span></div>
   </div>
