@@ -1,0 +1,19 @@
+# Chittorgarh Loans
+
+> Chittorgarh Loans is an independent loan consultancy in Chittorgarh, Rajasthan, India. We help customers compare Home Loan, Personal Loan, Business Loan and Loan Against Property options from 50+ banks and NBFCs. Consultation is free. We are a consultancy and not a bank or NBFC; loan approval is subject to each lender's eligibility criteria and policies.
+
+Service area: Chittorgarh, Nimbahera, Kapasan, Begun, Bhadesar, Rawatbhata, Gangrar and nearby areas of Rajasthan.
+Contact: +91 6376007997 (call or WhatsApp), ChittorgarhLoans@gmail.com. Open Monday to Sunday, 8:00 AM to 10:00 PM IST.
+
+## Main pages
+
+- [Home](https://chittorgarh-loans.pages.dev/): Loan services, lender comparison, process, reviews, FAQ and enquiry form.
+- [Home Loan in Chittorgarh](https://chittorgarh-loans.pages.dev/blog/home-loan-in-chittorgarh/): Guide to home loans in Chittorgarh.
+- [About Us](https://chittorgarh-loans.pages.dev/about): About the consultancy.
+- [Contact](https://chittorgarh-loans.pages.dev/contact): Phone, WhatsApp, email and working hours.
+
+## Policies
+
+- [Privacy Policy](https://chittorgarh-loans.pages.dev/privacy-policy)
+- [Terms and Conditions](https://chittorgarh-loans.pages.dev/terms-and-conditions)
+- [Disclaimer](https://chittorgarh-loans.pages.dev/disclaimer)
