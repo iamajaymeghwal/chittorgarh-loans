@@ -32,13 +32,14 @@
 <meta name="theme-color" content="#0A2540">
 
 <link rel="preload" as="image" href="images/hero-fort.jpg" fetchpriority="high">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap"></noscript>
 <style>
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin-wght-normal.woff2) format("woff2")}
+@font-face{font-family:"DM Serif Display";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/dm-serif-display-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter Fallback";src:local("Arial"),local("Liberation Sans"),local("Helvetica");size-adjust:105.2%;ascent-override:92.1%;descent-override:22.9%;line-gap-override:0%}
+@font-face{font-family:"DM Serif Fallback";src:local("Times New Roman"),local("Liberation Serif"),local("Times");size-adjust:107.8%;ascent-override:96.1%;descent-override:31.1%;line-gap-override:0%}
+
 :root{
   --navy:#0b2a55; --green:#0d6b3a; --gold:#98650b; --ink:#1d2433; --muted:#566074;
   --cream:#fdf6e9; --card:#fff; --line:#e8e1d2;
@@ -46,12 +47,12 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
-h1,h2,.serif{font-family:"DM Serif Display",Georgia,serif;font-weight:400}
+body{font-family:Inter,"Inter Fallback",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+h1,h2,.serif{font-family:"DM Serif Display","DM Serif Fallback",Georgia,serif;font-weight:400}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 img{max-width:100%;height:auto}
-[lang="hi"],.logo small{font-family:Inter,"Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
+[lang="hi"],.logo small{font-family:Inter,"Inter Fallback","Noto Sans Devanagari","Nirmala UI",Mangal,sans-serif}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
 /* header */
@@ -59,7 +60,7 @@ header{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 1px 10px rg
 .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
 .logo{display:flex;align-items:center;gap:10px}
 .logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
-.logo b{display:block;font-family:"DM Serif Display",serif;font-weight:400;font-size:22px;color:var(--navy);line-height:1}
+.logo b{display:block;font-family:"DM Serif Display","DM Serif Fallback",serif;font-weight:400;font-size:22px;color:var(--navy);line-height:1}
 .logo small{font-size:12px;color:var(--muted)}
 nav ul{display:flex;gap:24px;list-style:none;font-size:14px;font-weight:500}
 nav a:hover{color:var(--green)}
@@ -71,7 +72,8 @@ nav a:hover{color:var(--green)}
 
 /* hero */
 .hero{position:relative;isolation:isolate;overflow:hidden;min-height:540px;display:flex;align-items:center;color:var(--ink);background:linear-gradient(135deg,#f3c77a,#7aa36b 60%,#2e6f6a)}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 40%;z-index:-2}
+.hero-media{position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#f3c77a,#7aa36b 60%,#2e6f6a)}
+.hero-img{width:100%;height:100%;object-fit:cover;object-position:72% 40%;display:block}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(253,246,233,.96) 0%,rgba(253,246,233,.82) 40%,rgba(253,246,233,0) 70%)}
 .hero .wrap{width:100%;padding-top:50px;padding-bottom:110px}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
@@ -109,7 +111,8 @@ section{padding:72px 0}
 
 /* why */
 .why{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#d9a35b,#f1d9a8)}
-.why .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left center;z-index:-2}
+.why .bgwrap{position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#d9a35b,#f1d9a8)}
+.why .bgimg{width:100%;height:100%;object-fit:cover;object-position:left center;display:block}
 .why::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(253,246,233,0) 0,rgba(253,246,233,.92) 45%)}
 .why .grid{margin-left:auto;max-width:720px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .feat{display:flex;gap:12px;font-size:13px;color:var(--muted)}
@@ -171,7 +174,7 @@ footer{background:#0a2447;color:#cfd8e8;padding:50px 0 20px;font-size:14px}
 footer h3{color:#fff;margin-bottom:12px;font-size:15px}
 footer ul{list-style:none;display:grid;gap:7px}
 footer a:hover{color:#fff}
-.flogo b{font-family:"DM Serif Display",serif;font-weight:400;font-size:26px;color:#fff;display:block}
+.flogo b{font-family:"DM Serif Display","DM Serif Fallback",serif;font-weight:400;font-size:26px;color:#fff;display:block}
 .flogo em{color:#e6b95a;font-style:normal;font-size:13px;display:block;margin-top:8px}
 .soc{display:flex;gap:10px}.soc a{width:34px;height:34px;border-radius:8px;background:#1d4a85;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
 .copy{border-top:1px solid #1d3a66;margin-top:30px;padding-top:16px;display:flex;justify-content:space-between;font-size:13px;flex-wrap:wrap;gap:8px}
@@ -196,7 +199,7 @@ footer a:hover{color:#fff}
   .hero::before{background:linear-gradient(90deg,rgba(253,246,233,.95),rgba(253,246,233,.78) 60%,rgba(253,246,233,.25))}
   .why{background:var(--cream)}
   .why::before{display:none}
-  .why .bgimg{position:static;display:block;height:clamp(180px,46vw,280px)}
+  .why .bgwrap{position:static;z-index:auto;height:clamp(180px,46vw,280px)}
   .why .wrap{padding-top:36px}.why{padding-top:0}
   .why .head{margin:0 0 24px;max-width:none}
   .why .grid{margin:0;max-width:none}
@@ -204,7 +207,8 @@ footer a:hover{color:#fff}
 @media(max-width:700px){
   .hero{display:block;min-height:0;background:linear-gradient(var(--cream),#fff)}
   .hero::before{display:none}
-  .hero-img{position:static;display:block;z-index:auto;height:clamp(200px,54vw,300px);object-position:68% 35%}
+  .hero-media{position:static;z-index:auto;height:clamp(200px,54vw,300px)}
+  .hero-img{object-position:68% 35%}
   .hero .wrap{padding-top:26px;padding-bottom:84px}
   .cta-band .pic{height:140px}
 }
@@ -369,7 +373,7 @@ window.addEventListener('load',function(){
 
 <main id="main-content">
 <div class="hero" id="home">
-  <img class="hero-img" src="images/hero-fort.jpg" alt="Chittorgarh Fort and Vijay Stambh, Rajasthan" width="1600" height="900" fetchpriority="high" decoding="async" onerror="this.remove()">
+  <div class="hero-media"><img class="hero-img" src="images/hero-fort.jpg" alt="Chittorgarh Fort and Vijay Stambh, Rajasthan" width="1600" height="900" fetchpriority="high" decoding="async" onerror="this.remove()"></div>
   <div class="tag"><div class="serif">Chittorgarh</div><small>FORT OF PRIDE<br>CITY OF OPPORTUNITIES</small></div>
   <div class="wrap">
     <div class="hero-badge">🏆 Trusted Loan Consultant In Chittorgarh</div>
@@ -412,7 +416,7 @@ window.addEventListener('load',function(){
 </section>
 
 <section id="why" class="why">
-  <img class="bgimg" src="images/gate.jpg" alt="Historic gateway in Chittorgarh" width="1400" height="900" loading="lazy" decoding="async" onerror="this.remove()">
+  <div class="bgwrap"><img class="bgimg" src="images/gate.jpg" alt="Historic gateway in Chittorgarh" width="1400" height="900" loading="lazy" decoding="async" onerror="this.remove()"></div>
   <div class="wrap">
     <div class="head">
       <div class="eyebrow">Why Choose Chittorgarh Loans?</div>
