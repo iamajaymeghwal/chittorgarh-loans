@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
-
+Disallow: /admin/
+Disallow: /crm-01ajay.html
 Sitemap: https://chittorgarh-loans.pages.dev/sitemap.xml
