@@ -1508,9 +1508,9 @@ function openQuickAdd(){
     <div class="field"><label>Mobile number <span class="req">*</span></label><input type="tel" id="qPhone" maxlength="10" inputmode="numeric" placeholder="10-digit number" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
     <div class="field"><label>Loan amount needed <span class="req">*</span></label><input type="number" id="qAmt" placeholder="e.g. 1500000"></div>
     <div class="field"><label>Loan type <span class="req">*</span></label>
-      <div class="chip-row wrap" id="qType">${LOAN_TYPES.map((t,i)=>`<div class="chip ${i===0?'active':''}" data-v="${esc(t)}">${esc(t.replace(' (LAP)',''))}</div>`).join('')}</div></div>
+      <div class="chip-row wrap" id="qType">${[...LOAN_TYPES,'Unknown'].map((t,i)=>`<div class="chip ${i===0?'active':''}" data-v="${esc(t)}">${esc(t.replace(' (LAP)',''))}</div>`).join('')}</div></div>
     <div class="field"><label>Where did this lead come from?</label>
-      <select id="qSource">${LEAD_SOURCES.map(s=>`<option>${esc(s)}</option>`).join('')}</select></div>
+      <select id="qSource">${[...LEAD_SOURCES,'Unknown'].map(s=>`<option>${esc(s)}</option>`).join('')}</select></div>
     <button class="btn btn-gold" id="qSave">Save lead</button>`;
   let type=LOAN_TYPES[0];
   const b=document.getElementById('quickBody');
