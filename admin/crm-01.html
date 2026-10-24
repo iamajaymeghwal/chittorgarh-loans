@@ -470,6 +470,7 @@ const PALETTE=['#1B6FC9','#0F8B5F','#C9A227','#6D4FC6','#C13F84','#0E7C86','#8C2
 /* ================= DOCUMENT CHECKLIST MATRIX ================= */
 const DOC_MATRIX={
   common:{title:'KYC — always needed',items:['Aadhaar card (front & back)','PAN card','Passport-size photo','Address proof (light bill / rent agreement)','Signature on blank paper']},
+  income:{title:'Income proofs',items:['1 Yr bank statement (PDF)','3 latest salary slips','Form 16 (private salaried)','GA55 (govt salaried)','ITR previous all years (if have)']},
   customer:{
     'Salaried':{title:'Salaried income proof',items:['Last 3 months salary slips','Form 16 (latest)','6–12 months salary bank statement','Employee ID card','Offer / appointment letter','2 years ITR (if available)']},
     'Self Employed':{title:'Self-employed income proof',items:['Last 3 years ITR with computation','12 months current account statement','12 months savings account statement','Business proof / Udhyam certificate','GST returns (if registered)','Letterhead with seal & sign']},
@@ -487,7 +488,7 @@ const DOC_MATRIX={
   coapp:{title:'Co-applicant papers',items:['Co-applicant Aadhaar & PAN','Co-applicant photo','Co-applicant income proof','Co-applicant bank statement']}
 };
 function docChecklistFor(lead){
-  const groups=[{...DOC_MATRIX.common}];
+  const groups=[{...DOC_MATRIX.common},{...DOC_MATRIX.income}];
   const ct=lead.customerType||(lead.profile&&lead.profile.employmentType)||'';
   if(DOC_MATRIX.customer[ct]) groups.push({...DOC_MATRIX.customer[ct]});
   const lt=lead.loanType;
