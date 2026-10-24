@@ -592,10 +592,20 @@ async function fullSync(){
   try{
     const data=await sheetRequest({action:'list'});
     const remote=(data.leads||[]).map(normalizeLead);
+    const pend=loadPending();
     if(!remote.length && leads.length){
       /* Sheet is empty but this phone has leads: upload instead of wiping them */
       await sheetRequest({action:'bulk',leads});
-    } else { leads=remote; saveCache(); }
+    } else {
+      /* Send changes that could not be saved earlier, then take the sheet as the master copy */
+      const upLeads=leads.filter(l=>pend.up.includes(l.id));
+      if(upLeads.length) await sheetRequest({action:'bulk',leads:upLeads});
+      const remoteIds=remote.map(r=>r.id);
+      for(const id of pend.del){ if(remoteIds.includes(id)) await sheetRequest({action:'delete',id}); }
+      leads=remote.filter(r=>!pend.up.includes(r.id)&&!pend.del.includes(r.id)).concat(upLeads);
+      saveCache();
+    }
+    savePending({up:[],del:[]});
     if(Array.isArray(data.lenders)&&data.lenders.length){
       lenders=data.lenders; localStorage.setItem(LENDER_KEY,JSON.stringify(lenders));
     } else if(lenders.length){
@@ -604,16 +614,38 @@ async function fullSync(){
     setSyncStatus('on','Synced with Google Sheet'); renderAll();
   }catch(e){ setSyncStatus('off','Sync failed — showing device copy'); }
 }
+const PENDING_KEY='clCrmPending_v1';
+function loadPending(){ try{ const p=JSON.parse(localStorage.getItem(PENDING_KEY)); return {up:(p&&p.up)||[],del:(p&&p.del)||[]}; }catch(e){ return {up:[],del:[]}; } }
+function savePending(p){ try{ localStorage.setItem(PENDING_KEY,JSON.stringify(p)); }catch(e){} }
+function markPending(action,ids){
+  const p=loadPending();
+  ids.filter(Boolean).forEach(id=>{
+    if(action==='delete'){ p.up=p.up.filter(x=>x!==id); if(!p.del.includes(id)) p.del.push(id); }
+    else { p.del=p.del.filter(x=>x!==id); if(!p.up.includes(id)) p.up.push(id); }
+  });
+  savePending(p);
+}
+function pendingIdsOf(action,payload){
+  if(action==='delete') return [payload.id];
+  if(action==='bulk') return (payload.leads||[]).map(l=>l.id);
+  return [payload.lead&&payload.lead.id];
+}
 async function push(action,payload){
   saveCache();
   if(!config.url) return;
-  try{ await sheetRequest(Object.assign({action},payload)); setSyncStatus('on','Synced with Google Sheet'); }
+  const ids=pendingIdsOf(action,payload);
+  markPending(action,ids);
+  try{
+    await sheetRequest(Object.assign({action},payload));
+    const p=loadPending(); p.up=p.up.filter(x=>!ids.includes(x)); p.del=p.del.filter(x=>!ids.includes(x)); savePending(p);
+    setSyncStatus('on','Synced with Google Sheet');
+  }
   catch(e){ setSyncStatus('off','Saved on device — will retry'); }
 }
 
 /* ================= HELPERS ================= */
 function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2400); }
-function esc(s){ const d=document.createElement('div'); d.textContent=(s===undefined||s===null)?'':s; return d.innerHTML; }
+function esc(s){ const d=document.createElement('div'); d.textContent=(s===undefined||s===null)?'':s; return d.innerHTML.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function initials(n){ return (n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
 function money(n){ n=Number(n)||0; if(!n) return '—'; if(n>=1e7) return '₹'+(n/1e7).toFixed(n%1e7===0?0:2)+'Cr'; if(n>=1e5) return '₹'+(n/1e5).toFixed(n%1e5===0?0:1)+'L'; if(n>=1000) return '₹'+(n/1000).toFixed(n%1000===0?0:1)+'K'; return '₹'+n; }
 function fmtDate(d){ if(!d) return '—'; const dt=new Date(d); return isNaN(dt)?'—':dt.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'2-digit'}); }
@@ -657,7 +689,7 @@ function renderTopStats(){
   document.getElementById('statTotal').textContent=leads.length;
   const t=todayStr();
   document.getElementById('statToday').textContent=leads.filter(l=>l.followUpAt===t&&!CLOSED_DISPOSITIONS.includes(l.disposition)).length;
-  document.getElementById('statConverted').textContent=leads.filter(l=>l.stage==='Disbursed'||l.disposition==='Disbursed').length;
+  document.getElementById('statConverted').textContent=leads.filter(l=>(l.disbursal&&l.disbursal.amount)||l.stage==='Disbursed'||l.disposition==='Disbursed').length;
 }
 
 function totals(){
@@ -679,7 +711,7 @@ function renderKPI(){
   const kpis=[
     {lbl:'Live pipeline',num:T.active.length,sub:`${money(T.pipelineAmt)} being worked on`,c:'var(--blue)'},
     {lbl:'Disbursed value',num:money(T.disbAmt),sub:`${T.disbursed.length} file${T.disbursed.length===1?'':'s'} closed out`,c:'var(--green)'},
-    {lbl:'Commission received',num:money(T.commGot),sub:T.disbAmt?`${(T.commGot/T.disbAmt*100).toFixed(2)}% of disbursed`:'No payout yet',c:'var(--gold)'},
+    {lbl:'Commission received',num:money(T.commGot),sub:T.disbAmt?`${(T.disbursed.reduce((a,l)=>a+Number((l.commission||{}).amount||0),0)/T.disbAmt*100).toFixed(2)}% of disbursed`:'No payout yet',c:'var(--gold)'},
     {lbl:'Lead to disbursal',num:conv+'%',sub:avg?`Avg ticket ${money(avg)}`:`${notEl} marked not eligible`,c:'var(--purple)'}
   ];
   document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`
@@ -821,7 +853,7 @@ function filteredLeads(){
   if(fDate==='week'){ const c=Date.now()-7*864e5; out=out.filter(l=>l.createdAt>=c); }
   else if(fDate==='month'){ const d=new Date(); const c=new Date(d.getFullYear(),d.getMonth(),1).getTime(); out=out.filter(l=>l.createdAt>=c); }
   else if(fDate==='custom'){
-    if(fFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(fFrom));
+    if(fFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(fFrom+'T00:00:00'));
     if(fTo) out=out.filter(l=>new Date(l.createdAt)<=new Date(fTo+'T23:59:59'));
   }
   out.sort((a,b)=>sortNew?b.createdAt-a.createdAt:a.createdAt-b.createdAt);
@@ -1170,7 +1202,7 @@ function sancBlockHTML(l){
     `<button class="btn btn-ghost btn-sm" data-stageform="Sanctioned" style="width:100%;margin-top:10px">Edit sanction</button>`;
 }
 function commBlockHTML(l){
-  if(!l.commission) return '<div class="empty-note">No payout recorded.</div>';
+  if(!l.commission) return '<div class="empty-note">No payout recorded.</div><button class="btn btn-ghost btn-sm" data-stageform="Commission Got" style="width:100%;margin-top:10px">Record payout</button>';
   return kv('Payout rate',l.commission.percent?l.commission.percent+'%':'')+kv('Amount',money(l.commission.amount))+
     kv('Received on',fmtDate(l.commission.receivedOn))+kv('Mode',l.commission.mode)+(l.commission.remark?kv('Remark',l.commission.remark):'')+
     `<button class="btn btn-ghost btn-sm" data-stageform="Commission Got" style="width:100%;margin-top:10px">Edit payout</button>`;
@@ -1203,9 +1235,20 @@ function bindDetail(l){
   const el=b.querySelector('[data-editlead]');
   if(el) el.onclick=()=>openEdit(l);
   const ro=b.querySelector('[data-reopen]');
-  if(ro) ro.onclick=()=>{ l.stage='Basic Details'; l.disposition='Follow Up'; logEvent(l,'Lead reopened'); commit(l,'Lead reopened'); };
+  if(ro) ro.onclick=()=>{ l.stage=resumeStageOf(l); l.disposition=l.stage==='Disbursed'?'Disbursed':'Follow Up'; logEvent(l,'Lead reopened at '+l.stage); commit(l,'Lead reopened'); };
 }
 
+function resumeStageOf(l){
+  if(l.disbursal&&l.disbursal.amount) return 'Disbursed';
+  if(l.commission&&l.commission.amount) return 'Commission Got';
+  if(l.sanction) return 'Sanctioned';
+  if(l.logins.length) return 'Logined';
+  if(l.eligible.length) return 'Eligible Lenders';
+  if(l.suggested.length) return 'Lenders Suggestion';
+  if(Object.keys(l.docs).length) return 'Docs Collection';
+  if(Object.keys(l.profile).length) return 'Basic Details';
+  return 'New';
+}
 function commit(l,msg){
   saveCache(); push('update',{lead:l});
   renderAll(); if(openLeadId===l.id) renderDetail();
@@ -1272,7 +1315,7 @@ function docsForm(l,body){
       const v=body.querySelector('#newDoc').value.trim(); if(!v) return;
       l.customDocs.push(v); saveCache(); paint();
     };
-    body.querySelector('#saveDocs').onclick=()=>{ logEvent(l,`Documents ${done}/${all.length} collected`); finishStage(l,'Lenders Suggestion','Documents saved'); };
+    body.querySelector('#saveDocs').onclick=()=>{ logEvent(l,`Documents ${done}/${all.length} collected`); finishStage(l,'Docs Collection','Documents saved'); };
     body.querySelector('#justSaveDocs').onclick=()=>{ logEvent(l,`Documents ${done}/${all.length} collected`); commit(l,null); closeSheet('stageOverlay'); toast('Documents saved'); };
   }
   paint();
@@ -1295,7 +1338,7 @@ function suggestForm(l,body){
     body.querySelector('#saveSugg').onclick=()=>{
       if(!l.suggested.length) return toast('Pick at least one lender');
       logEvent(l,l.suggested.length+' lenders suggested');
-      finishStage(l,'Eligible Lenders','Suggestions saved');
+      finishStage(l,'Lenders Suggestion','Suggestions saved');
     };
   }
   paint();
@@ -1319,7 +1362,7 @@ function eligibleForm(l,body){
     body.querySelector('#saveElig').onclick=()=>{
       if(!l.eligible.length) return toast('Select at least one lender');
       logEvent(l,l.eligible.length+' lenders marked eligible');
-      finishStage(l,'Logined','Eligible lenders saved');
+      finishStage(l,'Eligible Lenders','Eligible lenders saved');
     };
     body.querySelector('#noneElig').onclick=()=>{ closeSheet('stageOverlay'); openStageForm(l,'Not Eligible'); };
   }
@@ -1363,7 +1406,7 @@ function loginForm(l,body){
     };
     body.querySelector('#saveLogin').onclick=()=>{
       if(!l.logins.length) return toast('Add at least one login');
-      finishStage(l,'Sanctioned','Logins saved');
+      finishStage(l,'Logined','Logins saved');
     };
   }
   paint();
@@ -1401,7 +1444,7 @@ function sanctionForm(l,body){
       refNo:body.querySelector('#scRef').value.trim(),remark:body.querySelector('#scRem').value.trim()};
     const o=productByKey(key);
     logEvent(l,`Sanctioned ${money(amt)} by ${o?o.lender.name:'lender'}`);
-    finishStage(l,'Commission Got','Sanction saved');
+    finishStage(l,'Sanctioned','Sanction saved');
   };
 }
 
@@ -1438,7 +1481,7 @@ function commissionForm(l,body){
     l.commission={percent:Number(body.querySelector('#cmPct').value)||0,amount:amt,receivedOn:body.querySelector('#cmDate').value,
       mode:body.querySelector('#cmMode').value,remark:body.querySelector('#cmRem').value.trim()};
     logEvent(l,'Commission received '+money(amt));
-    finishStage(l,'Disbursed','Payout saved');
+    finishStage(l,'Commission Got','Payout saved');
   };
 }
 
@@ -1536,17 +1579,19 @@ function openEdit(l){
     <div class="field"><label>Name</label><input type="text" id="eName" value="${esc(l.name)}"></div>
     <div class="field"><label>Mobile</label><input type="tel" id="ePhone" maxlength="10" value="${esc(l.phone)}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
     <div class="field-row">
-      <div class="field"><label>Loan type</label><select id="eType">${LOAN_TYPES.map(t=>`<option ${l.loanType===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+      <div class="field"><label>Loan type</label><select id="eType">${[...LOAN_TYPES,'Unknown'].map(t=>`<option ${l.loanType===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
       <div class="field"><label>Amount</label><input type="number" id="eAmt" value="${l.amount||''}"></div>
     </div>
     <div class="field-row">
       <div class="field"><label>Customer type</label><select id="eCust"><option value="">Not set</option>${CUSTOMER_TYPES.map(t=>`<option ${l.customerType===t?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
       <div class="field"><label>City / area</label><input type="text" id="eCity" value="${esc(l.city)}"></div>
     </div>
-    <div class="field"><label>Lead source</label><select id="eSrc">${LEAD_SOURCES.map(s=>`<option ${l.source===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+    <div class="field"><label>Lead source</label><select id="eSrc">${[...LEAD_SOURCES,'Unknown'].map(s=>`<option ${l.source===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
     <button class="btn btn-gold" id="eSave">Save changes</button>`;
   const b=document.getElementById('editBody');
   b.querySelector('#eSave').onclick=()=>{
+    const ph=b.querySelector('#ePhone').value.trim();
+    if(ph&&ph.length!==10) return toast('Enter a valid 10-digit number');
     l.name=b.querySelector('#eName').value.trim()||l.name;
     l.phone=b.querySelector('#ePhone').value.trim();
     l.loanType=b.querySelector('#eType').value; l.amount=Number(b.querySelector('#eAmt').value)||0;
@@ -1710,7 +1755,7 @@ function startWizard(lead){
   wf=lead?Object.assign({},lead.profile):{};
   if(lead){
     wf.applicantName=wf.applicantName||lead.name; wf.mobile=wf.mobile||lead.phone;
-    wf.loanTypeFinal=wf.loanTypeFinal||lead.loanType; wf.leadSource=wf.leadSource||lead.source;
+    wf.loanTypeFinal=wf.loanTypeFinal||(lead.loanType==='Unknown'?'':lead.loanType); wf.leadSource=wf.leadSource||(lead.source==='Unknown'?'':lead.source);
     wf.employmentType=wf.employmentType||lead.customerType;
   }
   wizHistory=[]; wizScreen='basic';
@@ -1813,7 +1858,7 @@ function renderWizReview(){
     logEvent(lead,isNew?'Lead added with full details':'Basic details collected');
     closeSheet('wizOverlay');
     if(denied){ lead.notEligible={reason:'Customer denied during eligibility check',remark:'',retry:''}; setStage(lead,'Not Eligible'); }
-    else if(stageIndex(lead.stage)<stageIndex('Docs Collection')) setStage(lead,'Docs Collection');
+    else if(stageIndex(lead.stage)<stageIndex('Basic Details')) setStage(lead,'Basic Details');
     else commit(lead,null);
     push(isNew?'create':'update',{lead});
     toast('Details saved');
@@ -1868,7 +1913,7 @@ function syncPanel(){
   bindBack();
   document.getElementById('cfgSave').onclick=()=>{
     config={url:document.getElementById('cfgUrl').value.trim(),key:document.getElementById('cfgKey').value.trim()};
-    saveConfig(config); closeSheet('settingsOverlay'); toast('Saved — syncing'); fullSync();
+    saveConfig(config); if(config.url) markPending('bulk',leads.map(l=>l.id)); closeSheet('settingsOverlay'); toast('Saved — syncing'); fullSync();
   };
   document.getElementById('cfgClear').onclick=()=>{ config={url:'',key:''}; saveConfig(config); setSyncStatus('off','Saved on this device'); document.getElementById('setupBanner').classList.remove('hidden'); openSettings(); toast('Sheet disconnected'); };
 }
@@ -1883,7 +1928,7 @@ function backupPanel(){
     <button class="btn btn-ghost" id="bkRestore">Restore</button>
     <button class="btn btn-danger" id="bkReset" style="margin-top:22px">Reset lenders to the original list</button>`;
   bindBack();
-  document.getElementById('bkDown').onclick=()=>saveFile('chittorgarh-crm-backup-'+todayStr()+'.json',JSON.stringify({leads,lenders,config},null,1),'application/json');
+  document.getElementById('bkDown').onclick=()=>saveFile('chittorgarh-crm-backup-'+todayStr()+'.json',JSON.stringify({leads,lenders},null,1),'application/json');
   document.getElementById('bkRestore').onclick=()=>{
     const f=document.getElementById('bkFile').files[0]; if(!f) return toast('Choose a backup file first');
     const r=new FileReader();
@@ -1891,7 +1936,7 @@ function backupPanel(){
       const d=JSON.parse(r.result);
       if(Array.isArray(d.leads)) leads=d.leads.map(normalizeLead);
       if(Array.isArray(d.lenders)&&d.lenders.length) lenders=d.lenders;
-      saveCache(); saveLenders(); renderAll(); closeSheet('settingsOverlay'); toast('Backup restored');
+      saveCache(); saveLenders(); if(config.url&&leads.length) push('bulk',{leads}); renderAll(); closeSheet('settingsOverlay'); toast('Backup restored');
     }catch(e){ toast('That file could not be read'); } };
     r.readAsText(f);
   };
@@ -1931,8 +1976,20 @@ const PROD_TEXT_FIELDS=[
   ['otherCharges','Other charges'],['topup','Top-up'],['rm','Product RM'],['rmContact','Product RM contact']
 ];
 let draftLender=null;
+function remapLenderKeys(lid,map){
+  const pre=lid+'::', changed=[];
+  const fix=k=>{ if(typeof k!=='string'||!k.startsWith(pre)) return k; const ni=map[k.slice(pre.length)]; return ni===undefined?'':pre+ni; };
+  leads.forEach(l=>{
+    const before=JSON.stringify([l.suggested,l.eligible,l.logins,l.sanction]);
+    l.suggested=l.suggested.map(fix).filter(Boolean); l.eligible=l.eligible.map(fix).filter(Boolean);
+    l.logins.forEach(g=>{ g.key=fix(g.key); }); if(l.sanction) l.sanction.key=fix(l.sanction.key);
+    if(JSON.stringify([l.suggested,l.eligible,l.logins,l.sanction])!==before) changed.push(l);
+  });
+  if(changed.length){ saveCache(); changed.forEach(l=>push('update',{lead:l})); }
+}
 function lenderForm(l){
   draftLender=l?JSON.parse(JSON.stringify(l)):{id:'ln'+Date.now().toString(36),name:'',products:[]};
+  draftLender.products.forEach((p,i)=>{ p._oi=i; });
   paintLenderForm(!!l);
 }
 function paintLenderForm(isEdit){
@@ -1960,6 +2017,8 @@ function paintLenderForm(isEdit){
   b.querySelector('#lfSave').onclick=()=>{
     if(!d.name.trim()) return toast('Enter the lender name');
     const i=lenders.findIndex(x=>x.id===d.id);
+    if(i>-1){ const map={}; d.products.forEach((p,ni)=>{ if(p._oi!==undefined) map[p._oi]=ni; }); remapLenderKeys(d.id,map); }
+    d.products.forEach(p=>{ delete p._oi; });
     if(i>-1) lenders[i]=d; else lenders.push(d);
     saveLenders(); renderAll(); lenderManager(); toast('Lender saved');
   };
@@ -1999,7 +2058,7 @@ function reportsPanel(){
 }
 function repLeads(){
   let out=leads.slice();
-  if(repFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(repFrom));
+  if(repFrom) out=out.filter(l=>new Date(l.createdAt)>=new Date(repFrom+'T00:00:00'));
   if(repTo) out=out.filter(l=>new Date(l.createdAt)<=new Date(repTo+'T23:59:59'));
   return out;
 }
@@ -2165,6 +2224,7 @@ document.getElementById('activeFiltersRow').addEventListener('click',e=>{
 /* ================= BOOT ================= */
 renderAll();
 fullSync();
+window.addEventListener('online',()=>{ if(config.url) fullSync(); });
 </script>
 </body>
 </html>
