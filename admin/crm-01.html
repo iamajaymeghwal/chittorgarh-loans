@@ -2133,14 +2133,15 @@ document.getElementById('lenderDirectory').addEventListener('click',e=>{
   const ed=e.target.closest('[data-editlender]'); if(ed){ openSettings(); lenderForm(lenderById(ed.dataset.editlender)); }
 });
 
+function logContact(id,text){ const l=leadById(id); if(!l) return; logEvent(l,text); commit(l,null); }
 document.getElementById('leadList').addEventListener('click',e=>{
-  const call=e.target.closest('[data-call]'); if(call){ e.stopPropagation(); const n=call.dataset.call; if(n) location.href='tel:'+n; else toast('No number saved'); return; }
-  const wa=e.target.closest('[data-wa]'); if(wa){ e.stopPropagation(); const n=wa.dataset.wa; if(n) window.open('https://wa.me/91'+n,'_blank'); else toast('No number saved'); return; }
+  const call=e.target.closest('[data-call]'); if(call){ e.stopPropagation(); const n=call.dataset.call; if(n){ const c=call.closest('.lead-card'); if(c) logContact(c.dataset.id,'📞 Call placed'); location.href='tel:'+n; } else toast('No number saved'); return; }
+  const wa=e.target.closest('[data-wa]'); if(wa){ e.stopPropagation(); const n=wa.dataset.wa; if(n){ const c=wa.closest('.lead-card'); if(c) logContact(c.dataset.id,'💬 WhatsApp opened'); window.open('https://wa.me/91'+n,'_blank'); } else toast('No number saved'); return; }
   const card=e.target.closest('.lead-card'); if(card) openDetail(card.dataset.id);
 });
 document.getElementById('detailBody').addEventListener('click',e=>{
-  const call=e.target.closest('[data-call]'); if(call){ const n=call.dataset.call; if(n) location.href='tel:'+n; return; }
-  const wa=e.target.closest('[data-wa]'); if(wa){ const n=wa.dataset.wa; if(n) window.open('https://wa.me/91'+n,'_blank'); }
+  const call=e.target.closest('[data-call]'); if(call){ const n=call.dataset.call; if(n){ logContact(openLeadId,'📞 Call placed'); location.href='tel:'+n; } return; }
+  const wa=e.target.closest('[data-wa]'); if(wa){ const n=wa.dataset.wa; if(n){ logContact(openLeadId,'💬 WhatsApp opened'); window.open('https://wa.me/91'+n,'_blank'); } }
 });
 document.getElementById('homeView').addEventListener('click',e=>{
   const s=e.target.closest('[data-stagefilter]');
