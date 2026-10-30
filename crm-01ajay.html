@@ -254,7 +254,33 @@ input,select,textarea{font-family:inherit;}
 .bar-track{height:8px; border-radius:6px; background:var(--border); overflow:hidden;}
 .bar-fill{height:100%; border-radius:6px;}
 
+/* ---------- PIN / PERMANENT NOTE ---------- */
+.lead-top-right{display:flex; align-items:center; gap:6px; flex-shrink:0;}
+.pin-btn{
+  width:28px; height:28px; border-radius:50%; border:1px solid var(--border); background:var(--cream);
+  color:var(--muted); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0;
+}
+.pin-btn.active{background:var(--marigold); border-color:var(--marigold); color:#fff;}
+.pin-btn.active svg{fill:currentColor;}
+.perm-note{
+  margin-top:9px; padding:7px 10px; border-radius:8px; background:#FFF4E5; border-left:3px solid var(--marigold);
+  font-size:12px; line-height:1.4; color:#6B4A12;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; white-space:pre-wrap;
+}
+.perm-note b{font-weight:700;}
+.ic-pin{background:var(--info-bg); color:var(--info);}
+.ic-pin.on{background:var(--marigold); color:#fff;}
+.ic-pin.on svg{fill:currentColor;}
+.opt{font-weight:500; color:var(--muted); font-size:11px;}
+.info-box a{color:inherit; text-decoration:none;}
+
 /* ---------- BOTTOM NAV ---------- */
+.nav-item{position:relative;}
+.nav-badge{
+  position:absolute; top:0; left:calc(50% + 3px); min-width:16px; height:16px; border-radius:8px;
+  background:var(--marigold); color:#fff; font-size:9px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; padding:0 3px;
+}
 .bottomnav{
   position:sticky; bottom:0; left:0; right:0;
   background:#fff; border-top:1px solid var(--border);
@@ -524,6 +550,11 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
       Leads
     </button>
+    <button class="nav-item" data-tab="pinned">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 01-1.11 1.79l-1.78.9A2 2 0 005 15.24V16a1 1 0 001 1h12a1 1 0 001-1v-.76a2 2 0 00-1.11-1.79l-1.78-.9A2 2 0 0115 10.76V7a1 1 0 011-1 2 2 0 000-4H8a2 2 0 000 4 1 1 0 011 1z"/></svg>
+      Pinned
+      <span class="nav-badge hidden" id="pinBadge">0</span>
+    </button>
     <button class="fab" id="fabAdd">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
     </button>
@@ -554,6 +585,10 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       <div class="field">
         <label>Phone Number <span class="req">*</span></label>
         <input type="tel" id="f_phone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+      </div>
+      <div class="field">
+        <label>Alternate Number <span class="opt">(optional)</span></label>
+        <input type="tel" id="f_altPhone" placeholder="Alternate 10-digit number" maxlength="10" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
       </div>
       <div class="field-row">
         <div class="field">
@@ -621,6 +656,10 @@ code.inline{background:var(--card); border:1px solid var(--border); padding:1px 
       <div class="field">
         <label>Obligation Comment</label>
         <textarea id="f_obligationComment" placeholder="Existing EMIs / loan obligations, FOIR remarks..."></textarea>
+      </div>
+      <div class="field">
+        <label>Permanent Note <span class="opt">(always shown on lead card)</span></label>
+        <textarea id="f_permanentNote" placeholder="Key point to remember about this lead..."></textarea>
       </div>
       <div class="field">
         <label>Notes</label>
@@ -723,6 +762,8 @@ function normalizeLead(l){
     followUpAt: l.followUpAt || null,
     loanUsageComment: l.loanUsageComment||'', cibilComment: l.cibilComment||'', propertyComment: l.propertyComment||'',
     incomeSourceComment: l.incomeSourceComment||'', obligationComment: l.obligationComment||'',
+    altPhone: String(l.altPhone||''), permanentNote: l.permanentNote||'',
+    pinned: l.pinned===true || String(l.pinned).toLowerCase()==='true' || l.pinned===1,
     createdAt: Number(l.createdAt)||Date.now(),
     timeline: Array.isArray(l.timeline) ? l.timeline : (typeof l.timeline==='string' ? safeParse(l.timeline) : [])
   };
@@ -753,8 +794,8 @@ function seedIfEmpty(){
   if(leads.length>0 || config.url) return;
   const now = Date.now(); const day = 86400000;
   leads = [
-    {id:uid(), name:"Ramesh Suthar", phone:"9414123456", loanType:"Purchase", amount:2000000, source:"DSA/Connector", city:"Kolkata", disposition:"Follow-up", stage:"Basic Details Collected", createdAt:now-3*day, followUpAt: todayStr(), loanUsageComment:"Purchasing a ready-to-move flat, needs funds within 45 days.", cibilComment:"Score 742, no active defaults.", propertyComment:"Property documents under verification.", timeline:[{type:'created', text:'Lead added', at: now-3*day},{type:'note', text:'Interested, asked for interest rate details', at: now-2*day}]},
-    {id:uid(), name:"Priya Jain", phone:"9829988776", loanType:"LAP", amount:1500000, source:"Personal Contact", city:"Nimbahera", disposition:"Not Connected", stage:"Basic Details Collected", createdAt:now-1*day, followUpAt: new Date(now+day).toISOString().slice(0,10), loanUsageComment:"", cibilComment:"", propertyComment:"", timeline:[{type:'created', text:'Lead added', at: now-1*day}]}
+    {id:uid(), name:"Ramesh Suthar", phone:"9414123456", loanType:"Purchase", amount:2000000, source:"DSA/Connector", city:"Kolkata", disposition:"Follow-up", stage:"Basic Details Collected", createdAt:now-3*day, followUpAt: todayStr(), altPhone:"", pinned:true, permanentNote:"Prefers calls after 5 PM. Spouse is co-applicant.", loanUsageComment:"Purchasing a ready-to-move flat, needs funds within 45 days.", cibilComment:"Score 742, no active defaults.", propertyComment:"Property documents under verification.", timeline:[{type:'created', text:'Lead added', at: now-3*day},{type:'note', text:'Interested, asked for interest rate details', at: now-2*day}]},
+    {id:uid(), name:"Priya Jain", phone:"9829988776", loanType:"LAP", amount:1500000, source:"Personal Contact", city:"Nimbahera", disposition:"Not Connected", stage:"Basic Details Collected", createdAt:now-1*day, followUpAt: new Date(now+day).toISOString().slice(0,10), altPhone:"", pinned:false, permanentNote:"", loanUsageComment:"", cibilComment:"", propertyComment:"", timeline:[{type:'created', text:'Lead added', at: now-1*day}]}
   ];
   saveCache(leads);
 }
@@ -804,6 +845,9 @@ function renderStats(){
   const today = todayStr();
   document.getElementById('statToday').textContent = leads.filter(l=>l.followUpAt===today && !CLOSED_DISPOSITIONS.includes(l.disposition)).length;
   document.getElementById('statConverted').textContent = leads.filter(l=>l.disposition==='Disbursed').length;
+  const pc = leads.filter(l=>l.pinned).length;
+  const pb = document.getElementById('pinBadge');
+  pb.textContent = pc; pb.classList.toggle('hidden', pc===0);
 }
 
 /* ============ RENDER: PIPELINE DOTS (based on Stage) ============ */
@@ -819,6 +863,9 @@ function pipelineDotsHTML(lead){
 }
 
 /* ============ RENDER: LEAD CARD ============ */
+function pinSvg(size){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 01-1.11 1.79l-1.78.9A2 2 0 005 15.24V16a1 1 0 001 1h12a1 1 0 001-1v-.76a2 2 0 00-1.11-1.79l-1.78-.9A2 2 0 0115 10.76V7a1 1 0 011-1 2 2 0 000-4H8a2 2 0 000 4 1 1 0 011 1z"/></svg>`;
+}
 function leadCardHTML(lead){
   const bucket = followUpBucket(lead);
   let flag = '';
@@ -833,8 +880,12 @@ function leadCardHTML(lead){
         <div class="lead-name">${escapeHTML(lead.name)}</div>
         <div class="lead-meta">${lead.phone} · ${lead.city||'—'}</div>
       </div>
-      <span class="badge b-${dispoKey(lead.disposition)}">${lead.disposition}</span>
+      <div class="lead-top-right">
+        <span class="badge b-${dispoKey(lead.disposition)}">${lead.disposition}</span>
+        <button class="pin-btn ${lead.pinned?'active':''}" onclick="event.stopPropagation(); togglePin('${lead.id}')" title="${lead.pinned?'Unpin lead':'Pin lead'}">${pinSvg(14)}</button>
+      </div>
     </div>
+    ${lead.permanentNote ? `<div class="perm-note"><b>Note:</b> ${escapeHTML(lead.permanentNote)}</div>` : ''}
     ${pipelineDotsHTML(lead)}
     <div class="lead-bottom">
       <div class="lead-tags">
@@ -874,9 +925,9 @@ function getFiltered(){
   }
   if(searchQuery.trim()){
     const q = searchQuery.toLowerCase();
-    list = list.filter(l=> l.name.toLowerCase().includes(q) || l.phone.includes(q));
+    list = list.filter(l=> l.name.toLowerCase().includes(q) || l.phone.includes(q) || (l.altPhone||'').includes(q));
   }
-  list.sort((a,b)=> sortNewestFirst ? b.createdAt-a.createdAt : a.createdAt-b.createdAt);
+  list.sort((a,b)=> (b.pinned?1:0)-(a.pinned?1:0) || (sortNewestFirst ? b.createdAt-a.createdAt : a.createdAt-b.createdAt));
   return list;
 }
 function renderList(){
@@ -914,6 +965,36 @@ function renderFollowups(){
   container.innerHTML = html;
   container.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
 }
+/* ============ RENDER: PINNED TAB ============ */
+function renderPinned(){
+  const container = document.getElementById('leadList');
+  const list = leads.filter(l=>l.pinned).sort((a,b)=>b.createdAt-a.createdAt);
+  document.getElementById('listTitle').textContent = `Pinned Leads (${list.length})`;
+  document.querySelector('.search-filter-row').classList.add('hidden');
+  document.getElementById('activeFiltersRow').classList.add('hidden');
+  document.getElementById('sortBtn').classList.add('hidden');
+  if(!list.length){
+    container.innerHTML = `<div class="empty"><div class="em-icon">📌</div><div class="em-title">No pinned leads</div><div class="em-sub">Kisi bhi lead par pin icon dabayein — important leads yahan quick access ke liye dikhenge.</div></div>`;
+    return;
+  }
+  container.innerHTML = list.map(leadCardHTML).join('');
+  container.querySelectorAll('.lead-card').forEach(card=> card.addEventListener('click', ()=> openDetail(card.dataset.id)));
+}
+function togglePin(id, fromDetail){
+  const lead = leads.find(l=>l.id===id); if(!lead) return;
+  lead.pinned = !lead.pinned;
+  toast(lead.pinned ? 'Lead pinned 📌' : 'Lead unpinned');
+  pushUpdate(lead);
+  renderAll();
+  if(fromDetail) renderDetail(lead);
+}
+function savePermNote(id){
+  const lead = leads.find(l=>l.id===id); if(!lead) return;
+  lead.permanentNote = document.getElementById('d_permNote').value.trim();
+  lead.timeline.push({type:'note', text: lead.permanentNote ? 'Permanent note updated' : 'Permanent note cleared', at: Date.now()});
+  renderDetail(lead); renderAll(); toast('Permanent note saved');
+  pushUpdate(lead);
+}
 function resetToLeadsView(){
   document.querySelector('.search-filter-row').classList.remove('hidden');
   document.getElementById('sortBtn').classList.remove('hidden');
@@ -929,6 +1010,7 @@ function renderAll(){
   renderStats();
   if(currentTab==='home') renderHome();
   else if(currentTab==='followups') renderFollowups();
+  else if(currentTab==='pinned') renderPinned();
   else if(currentTab!=='more') { resetToLeadsView(); renderList(); }
 }
 
@@ -1153,6 +1235,7 @@ document.querySelectorAll('.nav-item').forEach(btn=>{
     switchMainView();
     if(currentTab==='home') renderHome();
     else if(currentTab==='followups') renderFollowups();
+    else if(currentTab==='pinned') renderPinned();
     else if(currentTab==='more') showMoreSheet();
     else { resetToLeadsView(); renderList(); }
   });
@@ -1224,7 +1307,7 @@ document.getElementById('fabAdd').addEventListener('click', ()=>{
   openOverlay('addOverlay');
 });
 function clearAddForm(){
-  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes','f_loanUsageComment','f_cibilComment','f_propertyComment','f_incomeSourceComment','f_obligationComment'].forEach(id=>document.getElementById(id).value='');
+  ['f_name','f_phone','f_amount','f_city','f_followup','f_notes','f_loanUsageComment','f_cibilComment','f_propertyComment','f_incomeSourceComment','f_obligationComment','f_altPhone','f_permanentNote'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f_loanType').selectedIndex = 0;
   document.getElementById('f_source').selectedIndex = 0;
   document.getElementById('f_disposition').value = 'Not Connected';
@@ -1237,6 +1320,9 @@ function handleSaveLead(){
   if(!name){ toast("Please enter the lead's name"); return; }
   if(!phone || phone.length<10){ toast('Please enter a valid 10-digit phone number'); return; }
 
+  const altPhone = document.getElementById('f_altPhone').value.trim();
+  if(altPhone && altPhone.length<10){ toast('Alternate number must be 10 digits (or leave it empty)'); return; }
+  const permanentNote = document.getElementById('f_permanentNote').value.trim();
   const loanType = document.getElementById('f_loanType').value;
   const amount = Number(document.getElementById('f_amount').value)||0;
   const source = document.getElementById('f_source').value;
@@ -1259,6 +1345,7 @@ function handleSaveLead(){
     lead.source=source; lead.city=city; lead.disposition=disposition; lead.stage=stage; lead.followUpAt=followUpAt;
     lead.loanUsageComment=loanUsageComment; lead.cibilComment=cibilComment; lead.propertyComment=propertyComment;
     lead.incomeSourceComment=incomeSourceComment; lead.obligationComment=obligationComment;
+    lead.altPhone=altPhone; lead.permanentNote=permanentNote;
     if(dispoChanged) lead.timeline.push({type:'status', text:'Disposition changed to '+disposition, at: Date.now()});
     if(stageChanged) lead.timeline.push({type:'status', text:'Stage changed to '+stage, at: Date.now()});
     if(notes) lead.timeline.push({type:'note', text:notes, at: Date.now()});
@@ -1270,6 +1357,7 @@ function handleSaveLead(){
     const lead = {
       id: uid(), name, phone, loanType, amount, source, city, disposition, stage, followUpAt,
       loanUsageComment, cibilComment, propertyComment, incomeSourceComment, obligationComment,
+      altPhone, permanentNote, pinned:false,
       createdAt: Date.now(),
       timeline: [{type:'created', text:'Lead added', at: Date.now()}]
     };
@@ -1318,6 +1406,7 @@ function renderDetail(lead){
       <a class="action-btn" href="tel:${lead.phone}" onclick="logCall('${lead.id}')"><span class="ic ic-call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>Call</a>
       <a class="action-btn" href="https://wa.me/91${lead.phone}" target="_blank"><span class="ic ic-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.06 4a7.94 7.94 0 00-6.88 11.89L4 20l4.24-1.11a7.93 7.93 0 003.81.97h0a7.94 7.94 0 007.94-7.94 7.86 7.86 0 00-2.39-5.6zm-5.54 12.2h0a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.66.67-2.44-.16-.25a6.6 6.6 0 01-1-3.51 6.61 6.61 0 0111.28-4.67 6.57 6.57 0 011.94 4.67 6.61 6.61 0 01-6.63 6.6z"/></svg></span>WhatsApp</a>
       <a class="action-btn" href="sms:${lead.phone}"><span class="ic ic-sms"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>SMS</a>
+      <div class="action-btn" onclick="togglePin('${lead.id}', true)"><span class="ic ic-pin ${lead.pinned?'on':''}">${pinSvg(16)}</span>${lead.pinned?'Unpin':'Pin'}</div>
       <div class="action-btn" onclick="openEdit('${lead.id}')"><span class="ic ic-edit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg></span>Edit</div>
     </div>
     <div class="info-grid">
@@ -1325,6 +1414,13 @@ function renderDetail(lead){
       <div class="info-box"><div class="k">Amount</div><div class="v">${formatMoney(lead.amount)}</div></div>
       <div class="info-box"><div class="k">Source</div><div class="v">${lead.source}</div></div>
       <div class="info-box"><div class="k">Next Follow-up</div><div class="v">${lead.followUpAt ? formatDate(lead.followUpAt) : 'Not set'}</div></div>
+      <div class="info-box"><div class="k">Alternate No.</div><div class="v">${lead.altPhone ? `<a href="tel:${lead.altPhone}">${lead.altPhone}</a>` : '—'}</div></div>
+      <div class="info-box"><div class="k">Added On</div><div class="v">${formatDate(lead.createdAt)}</div></div>
+    </div>
+    <div class="section-title"><h2>📌 Permanent Note</h2></div>
+    <div class="field">
+      <textarea id="d_permNote" placeholder="Key point shown on the lead card...">${escapeHTML(lead.permanentNote)}</textarea>
+      <button class="btn btn-ghost" style="margin-top:8px;" onclick="savePermNote('${lead.id}')">Save Permanent Note</button>
     </div>
     <div class="field">
       <label>Update Next Follow-up Date</label>
@@ -1407,6 +1503,8 @@ function openEdit(id){
   editingLeadId = id;
   document.getElementById('f_name').value = lead.name;
   document.getElementById('f_phone').value = lead.phone;
+  document.getElementById('f_altPhone').value = lead.altPhone||'';
+  document.getElementById('f_permanentNote').value = lead.permanentNote||'';
   document.getElementById('f_loanType').value = lead.loanType;
   document.getElementById('f_amount').value = lead.amount||'';
   document.getElementById('f_source').value = lead.source;
